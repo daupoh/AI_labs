@@ -9,11 +9,11 @@ namespace wf_AI_lab1
 {
     class CAnnealing
     {
-        int m_uiMaxLength = 8, m_uiStepPerChange = 100;
+        int m_uiMaxLength = 12, m_uiStepPerChange = 100;
 
         double m_dbInitialTemperature = 30.0,
-                m_dbFinalTemperature = 0.5,
-                m_dbAlpha = 0.98;
+                m_dbFinalTemperature = 0.1,
+                m_dbAlpha = 0.99;
         CBoard m_rBoard = null;
         TSolution m_rBest;
         Random m_rRand = null;
@@ -66,10 +66,10 @@ namespace wf_AI_lab1
             double temperature = m_dbInitialTemperature;
             working = new TSolution(m_uiMaxLength);
             m_rBest = new TSolution(m_uiMaxLength);
-            m_rBest.Energy = m_uiMaxLength * m_uiMaxLength;
+            m_rBest.Energy = m_uiMaxLength;
 
             current = new TSolution(m_uiMaxLength);
-            current.CopySolution(m_rBoard.GetSolutionByColsNumber());
+            current.CopySolution(GetCurrentSolution());
             current.Energy = GetEvaluateSolution();
             working.CopySolution(current.Solution);
             working.Energy = current.Energy;
@@ -80,11 +80,12 @@ namespace wf_AI_lab1
                 {
                     isUseNew = false;
                     tweakSolution();
-                    working.Energy = GetEvaluateSolution();
+                   working.CopySolution(GetCurrentSolution());
+                   working.Energy = GetEvaluateSolution();
 
                    // Debug.WriteLine("Temperature: " + temperature.ToString() +
                      //   "; Step - " + i.ToString() + "; Energy="+working.Energy.ToString());
-                    if (working.Energy <= current.Energy)
+                    if (working.Energy < current.Energy)
                     {
                         isUseNew = true;
                     }
@@ -107,7 +108,11 @@ namespace wf_AI_lab1
                         {
                             m_rBest.CopySolution(current.Solution);
                             m_rBest.Energy = current.Energy;
-                            isBestSolution = true;
+                            if (m_rBest.Energy == 0)
+                            {
+                                isBestSolution = true;
+                                break;
+                            }
                             for (int k = 0; k < m_uiMaxLength; k++)
                             {
                                 Debug.Write(current.Solution[k].ToString() + " ");
@@ -122,6 +127,8 @@ namespace wf_AI_lab1
 
                 }
                 temperature *= m_dbAlpha;
+                if (isBestSolution)
+                    break;
             }
             m_rBoard.SetSolution(m_rBest.Solution);
            
@@ -144,13 +151,12 @@ namespace wf_AI_lab1
             m_rBoard.SwapQueens(randFirst, randSecond);            
         }
         public int GetEvaluateSolution() {
-            int eval = 0;
-            for (int i = 0; i < m_uiMaxLength; i++)
-            {
-                eval += m_rBoard.CountOfDiagonalAtacks(i);
-            }
-           // Debug.WriteLine(eval);
-            return eval;
+          
+            return m_rBoard.GetCountOfConflicts();
+        }
+        public int[] GetCurrentSolution()
+        {
+            return m_rBoard.GetSolutionByColsNumber();
         }
         private void InitializeBoard()
         {

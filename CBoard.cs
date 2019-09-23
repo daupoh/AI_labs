@@ -35,17 +35,16 @@ namespace wf_AI_lab1
                 m_aFiguresLocation[i][Solution[i]] = 'Q';
             }
         }
-        public int CountOfDiagonalAtacks(int numAtackingRow) {
-            int countAtacks = 0;
-            ValidateNumberOfRow(numAtackingRow);
-            int numAtackingColumn = GetQueenColumnFromRow(numAtackingRow);
-            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, 1, 1);
-
-            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, 1, -1);
-            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, -1, 1);
-            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, -1, -1);
-            return countAtacks;
+        public int GetCountOfConflicts ()
+        {
+            int count = 0;
+            for (int i = 0; i < m_uiCountOfRows; i++)
+            {
+                count += CountOfDiagonalAtacks(i);
+            }
+            return count;
         }
+        
         public int[] GetSolutionByColsNumber() {
             int[] solution = new int[m_uiCountOfRows];
             for (int i = 0; i < m_uiCountOfRows; i++)
@@ -63,14 +62,7 @@ namespace wf_AI_lab1
                 for (int j = 0; j < m_uiCountOfRows; j++)
                 {
                     boardInText += m_aFiguresLocation[i][j];
-                }
-                boardInText += "\r\n";
-               
-                for (int j = 0; j < m_uiCountOfRows; j++)
-                {
-                    count += CountOfDiagonalAtacks(j);
-                }
-                
+                } 
             }
             boardInText += count.ToString();
             return boardInText;
@@ -81,7 +73,7 @@ namespace wf_AI_lab1
             {
                 for (int j = 0; j < m_uiCountOfRows; j++)
                 {
-                    m_aFiguresLocation[i][j] = '#';
+                    m_aFiguresLocation[i][j] = ' ';
                 }
                
             }
@@ -99,8 +91,18 @@ namespace wf_AI_lab1
                 throw new FormatException("Номер строки шахматной " +
                     "доски не может быть меньше 0 или больше "+ (m_uiCountOfRows-1).ToString());
             }
-        }       
-
+        }
+        private int CountOfDiagonalAtacks(int numAtackingRow)
+        {
+            int countAtacks = 0;
+            ValidateNumberOfRow(numAtackingRow);
+            int numAtackingColumn = GetQueenColumnFromRow(numAtackingRow);
+            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, 1, 1);
+           // countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, 1, -1);
+            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, -1, 1);
+            //countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, -1, -1);
+            return countAtacks;
+        }
         private int CountOfAtackOn(int numAtackingRow, int numAtackingColumn, int dx, int dy) {
             int countAtacks = 0;          
             int indexRow = numAtackingRow+dy, 
@@ -143,7 +145,7 @@ namespace wf_AI_lab1
                 m_aFiguresLocation[i] = new char[m_uiCountOfRows];
                 for (int j = 0; j < m_uiCountOfRows; j++)
                 {
-                    m_aFiguresLocation[i][j] = '#';
+                    m_aFiguresLocation[i][j] = ' ';
                 }
             }
         }

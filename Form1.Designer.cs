@@ -1,4 +1,6 @@
-﻿namespace wf_AI_lab1
+﻿
+
+namespace wf_AI_lab1
 {
     partial class Form1
     {
@@ -30,14 +32,16 @@
         {
             this.tbxBoardInText = new System.Windows.Forms.TextBox();
             this.btnCalculate = new System.Windows.Forms.Button();
+            this.dgvBoardTable = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBoardTable)).BeginInit();
             this.SuspendLayout();
             // 
             // tbxBoardInText
             // 
-            this.tbxBoardInText.Location = new System.Drawing.Point(12, 12);
+            this.tbxBoardInText.Location = new System.Drawing.Point(226, 12);
             this.tbxBoardInText.Multiline = true;
             this.tbxBoardInText.Name = "tbxBoardInText";
-            this.tbxBoardInText.Size = new System.Drawing.Size(329, 217);
+            this.tbxBoardInText.Size = new System.Drawing.Size(329, 208);
             this.tbxBoardInText.TabIndex = 0;
             // 
             // btnCalculate
@@ -50,15 +54,34 @@
             this.btnCalculate.UseVisualStyleBackColor = true;
             this.btnCalculate.Click += new System.EventHandler(this.BtnCalculate_Click);
             // 
+            // dgvBoardTable
+            // 
+            this.dgvBoardTable.AllowUserToResizeColumns = false;
+            this.dgvBoardTable.AllowUserToResizeRows = false;
+            this.dgvBoardTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvBoardTable.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dgvBoardTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBoardTable.ColumnHeadersVisible = false;
+            this.dgvBoardTable.Location = new System.Drawing.Point(12, 12);
+            this.dgvBoardTable.MultiSelect = false;
+            this.dgvBoardTable.Name = "dgvBoardTable";
+            this.dgvBoardTable.ReadOnly = true;
+            this.dgvBoardTable.RowHeadersVisible = false;
+            this.dgvBoardTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
+            this.dgvBoardTable.Size = new System.Drawing.Size(208, 208);
+            this.dgvBoardTable.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.dgvBoardTable);
             this.Controls.Add(this.btnCalculate);
             this.Controls.Add(this.tbxBoardInText);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBoardTable)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -68,6 +91,7 @@
 
         private System.Windows.Forms.TextBox tbxBoardInText;
         private System.Windows.Forms.Button btnCalculate;
+        private System.Windows.Forms.DataGridView dgvBoardTable;
     }
 }
 
