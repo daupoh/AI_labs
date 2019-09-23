@@ -9,7 +9,7 @@ namespace wf_AI_lab1
 {
     class CAnnealing
     {
-        int m_uiMaxLength = 12, m_uiStepPerChange = 100;
+        int m_uiMaxLength = 8, m_uiStepPerChange = 100;
 
         double m_dbInitialTemperature = 30.0,
                 m_dbFinalTemperature = 0.1,
@@ -83,8 +83,6 @@ namespace wf_AI_lab1
                    working.CopySolution(GetCurrentSolution());
                    working.Energy = GetEvaluateSolution();
 
-                   // Debug.WriteLine("Temperature: " + temperature.ToString() +
-                     //   "; Step - " + i.ToString() + "; Energy="+working.Energy.ToString());
                     if (working.Energy < current.Energy)
                     {
                         isUseNew = true;

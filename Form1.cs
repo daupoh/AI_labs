@@ -13,40 +13,40 @@ namespace wf_AI_lab1
 {
     public partial class Form1 : Form
     {
-        CAnnealing annealing;
-        int maxLen = 12;
+        CAnnealing m_rAnnealing;
+        double[] m_aDefaultVals = { 8, 100, 0.98, 0.5, 30.0 };
+        int m_iMaxLen = 8, m_inSteps=100;
+        double m_fAlpha=0.98, m_fInitTemp=30, m_fFinTemp=0.5;
         // CBoard board;
         public Form1()
         {
            
             InitializeComponent();
-            annealing = new CAnnealing();
-          //  board = new CBoard(8);
-            dgvBoardTable.ColumnCount = maxLen;
-            dgvBoardTable.RowCount = maxLen;
-            
-            annealing.Annealing();
+            m_rAnnealing = new CAnnealing();
+           
+            m_rAnnealing.Annealing();
             FilTable();
+        }
+        private void DefaultValues()
+        {
+            numSizeBoard.Value = (int)m_aDefaultVals[0];
+            numCountOfSteps.Value = (int)m_aDefaultVals[1];
+
+            numAlpha.Value = (decimal)m_aDefaultVals[2];
+           
+            numFinTemp.Value = (decimal)m_aDefaultVals[3];
+            numInitTemp.Value = (decimal)m_aDefaultVals[4];
+
         }
         private void FilTable()
         {
-            /*string text = board.GetBoardInText();
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    dgvBoardTable.Rows[i].Cells[j].Value = text[i * 8 + j];
-                    Debug.WriteLine(text[i * 8 + j]);
-                }
-            }
-            tbxBoardInText.Text += board.GetCountOfConflicts().ToString() + "\r\n";*/
-            string text = annealing.GetBoardInText();
+            string text = m_rAnnealing.GetBoardInText();
             bool isCellWhite = true;
-            for (int i = 0; i < maxLen; i++)
+            for (int i = 0; i < m_iMaxLen; i++)
             {
-                for (int j = 0; j < maxLen; j++)
+                for (int j = 0; j < m_iMaxLen; j++)
                 {
-                    dgvBoardTable.Rows[i].Cells[j].Value = text[i * maxLen + j];
+                    dgvBoardTable.Rows[i].Cells[j].Value = text[i * m_iMaxLen + j];
                     if (!isCellWhite)
                     {
                         dgvBoardTable.Rows[i].Cells[j].Style.BackColor = Color.SandyBrown;
@@ -56,17 +56,52 @@ namespace wf_AI_lab1
                 }
                 isCellWhite = !isCellWhite;
             }
-            tbxBoardInText.Text += annealing.GetEvaluateSolution().ToString() + "\r\n";
+            tbxBoardInText.Text += m_rAnnealing.GetEvaluateSolution().ToString() + "\r\n";
+        }
+        private void SetAnnealingValues()
+        {
+            m_iMaxLen = (int)numSizeBoard.Value;
+            m_inSteps = (int)numCountOfSteps.Value;
+            m_fAlpha= (double)numAlpha.Value;
+            m_fInitTemp= (double)numInitTemp.Value;
+            m_fFinTemp= (double)numFinTemp.Value;
         }
         private void BtnCalculate_Click(object sender, EventArgs e)
         {
-            Annealing();
-            
+            SetAnnealingValues();
+            Annealing();            
         }    
         private void Annealing()
         {
-            annealing.Annealing();
+            dgvBoardTable.Rows.Clear();
+            dgvBoardTable.ColumnCount = m_iMaxLen;
+            dgvBoardTable.RowCount = m_iMaxLen;
+            m_rAnnealing.ReInitialize(m_iMaxLen, m_inSteps, m_fInitTemp, m_fFinTemp, m_fAlpha);
+            m_rAnnealing.Annealing();
             FilTable();
+        }
+        private void CheckTemperatures()
+        {
+            double max = (double)numInitTemp.Value,
+                    min= (double)numFinTemp.Value;
+            if (min > max) {
+                numInitTemp.Value = (decimal)min;
+                numFinTemp.Value = (decimal)min;
+            }
+        }
+        private void BtnDefault_Click(object sender, EventArgs e)
+        {
+            DefaultValues();
+        }
+
+        private void NumInitTemp_ValueChanged(object sender, EventArgs e)
+        {
+            CheckTemperatures();
+        }
+
+        private void NumFinTemp_ValueChanged(object sender, EventArgs e)
+        {
+            CheckTemperatures();
         }
     }
 }
