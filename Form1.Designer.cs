@@ -31,7 +31,7 @@ namespace wf_AI_lab1
         private void InitializeComponent()
         {
             this.tbxBoardInText = new System.Windows.Forms.TextBox();
-            this.btnCalculate = new System.Windows.Forms.Button();
+            this.btnAnnealing = new System.Windows.Forms.Button();
             this.dgvBoardTable = new System.Windows.Forms.DataGridView();
             this.gbxAnnealingParams = new System.Windows.Forms.GroupBox();
             this.btnDefault = new System.Windows.Forms.Button();
@@ -62,15 +62,15 @@ namespace wf_AI_lab1
             this.tbxBoardInText.Size = new System.Drawing.Size(232, 208);
             this.tbxBoardInText.TabIndex = 0;
             // 
-            // btnCalculate
+            // btnAnnealing
             // 
-            this.btnCalculate.Location = new System.Drawing.Point(9, 211);
-            this.btnCalculate.Name = "btnCalculate";
-            this.btnCalculate.Size = new System.Drawing.Size(87, 41);
-            this.btnCalculate.TabIndex = 1;
-            this.btnCalculate.Text = "Запустить алгоритм";
-            this.btnCalculate.UseVisualStyleBackColor = true;
-            this.btnCalculate.Click += new System.EventHandler(this.BtnCalculate_Click);
+            this.btnAnnealing.Location = new System.Drawing.Point(9, 211);
+            this.btnAnnealing.Name = "btnAnnealing";
+            this.btnAnnealing.Size = new System.Drawing.Size(87, 41);
+            this.btnAnnealing.TabIndex = 1;
+            this.btnAnnealing.Text = "Запустить алгоритм";
+            this.btnAnnealing.UseVisualStyleBackColor = true;
+            this.btnAnnealing.Click += new System.EventHandler(this.BtnAnnealing_Click);
             // 
             // dgvBoardTable
             // 
@@ -93,7 +93,7 @@ namespace wf_AI_lab1
             this.gbxAnnealingParams.Controls.Add(this.btnDefault);
             this.gbxAnnealingParams.Controls.Add(this.label2);
             this.gbxAnnealingParams.Controls.Add(this.label1);
-            this.gbxAnnealingParams.Controls.Add(this.btnCalculate);
+            this.gbxAnnealingParams.Controls.Add(this.btnAnnealing);
             this.gbxAnnealingParams.Controls.Add(this.lbl);
             this.gbxAnnealingParams.Controls.Add(this.lblCountOfSteps);
             this.gbxAnnealingParams.Controls.Add(this.lblSizeOfBoard);
@@ -274,7 +274,7 @@ namespace wf_AI_lab1
             // 
             this.numSizeBoard.Location = new System.Drawing.Point(137, 21);
             this.numSizeBoard.Minimum = new decimal(new int[] {
-            2,
+            4,
             0,
             0,
             0});
@@ -282,7 +282,7 @@ namespace wf_AI_lab1
             this.numSizeBoard.Size = new System.Drawing.Size(85, 20);
             this.numSizeBoard.TabIndex = 0;
             this.numSizeBoard.Value = new decimal(new int[] {
-            2,
+            4,
             0,
             0,
             0});
@@ -313,7 +313,7 @@ namespace wf_AI_lab1
         #endregion
 
         private System.Windows.Forms.TextBox tbxBoardInText;
-        private System.Windows.Forms.Button btnCalculate;
+        private System.Windows.Forms.Button btnAnnealing;
         private System.Windows.Forms.DataGridView dgvBoardTable;
         private System.Windows.Forms.GroupBox gbxAnnealingParams;
         private System.Windows.Forms.NumericUpDown numAlpha;

@@ -130,7 +130,6 @@ namespace wf_AI_lab1
             }
             m_rBoard.SetSolution(m_rBest.Solution);
            
-
             return isBestSolution;
         }
         public string GetBoardInText()
