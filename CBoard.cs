@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wf_AI_lab1
 {    
@@ -110,8 +105,7 @@ namespace wf_AI_lab1
 
             while (indexRow < m_uiCountOfRows && indexColumn < m_uiCountOfRows
                 && indexRow>=0 && indexColumn>=0) {
-                if (IsQueen(indexRow, indexColumn)) {
-                    Debug.WriteLine("Queen on "+ indexRow.ToString()+ " " + indexColumn.ToString());
+                if (IsQueen(indexRow, indexColumn)) {                   
                     countAtacks++;
                 }
                 indexRow += dy;

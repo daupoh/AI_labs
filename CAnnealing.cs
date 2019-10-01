@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wf_AI_lab1
 {
@@ -83,7 +78,7 @@ namespace wf_AI_lab1
                    working.CopySolution(GetCurrentSolution());
                    working.Energy = GetEvaluateSolution();
 
-                    if (working.Energy < current.Energy)
+                    if (working.Energy <= current.Energy)
                     {
                         isUseNew = true;
                     }
@@ -110,12 +105,7 @@ namespace wf_AI_lab1
                             {
                                 isBestSolution = true;
                                 break;
-                            }
-                            for (int k = 0; k < m_uiMaxLength; k++)
-                            {
-                                Debug.Write(current.Solution[k].ToString() + " ");
-                            }
-                            Debug.WriteLine(current.Energy.ToString());
+                            }                            
                         }
                     }
                     else {
