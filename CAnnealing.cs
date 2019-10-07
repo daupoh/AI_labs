@@ -2,184 +2,122 @@
 
 namespace wf_AI_lab1
 {
-    class CAnnealing
-    {
-        int m_uiMaxLength = 8, m_uiStepPerChange = 100;
-
-        double m_dbInitialTemperature = 30.0,
-                m_dbFinalTemperature = 0.1,
-                m_dbAlpha = 0.99;
-        CBoard m_rBoard = null;
-        TSolution m_rBest;
-        Random m_rRand = null;
-        public struct TSolution
+    class CAnnealing:ACAnnealing
+    {      
+        Random m_rRand = null;        
+        public CAnnealing(int maxLen, int steps, double initTemp, double finTemp, double alpha)
         {
-            int[] solutionByColsNumber;
-            int energy;
-            int maxLength;
-            public int Energy { get { return energy; } set { energy = value; } }
-            public int[] Solution { get { return solutionByColsNumber; } }
-            public TSolution(int len) {
-                energy = 0;
-                solutionByColsNumber = new int[len];
-                maxLength = len;
-            }
-            public void CopySolution(int[] sol) {
-                if (sol != null && sol.Length == maxLength)
-                {                   
-                    for (int i = 0; i < maxLength; i++)
-                    {
-                        solutionByColsNumber[i] = sol[i];
-                    }
-                }
-                else {
-                    throw new FormatException("Ошибка при копировании решения.");
-                }
-            }           
+            ReInitialize(maxLen, steps, initTemp, finTemp, alpha);           
         }
-
-        public CAnnealing()
-        {
-            InitializeBoard();
-        }
+      
         public void ReInitialize(int maxLen, int steps, double initTemp, double finTemp, double alpha)
-        {
-            ValidateInt(maxLen);
-            ValidateInt(steps);
-            ValidateTemperatures(initTemp, finTemp);
-            ValidateAlpha(alpha);
-            m_uiMaxLength = maxLen;
-            m_uiStepPerChange = steps;
-            m_dbInitialTemperature = initTemp;
-            m_dbFinalTemperature = finTemp;
-            m_dbAlpha = alpha;
+        { 
+            MaxLen = maxLen;
+            StepsPerChange = steps;
+            InitializeTemperatures(initTemp, finTemp);
+            Alpha = alpha;
             InitializeBoard();           
         }
-        public bool Annealing() {
-            TSolution working, current;
-            bool isUseNew = false, isBestSolution = false;
-            double temperature = m_dbInitialTemperature;
-            working = new TSolution(m_uiMaxLength);
-            m_rBest = new TSolution(m_uiMaxLength);
-            m_rBest.Energy = m_uiMaxLength;
-
-            current = new TSolution(m_uiMaxLength);
-            current.CopySolution(GetCurrentSolution());
-            current.Energy = GetEvaluateSolution();
-            working.CopySolution(current.Solution);
-            working.Energy = current.Energy;
-
-            while (temperature>m_dbFinalTemperature)
+        private void InitializeTemperatures(double initTemp, double finTemp)
+        {
+            //order is important
+            FinTemperature = finTemp;
+            InitTemperature = initTemp;
+        }
+        private void InitializeBoard()
+        {
+            Board = new CBoard(MaxLen);
+            m_rRand = new Random();
+            LogLines = "";
+            for (int i = 0; i < MaxLen; i++)
             {
-                for (int i = 0; i < m_uiStepPerChange; i++)
-                {
-                    isUseNew = false;
-                    tweakSolution();
-                   working.CopySolution(GetCurrentSolution());
-                   working.Energy = GetEvaluateSolution();
+                TweakSolution();
+            }
+        }
+        private void TweakSolution()
+        {
+            int randFirst = m_rRand.Next(MaxLen),
+            randSecond;
+            do
+            {
+                randSecond = m_rRand.Next(MaxLen);
+            }
+            while (randFirst == randSecond);
+            Board.SwapQueens(randFirst, randSecond);
+        }
+        public bool Annealing()
+        {
+            CSolution rSolWorking, rSolCurrent, rSolBest;
+            int iTimer = 0;
+            bool bIsUseNew = false, bIsBestSolution = false;
+            double fTemperature = InitTemperature;
+            rSolWorking = new CSolution(MaxLen, MaxLen * MaxLen);
+            rSolBest = new CSolution(MaxLen, MaxLen * MaxLen);
+            rSolCurrent = new CSolution(GetCurrentSolution(), GetEvaluateSolution());
+            rSolWorking.CopySolution(rSolCurrent);
 
-                    if (working.Energy <= current.Energy)
+            while (fTemperature > FinTemperature)
+            {
+                LogLines += "Температура = " + fTemperature.ToString();
+                for (int i = 0; i < StepsPerChange; i++)
+                {
+                    TweakSolution();
+                    rSolWorking = new CSolution(GetCurrentSolution(), GetEvaluateSolution());
+                    if (rSolWorking.Energy <= rSolCurrent.Energy)
                     {
-                        isUseNew = true;
+                        bIsUseNew = true;
                     }
                     else
                     {
                         double random = m_rRand.NextDouble();
-                        int delta = working.Energy - current.Energy;
-                        double calc = Math.Exp(-delta / temperature);
+                        int delta = rSolWorking.Energy - rSolCurrent.Energy;
+                        double calc = Math.Exp(-delta / fTemperature);
                         if (calc > random)
                         {
-                            isUseNew = true;
+                            bIsUseNew = true;
                         }
                     }
-                    if (isUseNew)
+                    if (bIsUseNew)
                     {
-                        isUseNew = false;
-                        current.CopySolution(working.Solution);
-                        current.Energy = working.Energy;
-                        if (current.Energy < m_rBest.Energy)
+                        bIsUseNew = false;
+                        rSolCurrent.CopySolution(rSolWorking);                        
+                        if (rSolCurrent.Energy < rSolBest.Energy)
                         {
-                            m_rBest.CopySolution(current.Solution);
-                            m_rBest.Energy = current.Energy;
-                            if (m_rBest.Energy == 0)
+                            rSolBest.CopySolution(rSolCurrent);
+                            if (rSolBest.Energy == 0)
                             {
-                                isBestSolution = true;
+                                bIsBestSolution = true;
                                 break;
-                            }                            
+                            }
                         }
                     }
-                    else {
-                        working.CopySolution(current.Solution);
-                        working.Energy = current.Energy;
+                    else
+                    {
+                        rSolWorking.CopySolution(rSolCurrent);
                     }
-
                 }
-                temperature *= m_dbAlpha;
-                if (isBestSolution)
+                iTimer++;
+                LogLines += "Лучшее решение имеет Энергию " + rSolBest.Energy.ToString();
+                LogLines += "Счетчик " + iTimer.ToString();
+                fTemperature *= Alpha;
+                if (bIsBestSolution)
                     break;
             }
-            m_rBoard.SetSolution(m_rBest.Solution);
-           
-            return isBestSolution;
+            Board.SetSolution(rSolBest.Solution);
+            SaveLogs();
+            return bIsBestSolution;
         }
         public string GetBoardInText()
         {
-            return m_rBoard.GetBoardInText();
-        }
-        public void tweakSolution() {            
+            return Board.ToString();
+        }       
+        private int GetEvaluateSolution() {
           
-            int randFirst = m_rRand.Next(m_uiMaxLength),
-            randSecond;
-            do
-            {               
-                randSecond = m_rRand.Next(m_uiMaxLength);
-            }
-            while (randFirst == randSecond);
-            m_rBoard.SwapQueens(randFirst, randSecond);            
+            return Board.GetCountOfConflicts();
         }
-        public int GetEvaluateSolution() {
-          
-            return m_rBoard.GetCountOfConflicts();
-        }
-        public int[] GetCurrentSolution()
+        private int[] GetCurrentSolution()
         {
-            return m_rBoard.GetSolutionByColsNumber();
+            return Board.GetCurrentSolutionByCols();
         }
-        private void InitializeBoard()
-        {
-            m_rBoard = new CBoard(m_uiMaxLength);
-            m_rRand = new Random();
-            for (int i = 0; i < m_uiMaxLength; i++)
-            {
-                tweakSolution();
-            }
-        }
-        private void ValidateInt(int num) {
-            ValidateFloat(num);
-        }
-        private void ValidateFloat(double num)
-        {
-            if (num <= 0)
-            {
-                throw new FormatException("Данное число не может быть меньше 0");
-            }
-        }
-        private void ValidateTemperatures(double initT,double finT)
-        {
-            ValidateFloat(initT);
-            ValidateFloat(finT);
-            if (finT>initT)
-            {
-                throw new FormatException("Некорректное отношение температур");
-            }
-        }
-        private void ValidateAlpha(double num)
-        {
-            if (num <= 0.000 || num>=1.000)
-            {
-                throw new FormatException("Данное число должно быть в диапазоне от 0 до 1");
-            }
-        }
-
     }
 }

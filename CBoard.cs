@@ -4,20 +4,32 @@ namespace wf_AI_lab1
 {    
     class CBoard
     {
-        private uint m_uiCountOfRows;
+        private int m_iCountOfRows;
         private char[][] m_aFiguresLocation;
-        public CBoard(int countOfRows)
+        public CBoard(int iCountOfRows)
         {
-            ValidateCountOfRow(countOfRows);
-            m_uiCountOfRows = (uint)countOfRows;
-            InitializeBoard();
-            PutQueensOnBoard();
+           
+            CountOfRows = iCountOfRows;
+            InitializeBoard();          
         } 
+        public int CountOfRows
+        {
+            get
+            {
+                return m_iCountOfRows;
+            }
+            private set
+            {             
+                value.CompareTo(0).Equals(1);
+                m_iCountOfRows = value;
+            }
+        }
         public void SwapQueens (int numFirst, int numSecond)
-        {           
-            //Debug.WriteLine("Swap Queens from "+numFirst.ToString() + " to "+numSecond.ToString());
-            ValidateNumberOfRow(numFirst);
-            ValidateNumberOfRow(numSecond);
+        {
+            numFirst.CompareTo(-1).Equals(1);
+            numSecond.CompareTo(-1).Equals(1);
+            numFirst.CompareTo(CountOfRows).Equals(-1);
+            numSecond.CompareTo(CountOfRows).Equals(-1);            
             char[] temp = m_aFiguresLocation[numFirst];
             m_aFiguresLocation[numFirst] = m_aFiguresLocation[numSecond];
             m_aFiguresLocation[numSecond] = temp;
@@ -25,7 +37,7 @@ namespace wf_AI_lab1
         public void SetSolution(int[] Solution)
         {
             ClearBoard();
-            for (int i = 0; i < m_uiCountOfRows; i++)
+            for (int i = 0; i < m_iCountOfRows; i++)
             {
                 m_aFiguresLocation[i][Solution[i]] = 'Q';
             }
@@ -33,99 +45,77 @@ namespace wf_AI_lab1
         public int GetCountOfConflicts ()
         {
             int count = 0;
-            for (int i = 0; i < m_uiCountOfRows; i++)
+            for (int i = 0; i < m_iCountOfRows; i++)
             {
                 count += CountOfDiagonalAtacks(i);
             }
             return count;
         }
         
-        public int[] GetSolutionByColsNumber() {
-            int[] solution = new int[m_uiCountOfRows];
-            for (int i = 0; i < m_uiCountOfRows; i++)
+        public int[] GetCurrentSolutionByCols() {
+            int[] aSolution = new int[m_iCountOfRows];
+            for (int i = 0; i < m_iCountOfRows; i++)
             {
-                solution[i] = GetQueenColumnFromRow(i);            
+                aSolution[i] = GetQueenColumnFromRow(i);            
             }
-            return solution;
+            return aSolution;
         }
-        public string GetBoardInText() {
-            string boardInText = "";
-            int count = 0;
-            for (int i = 0; i < m_uiCountOfRows; i++)
-            {
-               
-                for (int j = 0; j < m_uiCountOfRows; j++)
+        public override string ToString() {
+            string boardInText = "";           
+            for (int i = 0; i < m_iCountOfRows; i++)
+            {               
+                for (int j = 0; j < m_iCountOfRows; j++)
                 {
                     boardInText += m_aFiguresLocation[i][j];
                 } 
             }
-            boardInText += count.ToString();
             return boardInText;
         }
         private void ClearBoard()
         {
-            for (int i = 0; i < m_uiCountOfRows; i++)
+            for (int i = 0; i < m_iCountOfRows; i++)
             {
-                for (int j = 0; j < m_uiCountOfRows; j++)
+                for (int j = 0; j < m_iCountOfRows; j++)
                 {
                     m_aFiguresLocation[i][j] = ' ';
-                }
-               
+                }               
             }
-        }
-        private void ValidateCountOfRow(int countOfRows) {
-            if (countOfRows <= 0) {
-                throw new FormatException("Число строк шахматной " +
-                    "доски не может быть меньше или равно 0");
-            }
-        }
-        private void ValidateNumberOfRow(int numRow)
+        }     
+        private int CountOfDiagonalAtacks(int iAtackingRow)
         {
-            if (numRow < 0 || numRow == m_uiCountOfRows)
-            {
-                throw new FormatException("Номер строки шахматной " +
-                    "доски не может быть меньше 0 или больше "+ (m_uiCountOfRows-1).ToString());
-            }
+            int iCountAtacks = 0;        
+            iAtackingRow.CompareTo(CountOfRows).Equals(1);
+            iAtackingRow.CompareTo(CountOfRows).Equals(-1);
+            int iAtackingColumn = GetQueenColumnFromRow(iAtackingRow);
+            iCountAtacks += CountOfAtackOn(iAtackingRow, iAtackingColumn, 1, 1);
+            iCountAtacks += CountOfAtackOn(iAtackingRow, iAtackingColumn, 1, -1);
+            iCountAtacks += CountOfAtackOn(iAtackingRow, iAtackingColumn, -1, 1);
+            iCountAtacks += CountOfAtackOn(iAtackingRow, iAtackingColumn, -1, -1);
+            return iCountAtacks;
         }
-        private int CountOfDiagonalAtacks(int numAtackingRow)
-        {
-            int countAtacks = 0;
-            ValidateNumberOfRow(numAtackingRow);
-            int numAtackingColumn = GetQueenColumnFromRow(numAtackingRow);
-            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, 1, 1);
-           // countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, 1, -1);
-            countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, -1, 1);
-            //countAtacks += CountOfAtackOn(numAtackingRow, numAtackingColumn, -1, -1);
-            return countAtacks;
-        }
-        private int CountOfAtackOn(int numAtackingRow, int numAtackingColumn, int dx, int dy) {
-            int countAtacks = 0;          
-            int indexRow = numAtackingRow+dy, 
-                indexColumn = numAtackingColumn+dx;
+        private int CountOfAtackOn(int iAtackingRow, int iAtackingColumn, int iDx, int iDy) {
+            int iCountAtacks = 0;          
+            int iRow = iAtackingRow+iDy, 
+                iColumn = iAtackingColumn+iDx;
 
-            while (indexRow < m_uiCountOfRows && indexColumn < m_uiCountOfRows
-                && indexRow>=0 && indexColumn>=0) {
-                if (IsQueen(indexRow, indexColumn)) {                   
-                    countAtacks++;
+            while (iRow < m_iCountOfRows && iColumn < m_iCountOfRows
+                && iRow>=0 && iColumn>=0) {
+                if (IsQueen(iRow, iColumn)) {                   
+                    iCountAtacks++;
                 }
-                indexRow += dy;
-                indexColumn += dx;
+                iRow += iDy;
+                iColumn += iDx;
             }
-           /* Debug.WriteLine("From " + numAtackingRow.ToString() + " and "
-                + numAtackingColumn.ToString() + " direction " +
-                dx.ToString() + ":" + dy.ToString() + " makes: " + countAtacks.ToString());*/
-            return countAtacks;
+            return iCountAtacks;
         }
         private bool IsQueen(int numRow, int numCol) {
-
             return (m_aFiguresLocation[numRow][numCol] == 'Q');
-
         }
         private int GetQueenColumnFromRow(int numRow) {
             int numColumn = 0;
-            for (int i = 0; i < m_uiCountOfRows; i++)
+            for (int i = 0; i < m_iCountOfRows; i++)
             {
-                if (m_aFiguresLocation[numRow][i] == 'Q') {
+                if (IsQueen(numRow,i)) {
                     numColumn = i;
                     break;
                 }
@@ -133,21 +123,16 @@ namespace wf_AI_lab1
             return numColumn;
         }
         private void InitializeBoard() {
-            m_aFiguresLocation = new char[m_uiCountOfRows][];
-            for (int i = 0; i < m_uiCountOfRows; i++)
+            m_aFiguresLocation = new char[m_iCountOfRows][];
+            for (int i = 0; i < m_iCountOfRows; i++)
             {
-                m_aFiguresLocation[i] = new char[m_uiCountOfRows];
-                for (int j = 0; j < m_uiCountOfRows; j++)
+                m_aFiguresLocation[i] = new char[m_iCountOfRows];
+                for (int j = 0; j < m_iCountOfRows; j++)
                 {
-                    m_aFiguresLocation[i][j] = ' ';
+                    m_aFiguresLocation[i][j] = ' ';                    
                 }
-            }
-        }
-        private void PutQueensOnBoard() {
-            for (int i = 0; i < m_uiCountOfRows; i++)
-            {
                 m_aFiguresLocation[i][i] = 'Q';
             }
-        }
+        }       
     }
 }
