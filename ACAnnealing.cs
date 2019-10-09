@@ -100,7 +100,7 @@ namespace wf_AI_lab1
         {
             get
             {
-                return sLog;
+                return sLongLog;
             }            
         }
         protected void SaveLogs()

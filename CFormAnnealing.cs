@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace wf_AI_lab1
@@ -20,6 +21,12 @@ namespace wf_AI_lab1
         {
             StartAnnealing();
             m_rTbxBoardInText.Text += "_______________________";
+            m_rBtnSaveLogs.Enabled = true;
+        }
+        private void M_rBtnSaveLogs_Click(object sender, EventArgs e)
+        {
+            SaveLogsIntoFile();
+            m_rBtnSaveLogs.Enabled = false;
         }
         private void BtnDefault_Click(object sender, EventArgs e)
         {
@@ -38,6 +45,7 @@ namespace wf_AI_lab1
         private void StartAnnealing()
         {
             gbxAnnealingParams.Enabled = false;
+            m_rGbxLog.Enabled = false;
             int iMaxLen = (int)m_rNumSizeBoard.Value;
             int inSteps = (int)m_rNumCountOfSteps.Value;
             double fAlpha = (double)m_rNumAlpha.Value;
@@ -59,6 +67,7 @@ namespace wf_AI_lab1
                 FilTable(iMaxLen);
                 m_rTbxBoardInText.Text = m_rAnnealing.LogLines;
                 gbxAnnealingParams.Enabled = true;
+                m_rGbxLog.Enabled = true;
             }
             catch (Exception exp)
             {
@@ -108,6 +117,13 @@ namespace wf_AI_lab1
                 m_rNumFinTemp.Value = (decimal)min;
             }
         }
-       
+        private void SaveLogsIntoFile()
+        {
+            FileStream rFileStream = new FileStream("stats.txt", FileMode.OpenOrCreate);
+            StreamWriter rStreamWriter = new StreamWriter(rFileStream);
+            rStreamWriter.WriteLine(m_rAnnealing.AllLogs);
+            rStreamWriter.Close();
+        }
+      
     }
 }

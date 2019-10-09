@@ -46,6 +46,7 @@ namespace wf_AI_lab1
             this.m_rNumCountOfSteps = new System.Windows.Forms.NumericUpDown();
             this.m_rNumSizeBoard = new System.Windows.Forms.NumericUpDown();
             this.m_rGbxLog = new System.Windows.Forms.GroupBox();
+            this.m_rBtnSaveLogs = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.m_rDgvBoardTable)).BeginInit();
             this.gbxAnnealingParams.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_rNumFinTemp)).BeginInit();
@@ -62,7 +63,7 @@ namespace wf_AI_lab1
             this.m_rTbxBoardInText.Multiline = true;
             this.m_rTbxBoardInText.Name = "m_rTbxBoardInText";
             this.m_rTbxBoardInText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.m_rTbxBoardInText.Size = new System.Drawing.Size(301, 220);
+            this.m_rTbxBoardInText.Size = new System.Drawing.Size(550, 227);
             this.m_rTbxBoardInText.TabIndex = 0;
             // 
             // m_rBtnAnnealing
@@ -88,7 +89,7 @@ namespace wf_AI_lab1
             this.m_rDgvBoardTable.ReadOnly = true;
             this.m_rDgvBoardTable.RowHeadersVisible = false;
             this.m_rDgvBoardTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.m_rDgvBoardTable.Size = new System.Drawing.Size(370, 510);
+            this.m_rDgvBoardTable.Size = new System.Drawing.Size(370, 265);
             this.m_rDgvBoardTable.TabIndex = 2;
             // 
             // gbxAnnealingParams
@@ -292,13 +293,25 @@ namespace wf_AI_lab1
             // 
             // m_rGbxLog
             // 
+            this.m_rGbxLog.Controls.Add(this.m_rBtnSaveLogs);
             this.m_rGbxLog.Controls.Add(this.m_rTbxBoardInText);
             this.m_rGbxLog.Location = new System.Drawing.Point(12, 283);
             this.m_rGbxLog.Name = "m_rGbxLog";
-            this.m_rGbxLog.Size = new System.Drawing.Size(313, 252);
+            this.m_rGbxLog.Size = new System.Drawing.Size(689, 252);
             this.m_rGbxLog.TabIndex = 4;
             this.m_rGbxLog.TabStop = false;
             this.m_rGbxLog.Text = "Лог алгоритма";
+            // 
+            // m_rBtnSaveLogs
+            // 
+            this.m_rBtnSaveLogs.Enabled = false;
+            this.m_rBtnSaveLogs.Location = new System.Drawing.Point(562, 205);
+            this.m_rBtnSaveLogs.Name = "m_rBtnSaveLogs";
+            this.m_rBtnSaveLogs.Size = new System.Drawing.Size(121, 41);
+            this.m_rBtnSaveLogs.TabIndex = 11;
+            this.m_rBtnSaveLogs.Text = "Сохранить в файл";
+            this.m_rBtnSaveLogs.UseVisualStyleBackColor = true;
+            this.m_rBtnSaveLogs.Click += new System.EventHandler(this.M_rBtnSaveLogs_Click);
             // 
             // CFormAnnealing
             // 
@@ -343,6 +356,7 @@ namespace wf_AI_lab1
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button m_rBtnDefault;
         private System.Windows.Forms.GroupBox m_rGbxLog;
+        private System.Windows.Forms.Button m_rBtnSaveLogs;
     }
 }
 
