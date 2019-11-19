@@ -78,6 +78,20 @@ namespace wf_AI_lab2
             Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aVectorSigns.Count);
             return m_aVectorSigns[iVectorIndex];
         }
+        public CBinVector[] GetSignsFromCluster(int iVectorIndex)
+        {
+            Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aClusters.Count);
+            return m_aClusters[iVectorIndex].GetSigns();
+        }
+        public CCluster[] GetClusters()
+        {
+            return m_aClusters.ToArray();
+        }
+        public CBinVector GetVectorPrototype(int iVectorIndex)
+        {
+            Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aClusters.Count);
+            return m_aClusters[iVectorIndex].PrototypeVector;
+        }
         public void UpdateVectorSign(int iVectorIndex,string sCode)
         {
             Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aVectorSigns.Count);
@@ -88,6 +102,17 @@ namespace wf_AI_lab2
         {
             Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aVectorSigns.Count);
             m_aVectorSigns.RemoveAt(iVectorIndex);
+        }
+        public void UpdateVectorPrototype(int iVectorIndex, string sCode)
+        {
+            Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aClusters.Count);
+            CBinVector rNewVector = new CBinVector(sCode);
+            m_aClusters[iVectorIndex].PrototypeVector.Copy(rNewVector);
+        }
+        public void DeleteVectorPrototype(int iVectorIndex)
+        {
+            Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aClusters.Count);
+            m_aClusters.RemoveAt(iVectorIndex);
         }
         public void Resonance()
         {
@@ -113,11 +138,10 @@ namespace wf_AI_lab2
                 }
                 if (!bSignAddedToCluster)
                 {
-                    if (m_aClusters.Count < MaxClusters)
-                    {
-                        m_aClusters.Add(new CCluster(rVectorSign));
-                        m_aClusters[m_aClusters.Count - 1].AddVectorSign(rVectorSign);
-                    }
+                    Assert.IsTrue(m_aClusters.Count < MaxClusters,"Достигнуто максимальное количество кластеров. " +
+                        "Невозможно создать еще один кластер.");
+                    m_aClusters.Add(new CCluster(rVectorSign));
+                    m_aClusters[m_aClusters.Count - 1].AddVectorSign(rVectorSign);
                 }
             }
         }
@@ -134,13 +158,13 @@ namespace wf_AI_lab2
         {
             CBinVector rTempVector = rVectorPrototype.Clone();
             rTempVector.MultVector(rVectorSign);           
-            return (rTempVector.Number / (Beta + rVectorPrototype.Number)) > (rVectorSign.Number / (Beta + VectorLength));
+            return (rTempVector.Relevance / (Beta + rVectorPrototype.Relevance)) > (rVectorSign.Relevance / (Beta + VectorLength));
         }
         private bool CheckAttention(CBinVector rVectorSign, CBinVector rVectorPrototype)
         {
             CBinVector rTempVector = rVectorPrototype.Clone();
             rTempVector.MultVector(rVectorSign);
-            return (rTempVector.Number / rVectorSign.Number) < Attention;
+            return (rTempVector.Relevance / rVectorSign.Relevance) < Attention;
         }
         private CBinVector CheckAddedVector(string sVector)
         {

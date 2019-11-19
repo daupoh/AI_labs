@@ -35,6 +35,10 @@ namespace wf_AI_lab2
             PrototypeVector.MultVector(rVector);
             aClusteredVectorSigns.Add(rVector);
         }
+        public CBinVector[] GetSigns()
+        {
+            return aClusteredVectorSigns.ToArray();
+        }
             
 
     }

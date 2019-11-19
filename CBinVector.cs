@@ -86,44 +86,28 @@ namespace wf_AI_lab2
         }
         public void MultVector(CBinVector rVector)
         {
-            CheckNumberVectorLength(rVector.Number);
+            Assert.IsTrue(rVector.Length == Length);
+            string sNewCode = "";
+            for (int i = 0; i < Length; i++)
+            {
+                if (Code[i]=='1' && rVector.Code[i]=='1')
+                {
+                    sNewCode += '1';
+                }
+                else
+                {
+                    sNewCode += '0';
+                }
+            }
+            m_sCode = sNewCode;
             Number &= rVector.Number;
-            UpdateCode();
-        }
-        private void UpdateCode()
-        {
-            string sVector = "";
-            long iIntPart = Number, iRest;
-            while (iIntPart != 0)
-            {
-                iRest = iIntPart % 2;
-                iIntPart /= 2;
-                sVector = iRest.ToString() + sVector;
-            }
-            iRest = iIntPart % 2;
-            if (iRest == 1)
-            {
-                sVector = iRest.ToString() + sVector;
-            }
-            m_sCode = sVector;
-        }
+        }       
         private void CheckStringVector(string sVector)
         {
             foreach(char c in sVector)
             {
                 Assert.IsTrue((c == '1') || (c == '0'));
             }
-        }
-        private void CheckNumberVectorLength(long iNumber)
-        {
-            int iLength = 1;
-            long iIntPart = iNumber / 2;
-            while (iIntPart!=0)
-            {
-                iIntPart /= 2;
-                iLength++;
-            }
-            Assert.IsTrue(iLength==Length);
         }
     }
 }
