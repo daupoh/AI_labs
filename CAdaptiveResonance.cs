@@ -9,76 +9,97 @@ namespace wf_AI_lab2
 {
     class CAdaptiveResonance
     {
-        int iMaxOfClusters=10, iVectorLength=11, iBeta=1;
-        double fAttention=0.9;
-        readonly IList<CBinVector> aVectorSigns;
-        readonly IList<CCluster> aClusters;
+        int m_iMaxOfClusters=10, m_iVectorLength=11, m_iBeta=1;
+        double m_fAttention=0.9;
+        readonly IList<CBinVector> m_aVectorSigns;
+        readonly IList<CCluster> m_aClusters;
 
         public int MaxClusters
         {
             get
             {
-                return iMaxOfClusters;
+                return m_iMaxOfClusters;
             }
             set
             {
                 Assert.IsTrue(value>0);
-                iMaxOfClusters = value;
+                m_iMaxOfClusters = value;
             }
         }
         public int VectorLength
         {
             get
             {
-                return iVectorLength;
+                return m_iVectorLength;
             }
             set
             {
                 Assert.IsTrue(value > 1);
-                iVectorLength = value;
+                m_iVectorLength = value;
             }
         }
         public int Beta
         {
             get
             {
-                return iBeta;
+                return m_iBeta;
             }
             set
             {
                 Assert.IsTrue(value > 0 && value<10);
-                iBeta= value;
+                m_iBeta= value;
             }
         }
         public double Attention
         {
             get
             {
-                return fAttention;
+                return m_fAttention;
             }
             set
             {
                 Assert.IsTrue(value > 0 && value < 1.0);
-                fAttention= value;
+                m_fAttention= value;
             }
         }
 
         public CAdaptiveResonance()
         {            
-            aVectorSigns = new List<CBinVector>();
-            aClusters = new List<CCluster>();
+            m_aVectorSigns = new List<CBinVector>();
+            m_aClusters = new List<CCluster>();
+        }
+        public void ClearVectors()
+        {
+            m_aVectorSigns.Clear();
+            m_aClusters.Clear();
+        }
+        public CBinVector GetVectorSign(int iVectorIndex)
+        {
+            Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aVectorSigns.Count);
+            return m_aVectorSigns[iVectorIndex];
+        }
+        public void UpdateVectorSign(int iVectorIndex,string sCode)
+        {
+            Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aVectorSigns.Count);
+            CBinVector rNewVector = new CBinVector(sCode);
+            m_aVectorSigns[iVectorIndex].Copy(rNewVector);
+        }
+        public void DeleteVectorSign(int iVectorIndex)
+        {
+            Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aVectorSigns.Count);
+            m_aVectorSigns.RemoveAt(iVectorIndex);
         }
         public void Resonance()
         {
-            Assert.IsTrue(aVectorSigns.Count > 0);
-            if (aClusters.Count == 0)
+            Assert.IsTrue(m_aVectorSigns.Count > 0);
+            if (m_aClusters.Count == 0)
             {
-                aClusters.Add(new CCluster(aVectorSigns[0]));
+                m_aClusters.Add(new CCluster(m_aVectorSigns[0]));
             }
-            foreach (CBinVector rVectorSign in aVectorSigns)
+            foreach (CBinVector rVectorSign in m_aVectorSigns)
             {
                 bool bSignAddedToCluster = false;
-                foreach (CCluster rCluster in aClusters)
+                foreach (CCluster rCluster in m_aClusters)
                 {
                     if (CheckSimilarity(rVectorSign, rCluster.PrototypeVector))
                     {
@@ -92,21 +113,21 @@ namespace wf_AI_lab2
                 }
                 if (!bSignAddedToCluster)
                 {
-                    if (aClusters.Count < MaxClusters)
+                    if (m_aClusters.Count < MaxClusters)
                     {
-                        aClusters.Add(new CCluster(rVectorSign));
-                        aClusters[aClusters.Count - 1].AddVectorSign(rVectorSign);
+                        m_aClusters.Add(new CCluster(rVectorSign));
+                        m_aClusters[m_aClusters.Count - 1].AddVectorSign(rVectorSign);
                     }
                 }
             }
         }
         public void AddVectorSign(string sVector)
         {            
-            aVectorSigns.Add(CheckAddedVector(sVector));            
+            m_aVectorSigns.Add(CheckAddedVector(sVector));            
         }
         public void AddVectorPrototype(string sVector)
         {
-            aClusters.Add(new CCluster(CheckAddedVector(sVector)));
+            m_aClusters.Add(new CCluster(CheckAddedVector(sVector)));
         }
         
         private bool CheckSimilarity(CBinVector rVectorSign, CBinVector rVectorPrototype)
@@ -124,7 +145,7 @@ namespace wf_AI_lab2
         private CBinVector CheckAddedVector(string sVector)
         {
             CBinVector rVector = new CBinVector(sVector);
-            Assert.IsTrue(rVector.Length == iVectorLength);
+            Assert.IsTrue(rVector.Length == m_iVectorLength);
             return rVector;
         }
     }

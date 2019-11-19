@@ -50,6 +50,7 @@
             this.nudVectorLength = new System.Windows.Forms.NumericUpDown();
             this.nudBeta = new System.Windows.Forms.NumericUpDown();
             this.nudMaxClusters = new System.Windows.Forms.NumericUpDown();
+            this.btnToAdd = new System.Windows.Forms.Button();
             this.gbSigns.SuspendLayout();
             this.gbSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAttention)).BeginInit();
@@ -60,6 +61,7 @@
             // 
             // gbSigns
             // 
+            this.gbSigns.Controls.Add(this.btnToAdd);
             this.gbSigns.Controls.Add(this.btnDeleteSign);
             this.gbSigns.Controls.Add(this.btnSaveVector);
             this.gbSigns.Controls.Add(this.cbxSigns);
@@ -84,6 +86,7 @@
             this.btnDeleteSign.TabIndex = 9;
             this.btnDeleteSign.Text = "Удалить вектор";
             this.btnDeleteSign.UseVisualStyleBackColor = true;
+            this.btnDeleteSign.Click += new System.EventHandler(this.btnDeleteSign_Click);
             // 
             // btnSaveVector
             // 
@@ -94,20 +97,22 @@
             this.btnSaveVector.TabIndex = 8;
             this.btnSaveVector.Text = "Сохранить изменения";
             this.btnSaveVector.UseVisualStyleBackColor = true;
+            this.btnSaveVector.Click += new System.EventHandler(this.btnSaveVector_Click);
             // 
             // cbxSigns
             // 
             this.cbxSigns.FormattingEnabled = true;
-            this.cbxSigns.Location = new System.Drawing.Point(177, 19);
+            this.cbxSigns.Location = new System.Drawing.Point(122, 19);
             this.cbxSigns.Name = "cbxSigns";
-            this.cbxSigns.Size = new System.Drawing.Size(121, 21);
+            this.cbxSigns.Size = new System.Drawing.Size(176, 21);
             this.cbxSigns.TabIndex = 7;
+            this.cbxSigns.SelectedIndexChanged += new System.EventHandler(this.cbxSigns_SelectedIndexChanged);
             // 
             // lblListSigns
             // 
             this.lblListSigns.Location = new System.Drawing.Point(6, 16);
             this.lblListSigns.Name = "lblListSigns";
-            this.lblListSigns.Size = new System.Drawing.Size(153, 33);
+            this.lblListSigns.Size = new System.Drawing.Size(127, 33);
             this.lblListSigns.TabIndex = 6;
             this.lblListSigns.Text = "Список добавленных признаков";
             // 
@@ -151,9 +156,9 @@
             // 
             // gbPrototypes
             // 
-            this.gbPrototypes.Location = new System.Drawing.Point(336, 12);
+            this.gbPrototypes.Location = new System.Drawing.Point(386, 12);
             this.gbPrototypes.Name = "gbPrototypes";
-            this.gbPrototypes.Size = new System.Drawing.Size(304, 313);
+            this.gbPrototypes.Size = new System.Drawing.Size(254, 313);
             this.gbPrototypes.TabIndex = 1;
             this.gbPrototypes.TabStop = false;
             this.gbPrototypes.Text = "Прототипы";
@@ -331,6 +336,16 @@
             0});
             this.nudMaxClusters.ValueChanged += new System.EventHandler(this.nudMaxClusters_ValueChanged);
             // 
+            // btnToAdd
+            // 
+            this.btnToAdd.Enabled = false;
+            this.btnToAdd.Location = new System.Drawing.Point(108, 58);
+            this.btnToAdd.Name = "btnToAdd";
+            this.btnToAdd.Size = new System.Drawing.Size(92, 34);
+            this.btnToAdd.TabIndex = 10;
+            this.btnToAdd.Text = "Вернуться к добавлению";
+            this.btnToAdd.UseVisualStyleBackColor = true;
+            // 
             // FormAdaptiveResonance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -377,6 +392,7 @@
         private System.Windows.Forms.ComboBox cbxSigns;
         private System.Windows.Forms.Label lblListSigns;
         private System.Windows.Forms.Button btnDeleteSign;
+        private System.Windows.Forms.Button btnToAdd;
     }
 }
 

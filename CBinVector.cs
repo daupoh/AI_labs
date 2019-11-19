@@ -11,17 +11,17 @@ namespace wf_AI_lab2
     {
         int m_iLength;
         long m_iBits;
-        string sCode;
+        string m_sCode;
         public string Code
         {
             get
             {
-                return sCode;
+                return m_sCode;
             }
             private set
             {
                 CheckStringVector(value);
-                sCode = value;
+                m_sCode = value;
             }
         }
         public int Length
@@ -50,9 +50,9 @@ namespace wf_AI_lab2
             get
             {
                 int iCountOfOne = 0;
-                for (int i = 0; i < sCode.Length; i++)
+                for (int i = 0; i < m_sCode.Length; i++)
                 {
-                    if (sCode[i] == '1')
+                    if (m_sCode[i] == '1')
                     {
                         iCountOfOne++;
                     }
@@ -78,6 +78,12 @@ namespace wf_AI_lab2
         {
             return new CBinVector(Code);
         }
+        public void Copy(CBinVector rCopied)
+        {
+            Assert.IsTrue(rCopied.Length == Length);
+            m_iBits = rCopied.Number;
+            m_sCode = rCopied.Code;
+        }
         public void MultVector(CBinVector rVector)
         {
             CheckNumberVectorLength(rVector.Number);
@@ -99,7 +105,7 @@ namespace wf_AI_lab2
             {
                 sVector = iRest.ToString() + sVector;
             }
-            sCode = sVector;
+            m_sCode = sVector;
         }
         private void CheckStringVector(string sVector)
         {

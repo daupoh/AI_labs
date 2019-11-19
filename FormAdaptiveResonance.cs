@@ -15,6 +15,9 @@ namespace wf_AI_lab2
         string[] aSignNames = { "Асинхронный двигатель", "Трансформатор", "Электрический кабель", "Вакуумный выключатель",
                                 "Промежуточное реле","Магнитный пускатель","Токовое реле","Трансформатор тока",
                                 "Контактор","Реле времени","Реле напряжения"};
+        string sConfermStr = "Вы действительно хотите изменить параметры алгоритма? "
+                                + "\r\nЭто приведет к уничтожению всех признаков, прототипов и кластеров.",
+            sConfermTitle = "Подтверждение изменения параметров";
         CAdaptiveResonance rAdaptRes;
         public FormAdaptiveResonance()
         {
@@ -49,19 +52,22 @@ namespace wf_AI_lab2
 
         private void btnCancelSettings_Click(object sender, EventArgs e)
         {
-            nudMaxClusters.Value = rAdaptRes.MaxClusters;
-            nudVectorLength.Value = rAdaptRes.VectorLength;
-            nudBeta.Value = rAdaptRes.Beta;
-            nudAttention.Value = (decimal)rAdaptRes.Attention;
-            SetListOfSigns();
-            EnabledSettingButtons(false);
+            DialogResult dialogResult = MessageBox.Show(sConfermStr,sConfermTitle,MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                nudMaxClusters.Value = rAdaptRes.MaxClusters;
+                nudVectorLength.Value = rAdaptRes.VectorLength;
+                nudBeta.Value = rAdaptRes.Beta;
+                nudAttention.Value = (decimal)rAdaptRes.Attention;
+                SetListOfSigns();
+                EnabledSettingButtons(false);
+                ClearLists();
+            }
         }
 
         private void btnSaveSettings_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show("Вы действительно хотите изменить параметры алгоритма? " +
-                                                        "Это приведет к уничтожению всех признаков, прототипов и кластеров."
-                                                        , "Подтверждение изменения параметров", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show(sConfermStr, sConfermTitle,MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 rAdaptRes.MaxClusters = (int)nudMaxClusters.Value;
@@ -75,6 +81,7 @@ namespace wf_AI_lab2
         }
         private void ClearLists()
         {
+            rAdaptRes.ClearVectors();
             cbxSigns.Items.Clear();            
         }
         private void EnabledSettingButtons(bool bEnabled)
@@ -121,8 +128,74 @@ namespace wf_AI_lab2
 
         private void btnAddSign_Click(object sender, EventArgs e)
         {
-            
+            string sCode = GenerateVector();
+            rAdaptRes.AddVectorSign(sCode);
+            cbxSigns.Items.Add("Признак #" + cbxSigns.Items.Count.ToString() + " (" + sCode + ")");
         }
+
+        private void cbxSigns_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ShowSignVector(cbxSigns.SelectedIndex);
+            btnAddSign.Enabled = false;
+            btnToAdd.Enabled = true;
+            btnDeleteSign.Enabled = true;
+            btnSaveVector.Enabled = true;
+        }
+        private void ShowSignVector(int iVectorIndex)
+        {
+            string sCode = rAdaptRes.GetVectorSign(iVectorIndex).Code;
+            for (int i = 0; i < sCode.Length; i++)
+            {
+                if (sCode[i] == '1')
+                {
+                    clbSigns.SetItemChecked(i, true);
+                }
+                else
+                {
+                    clbSigns.SetItemChecked(i, false);
+                }
+            }
+        }
+
+        private void btnSaveVector_Click(object sender, EventArgs e)
+        {
+            string sCode = GenerateVector();
+            rAdaptRes.UpdateVectorSign(cbxSigns.SelectedIndex, sCode);
+            cbxSigns.Items[cbxSigns.SelectedIndex] = "Признак #" + cbxSigns.SelectedIndex.ToString() + " (" + sCode + ")";
+        }
+
+        private void btnDeleteSign_Click(object sender, EventArgs e)
+        {
+            rAdaptRes.DeleteVectorSign(cbxSigns.SelectedIndex);
+            cbxSigns.Items.RemoveAt(cbxSigns.SelectedIndex);
+            cbxSigns.SelectedIndex = cbxSigns.Items.Count - 1;
+            if (cbxSigns.SelectedIndex==-1)
+            {
+                btnDeleteSign.Enabled = false;
+                btnToAdd.Enabled = false;
+                btnAddSign.Enabled = true;
+                btnSaveVector.Enabled = false;
+                cbxSigns.Text = "";
+            }
+        }
+
+        private string GenerateVector()
+        {
+            string sCode="";
+            for (int i = 0; i < clbSigns.Items.Count; i++)
+            {
+                if(clbSigns.GetItemChecked(i))
+                {
+                    sCode += '1';
+                }
+                else
+                {
+                    sCode += '0';
+                }
+            }
+            return sCode;
+        }
+        
          
     }
 }
