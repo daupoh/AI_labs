@@ -52,15 +52,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CAdaptiveResonance.cs" />
     <Compile Include="CBinVector.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="CCluster.cs" />
+    <Compile Include="FormAdaptiveResonance.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormAdaptiveResonance.Designer.cs">
+      <DependentUpon>FormAdaptiveResonance.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAdaptiveResonance.resx">
+      <DependentUpon>FormAdaptiveResonance.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

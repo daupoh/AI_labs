@@ -10,7 +10,20 @@ namespace wf_AI_lab2
     class CBinVector
     {
         int m_iLength;
-        Int64 m_iBits;
+        long m_iBits;
+        string sCode;
+        public string Code
+        {
+            get
+            {
+                return sCode;
+            }
+            private set
+            {
+                CheckStringVector(value);
+                sCode = value;
+            }
+        }
         public int Length
         {
             get
@@ -19,7 +32,7 @@ namespace wf_AI_lab2
             }
             private set
             {
-                Assert.IsTrue(value.CompareTo(0).Equals(1));
+                Assert.IsTrue(value>0);
                 m_iLength = value;
             }
         }
@@ -28,46 +41,65 @@ namespace wf_AI_lab2
             get { return m_iBits; }
             private set
             {
-                Assert.IsTrue(value.CompareTo(0).Equals(1));
+                Assert.IsTrue(value>0);
                 m_iBits = value;
+            }
+        }
+        public int Relevance
+        {
+            get
+            {
+                int iCountOfOne = 0;
+                for (int i = 0; i < sCode.Length; i++)
+                {
+                    if (sCode[i] == '1')
+                    {
+                        iCountOfOne++;
+                    }
+                }
+                return iCountOfOne;
             }
         }
         public CBinVector(string sVector)
         {
-            int iLength = sVector.Length;
-            Length = iLength;
-            CheckStringVector(sVector);
+            Length = sVector.Length;
+            Code = sVector;            
             m_iBits = 0;
-            for (int i = 0; i < iLength; i++)
+            for (int i = 0; i < Length; i++)
             {
-                char c = sVector[iLength - i - 1];
+                char c = sVector[Length - i - 1];
                 if (c == '1')
                 {
                     m_iBits += (long)Math.Pow(2, i);
                 }
             }
         }
+        public CBinVector Clone()
+        {
+            return new CBinVector(Code);
+        }
         public void MultVector(CBinVector rVector)
         {
             CheckNumberVectorLength(rVector.Number);
             Number &= rVector.Number;
+            UpdateCode();
         }
-        public override string ToString()
+        private void UpdateCode()
         {
             string sVector = "";
-            long iIntPart = Number, iRest;           
+            long iIntPart = Number, iRest;
             while (iIntPart != 0)
             {
                 iRest = iIntPart % 2;
-                iIntPart /= 2;                
-                sVector = iRest.ToString()+ sVector;
+                iIntPart /= 2;
+                sVector = iRest.ToString() + sVector;
             }
             iRest = iIntPart % 2;
-            if (iRest.Equals(1))
+            if (iRest == 1)
             {
                 sVector = iRest.ToString() + sVector;
             }
-            return sVector;
+            sCode = sVector;
         }
         private void CheckStringVector(string sVector)
         {
@@ -85,7 +117,7 @@ namespace wf_AI_lab2
                 iIntPart /= 2;
                 iLength++;
             }
-            Assert.IsTrue(iLength.Equals(Length));
+            Assert.IsTrue(iLength==Length);
         }
     }
 }
