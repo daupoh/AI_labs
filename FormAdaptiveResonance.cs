@@ -51,8 +51,7 @@ namespace wf_AI_lab2
             }
         }
         private void BtnCancelSettings_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show(m_sConfermStr, m_sConfermTitle, MessageBoxButtons.YesNo);
+        {           
             nudMaxClusters.Value = m_rAdaptRes.MaxClusters;
             nudVectorLength.Value = m_rAdaptRes.VectorLength;
             nudBeta.Value = m_rAdaptRes.Beta;
@@ -60,7 +59,6 @@ namespace wf_AI_lab2
             SetListOfSigns();
             EnabledSettingButtons(false);
             ClearLists();
-
         }
 
         private void BtnSaveSettings_Click(object sender, EventArgs e)
@@ -270,6 +268,7 @@ namespace wf_AI_lab2
                 BtnStartResonance.Enabled = false;
                 GbSigns.Enabled = false;
                 BtnReset.Enabled = true;
+                gbSettings.Enabled = false;
             }
             catch (AssertionException rExp)
             {
@@ -285,6 +284,7 @@ namespace wf_AI_lab2
             CbxClusters.Text = "";
             CbxClusterSigns.Text = "";
             GbSigns.Enabled = true;
+            gbSettings.Enabled = true;
             ClearLists();
         }
         private void CbxClusters_SelectedIndexChanged(object sender, EventArgs e)

@@ -157,14 +157,20 @@ namespace wf_AI_lab2
         private bool CheckSimilarity(CBinVector rVectorSign, CBinVector rVectorPrototype)
         {
             CBinVector rTempVector = rVectorPrototype.Clone();
-            rTempVector.MultVector(rVectorSign);           
-            return (rTempVector.Relevance / (Beta + rVectorPrototype.Relevance)) > (rVectorSign.Relevance / (Beta + VectorLength));
+            rTempVector.MultVector(rVectorSign);
+            bool bResult = ((double)rTempVector.Relevance / (Beta + rVectorPrototype.Relevance)) > ((double)rVectorSign.Relevance / (Beta + VectorLength));
+            Console.WriteLine(rTempVector.Relevance.ToString()+" / "+(Beta + rVectorPrototype.Relevance).ToString()+
+                " > "+rVectorSign.Relevance.ToString()+" / "+(Beta + VectorLength).ToString()+" is "+bResult.ToString());
+            return bResult;
         }
         private bool CheckAttention(CBinVector rVectorSign, CBinVector rVectorPrototype)
         {
             CBinVector rTempVector = rVectorPrototype.Clone();
             rTempVector.MultVector(rVectorSign);
-            return (rTempVector.Relevance / rVectorSign.Relevance) < Attention;
+            bool bResult = ((double)rTempVector.Relevance / rVectorSign.Relevance) < Attention;
+            Console.WriteLine(rTempVector.Relevance.ToString() + " / " + rVectorSign.Relevance.ToString() +
+                " < " + Attention.ToString() + " is " + bResult.ToString());
+            return bResult;
         }
         private CBinVector CheckAddedVector(string sVector)
         {
