@@ -41,7 +41,7 @@ namespace wf_AI_lab2
             get { return m_iBits; }
             private set
             {
-                Assert.IsTrue(value>0);
+                Assert.IsTrue(value>=0);
                 m_iBits = value;
             }
         }

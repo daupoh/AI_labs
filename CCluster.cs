@@ -20,7 +20,7 @@ namespace wf_AI_lab2
             }
             private set
             {
-                Assert.IsTrue(value != null);
+                Assert.IsTrue(value != null,"Прототип-вектор не может быть пустым.");
                 rVectorPrototype = value;
             }
         }

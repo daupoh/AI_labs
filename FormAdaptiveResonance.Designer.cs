@@ -61,6 +61,10 @@
             this.nudBeta = new System.Windows.Forms.NumericUpDown();
             this.nudMaxClusters = new System.Windows.Forms.NumericUpDown();
             this.nicAddVectorSucces = new System.Windows.Forms.NotifyIcon(this.components);
+            this.BtnAddRandSign = new System.Windows.Forms.Button();
+            this.BtnAddRandPrototype = new System.Windows.Forms.Button();
+            this.GbLog = new System.Windows.Forms.GroupBox();
+            this.TbLog = new System.Windows.Forms.TextBox();
             this.GbSigns.SuspendLayout();
             this.gbClusters.SuspendLayout();
             this.gbSettings.SuspendLayout();
@@ -68,10 +72,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudVectorLength)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBeta)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMaxClusters)).BeginInit();
+            this.GbLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // GbSigns
             // 
+            this.GbSigns.Controls.Add(this.BtnAddRandPrototype);
+            this.GbSigns.Controls.Add(this.BtnAddRandSign);
             this.GbSigns.Controls.Add(this.BtnAddPrototype);
             this.GbSigns.Controls.Add(this.CbxPrototypes);
             this.GbSigns.Controls.Add(this.LblVectorPrototypes);
@@ -216,7 +223,7 @@
             this.gbClusters.Enabled = false;
             this.gbClusters.Location = new System.Drawing.Point(322, 253);
             this.gbClusters.Name = "gbClusters";
-            this.gbClusters.Size = new System.Drawing.Size(304, 155);
+            this.gbClusters.Size = new System.Drawing.Size(312, 148);
             this.gbClusters.TabIndex = 2;
             this.gbClusters.TabStop = false;
             this.gbClusters.Text = "Кластеры";
@@ -226,7 +233,7 @@
             this.BtnReset.Enabled = false;
             this.BtnReset.Location = new System.Drawing.Point(6, 91);
             this.BtnReset.Name = "BtnReset";
-            this.BtnReset.Size = new System.Drawing.Size(292, 41);
+            this.BtnReset.Size = new System.Drawing.Size(188, 41);
             this.BtnReset.TabIndex = 12;
             this.BtnReset.Text = "Подготовить новые данные";
             this.BtnReset.UseVisualStyleBackColor = true;
@@ -281,7 +288,7 @@
             this.gbSettings.Controls.Add(this.nudMaxClusters);
             this.gbSettings.Location = new System.Drawing.Point(322, 12);
             this.gbSettings.Name = "gbSettings";
-            this.gbSettings.Size = new System.Drawing.Size(304, 235);
+            this.gbSettings.Size = new System.Drawing.Size(312, 235);
             this.gbSettings.TabIndex = 1;
             this.gbSettings.TabStop = false;
             this.gbSettings.Text = "Настройки алгоритма";
@@ -448,11 +455,52 @@
             this.nicAddVectorSucces.Icon = global::wf_AI_lab2.Properties.Resources.droid;
             this.nicAddVectorSucces.Visible = true;
             // 
+            // BtnAddRandSign
+            // 
+            this.BtnAddRandSign.Location = new System.Drawing.Point(71, 63);
+            this.BtnAddRandSign.Name = "BtnAddRandSign";
+            this.BtnAddRandSign.Size = new System.Drawing.Size(129, 34);
+            this.BtnAddRandSign.TabIndex = 14;
+            this.BtnAddRandSign.Text = "Добавить случайный вектор";
+            this.BtnAddRandSign.UseVisualStyleBackColor = true;
+            this.BtnAddRandSign.Click += new System.EventHandler(this.BtnRandSign_Click);
+            // 
+            // BtnAddRandPrototype
+            // 
+            this.BtnAddRandPrototype.Location = new System.Drawing.Point(71, 145);
+            this.BtnAddRandPrototype.Name = "BtnAddRandPrototype";
+            this.BtnAddRandPrototype.Size = new System.Drawing.Size(129, 34);
+            this.BtnAddRandPrototype.TabIndex = 15;
+            this.BtnAddRandPrototype.Text = "Добавить случайный вектор";
+            this.BtnAddRandPrototype.UseVisualStyleBackColor = true;
+            this.BtnAddRandPrototype.Click += new System.EventHandler(this.BtnAddRandPrototype_Click);
+            // 
+            // GbLog
+            // 
+            this.GbLog.Controls.Add(this.TbLog);
+            this.GbLog.Location = new System.Drawing.Point(640, 12);
+            this.GbLog.Name = "GbLog";
+            this.GbLog.Size = new System.Drawing.Size(471, 513);
+            this.GbLog.TabIndex = 3;
+            this.GbLog.TabStop = false;
+            this.GbLog.Text = "Лог алгоритма";
+            // 
+            // TbLog
+            // 
+            this.TbLog.Location = new System.Drawing.Point(6, 19);
+            this.TbLog.Multiline = true;
+            this.TbLog.Name = "TbLog";
+            this.TbLog.ReadOnly = true;
+            this.TbLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TbLog.Size = new System.Drawing.Size(459, 488);
+            this.TbLog.TabIndex = 15;
+            // 
             // FormAdaptiveResonance
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(663, 543);
+            this.ClientSize = new System.Drawing.Size(1123, 543);
+            this.Controls.Add(this.GbLog);
             this.Controls.Add(this.gbSettings);
             this.Controls.Add(this.gbClusters);
             this.Controls.Add(this.GbSigns);
@@ -466,6 +514,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudVectorLength)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudBeta)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMaxClusters)).EndInit();
+            this.GbLog.ResumeLayout(false);
+            this.GbLog.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -504,6 +554,10 @@
         private System.Windows.Forms.Label LblClusters;
         private System.Windows.Forms.Button BtnStartResonance;
         private System.Windows.Forms.Button BtnReset;
+        private System.Windows.Forms.Button BtnAddRandSign;
+        private System.Windows.Forms.Button BtnAddRandPrototype;
+        private System.Windows.Forms.GroupBox GbLog;
+        private System.Windows.Forms.TextBox TbLog;
     }
 }
 

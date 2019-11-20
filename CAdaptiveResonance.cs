@@ -13,7 +13,7 @@ namespace wf_AI_lab2
         double m_fAttention=0.9;
         readonly IList<CBinVector> m_aVectorSigns;
         readonly IList<CCluster> m_aClusters;
-
+        string m_sLog="";
         public int MaxClusters
         {
             get
@@ -24,6 +24,17 @@ namespace wf_AI_lab2
             {
                 Assert.IsTrue(value>0);
                 m_iMaxOfClusters = value;
+            }
+        }
+        public string Log
+        {
+            get
+            {
+                return m_sLog;
+            }            
+            set
+            {
+                m_sLog = value+ "\r\n";
             }
         }
         public int VectorLength
@@ -72,6 +83,7 @@ namespace wf_AI_lab2
         {
             m_aVectorSigns.Clear();
             m_aClusters.Clear();
+            m_sLog = "";
         }
         public CBinVector GetVectorSign(int iVectorIndex)
         {
@@ -116,21 +128,28 @@ namespace wf_AI_lab2
         }
         public void Resonance()
         {
-            Assert.IsTrue(m_aVectorSigns.Count > 0);
+            Assert.IsTrue(m_aVectorSigns.Count > 0,"Количество векторов признаком не может быть равно 0.");
             if (m_aClusters.Count == 0)
             {
                 m_aClusters.Add(new CCluster(m_aVectorSigns[0]));
             }
+            int iSteps = 0;
             foreach (CBinVector rVectorSign in m_aVectorSigns)
             {
                 bool bSignAddedToCluster = false;
+                Log += "Шаг " + iSteps++.ToString();
+                Log += "Проверка вектора признаков "+rVectorSign.Code;
                 foreach (CCluster rCluster in m_aClusters)
                 {
+                    Log += "Тест на схожесть с вектором прототипом " + rCluster.PrototypeVector.Code;
                     if (CheckSimilarity(rVectorSign, rCluster.PrototypeVector))
                     {
+                        Log += "Тест на внимательность с вектором прототипом " + rCluster.PrototypeVector.Code;
                         if (CheckAttention(rVectorSign, rCluster.PrototypeVector))
                         {
+                            Log += "Кластер " + rCluster.PrototypeVector.Code;
                             rCluster.AddVectorSign(rVectorSign);
+                            Log += "обновлен " + rCluster.PrototypeVector.Code;
                             bSignAddedToCluster = true;
                             break;
                         }
@@ -139,11 +158,13 @@ namespace wf_AI_lab2
                 if (!bSignAddedToCluster)
                 {
                     Assert.IsTrue(m_aClusters.Count < MaxClusters,"Достигнуто максимальное количество кластеров. " +
-                        "Невозможно создать еще один кластер.");
+                        "Невозможно создать еще один кластер.");                    
                     m_aClusters.Add(new CCluster(rVectorSign));
                     m_aClusters[m_aClusters.Count - 1].AddVectorSign(rVectorSign);
+                    Log += "Вектор признаков " + rVectorSign.Code + " создал новый кластер " + m_aClusters[m_aClusters.Count - 1].PrototypeVector.Code;
                 }
             }
+            Log += "______________________";
         }
         public void AddVectorSign(string sVector)
         {            
@@ -159,8 +180,8 @@ namespace wf_AI_lab2
             CBinVector rTempVector = rVectorPrototype.Clone();
             rTempVector.MultVector(rVectorSign);
             bool bResult = ((double)rTempVector.Relevance / (Beta + rVectorPrototype.Relevance)) > ((double)rVectorSign.Relevance / (Beta + VectorLength));
-            Console.WriteLine(rTempVector.Relevance.ToString()+" / "+(Beta + rVectorPrototype.Relevance).ToString()+
-                " > "+rVectorSign.Relevance.ToString()+" / "+(Beta + VectorLength).ToString()+" is "+bResult.ToString());
+            Log+=rTempVector.Relevance.ToString()+" / "+(Beta + rVectorPrototype.Relevance).ToString()+
+                " > "+rVectorSign.Relevance.ToString()+" / "+(Beta + VectorLength).ToString()+" is "+bResult.ToString();
             return bResult;
         }
         private bool CheckAttention(CBinVector rVectorSign, CBinVector rVectorPrototype)
@@ -168,8 +189,8 @@ namespace wf_AI_lab2
             CBinVector rTempVector = rVectorPrototype.Clone();
             rTempVector.MultVector(rVectorSign);
             bool bResult = ((double)rTempVector.Relevance / rVectorSign.Relevance) < Attention;
-            Console.WriteLine(rTempVector.Relevance.ToString() + " / " + rVectorSign.Relevance.ToString() +
-                " < " + Attention.ToString() + " is " + bResult.ToString());
+            Log += rTempVector.Relevance.ToString() + " / " + rVectorSign.Relevance.ToString() +
+                " < " + Attention.ToString() + " is " + bResult.ToString();
             return bResult;
         }
         private CBinVector CheckAddedVector(string sVector)

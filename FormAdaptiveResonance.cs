@@ -207,6 +207,8 @@ namespace wf_AI_lab2
             BtnAddPrototype.Enabled = true;
             BtnDeleteSign.Enabled = false;
             BtnSaveVector.Enabled = false;
+            BtnAddRandSign.Enabled = true;
+            BtnAddRandPrototype.Enabled = true;
         }
 
         private void BtnAddPrototype_Click(object sender, EventArgs e)
@@ -243,6 +245,8 @@ namespace wf_AI_lab2
             }
             BtnAddSign.Enabled = false;
             BtnAddPrototype.Enabled = false;
+            BtnAddRandPrototype.Enabled = false;
+            BtnAddRandSign.Enabled = false;
             BtnToAdd.Enabled = true;
             BtnDeleteSign.Enabled = true;
             BtnSaveVector.Enabled = true;
@@ -264,16 +268,17 @@ namespace wf_AI_lab2
                         string sCode = aClusters[i].PrototypeVector.Code;
                         CbxClusters.Items.Add("Кластер #" + CbxClusters.Items.Count.ToString() + " (" + sCode + ")");
                     }
-                }
-                BtnStartResonance.Enabled = false;
-                GbSigns.Enabled = false;
-                BtnReset.Enabled = true;
-                gbSettings.Enabled = false;
+                }                
             }
             catch (AssertionException rExp)
             {
                 MessageBox.Show("Ошибка при выполнении алгоритма!\r\n"+ rExp.Message);
             }
+            TbLog.Text = m_rAdaptRes.Log;
+            BtnStartResonance.Enabled = false;
+            GbSigns.Enabled = false;
+            BtnReset.Enabled = true;
+            gbSettings.Enabled = false;
         }
 
         private void BtnReset_Click(object sender, EventArgs e)
@@ -286,6 +291,7 @@ namespace wf_AI_lab2
             GbSigns.Enabled = true;
             gbSettings.Enabled = true;
             ClearLists();
+            TbLog.Clear();
         }
         private void CbxClusters_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -301,6 +307,43 @@ namespace wf_AI_lab2
                 }
                 CbxClusterSigns.Enabled = true;
             }
+        }
+
+        private void BtnRandSign_Click(object sender, EventArgs e)
+        {
+            string sCode = GenerateRandomVector();
+            m_rAdaptRes.AddVectorSign(sCode);
+            CbxSigns.Items.Add("Признак #" + CbxSigns.Items.Count.ToString() + " (" + sCode + ")");
+            BalloonTip("Вектор признаков успешно добавлен.");
+            CheckResonanceMayStart();
+        }
+        private string GenerateRandomVector()
+        {
+            string sCode = "";
+            Random rRand = new Random();
+            for (int i = 0; i < ClbSigns.Items.Count; i++)
+            {
+                if (rRand.NextDouble() > 0.5)
+                {
+                    ClbSigns.SetItemChecked(i, true);
+                    sCode += '1';
+                }
+                else
+                {
+                    ClbSigns.SetItemChecked(i, false);
+                    sCode += '0';
+                }
+            }
+            return sCode;
+        }
+
+        private void BtnAddRandPrototype_Click(object sender, EventArgs e)
+        {
+            string sCode = GenerateRandomVector();
+            m_rAdaptRes.AddVectorPrototype(sCode);
+            CbxPrototypes.Items.Add("Прототип #" + CbxPrototypes.Items.Count.ToString() + " (" + sCode + ")");
+            BalloonTip("Вектор прототип успешно добавлен.");
+            CheckResonanceMayStart();
         }
 
         private string GenerateVector()
