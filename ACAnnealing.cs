@@ -14,7 +14,8 @@ namespace wf_AI_lab1
                 m_fFinalTemperature = 0.1,
                 m_fAlpha = 0.99;
         CBoard m_rBoard = null;
-
+        protected bool bAnneal = false;
+        protected int m_iProgress;
         protected int MaxLen
         {
             get
@@ -25,6 +26,20 @@ namespace wf_AI_lab1
             {                
                 value.CompareTo(0).Equals(1);
                 m_iMaxLength = value;
+            }
+        }
+        public bool Anneal
+        {
+            get
+            {
+                return bAnneal;
+            }
+        }
+        public int Progress
+        {
+            get
+            {
+                return m_iProgress;
             }
         }
         protected int StepsPerChange

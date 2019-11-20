@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace wf_AI_lab1
@@ -18,12 +19,12 @@ namespace wf_AI_lab1
                 (double)m_rNumFinTemp.Value, (double)m_rNumAlpha.Value);            
         }
         private void BtnAnnealing_Click(object sender, EventArgs e)
-        {
-            StartAnnealing();
+        {                       
+            StartAnnealing();            
             m_rTbxBoardInText.Text += "_______________________";
             m_rBtnSaveLogs.Enabled = true;
         }
-        private void M_rBtnSaveLogs_Click(object sender, EventArgs e)
+        private void BtnSaveLogs_Click(object sender, EventArgs e)
         {
             SaveLogsIntoFile();
             m_rBtnSaveLogs.Enabled = false;
@@ -52,10 +53,11 @@ namespace wf_AI_lab1
             double fInitTemp = (double)m_rNumInitTemp.Value;
             double fFinTemp = (double)m_rNumFinTemp.Value;
 
-            m_rAnnealing.ReInitialize(iMaxLen, inSteps, fInitTemp, fFinTemp, fAlpha);
+            m_rAnnealing.ReInitialize(iMaxLen, inSteps, fInitTemp, fFinTemp, fAlpha);            
+           
             try
             {
-                bool isBestSolutionFinded = m_rAnnealing.Annealing();
+                bool isBestSolutionFinded = m_rAnnealing.Annealing();                
                 if (isBestSolutionFinded)
                 {
                     MessageBox.Show("Найдено лучшее решение!");
@@ -124,6 +126,8 @@ namespace wf_AI_lab1
             rStreamWriter.WriteLine(m_rAnnealing.AllLogs);
             rStreamWriter.Close();
         }
-      
+        
+
+        
     }
 }

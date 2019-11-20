@@ -63,7 +63,7 @@ namespace wf_AI_lab1
             this.m_rTbxBoardInText.Multiline = true;
             this.m_rTbxBoardInText.Name = "m_rTbxBoardInText";
             this.m_rTbxBoardInText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.m_rTbxBoardInText.Size = new System.Drawing.Size(550, 227);
+            this.m_rTbxBoardInText.Size = new System.Drawing.Size(301, 227);
             this.m_rTbxBoardInText.TabIndex = 0;
             // 
             // m_rBtnAnnealing
@@ -83,13 +83,13 @@ namespace wf_AI_lab1
             this.m_rDgvBoardTable.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.m_rDgvBoardTable.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.m_rDgvBoardTable.ColumnHeadersVisible = false;
-            this.m_rDgvBoardTable.Location = new System.Drawing.Point(331, 12);
+            this.m_rDgvBoardTable.Location = new System.Drawing.Point(331, 21);
             this.m_rDgvBoardTable.MultiSelect = false;
             this.m_rDgvBoardTable.Name = "m_rDgvBoardTable";
             this.m_rDgvBoardTable.ReadOnly = true;
             this.m_rDgvBoardTable.RowHeadersVisible = false;
             this.m_rDgvBoardTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.m_rDgvBoardTable.Size = new System.Drawing.Size(370, 265);
+            this.m_rDgvBoardTable.Size = new System.Drawing.Size(607, 555);
             this.m_rDgvBoardTable.TabIndex = 2;
             // 
             // gbxAnnealingParams
@@ -168,23 +168,23 @@ namespace wf_AI_lab1
             // 
             // m_rNumFinTemp
             // 
-            this.m_rNumFinTemp.DecimalPlaces = 3;
+            this.m_rNumFinTemp.DecimalPlaces = 4;
             this.m_rNumFinTemp.Increment = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
-            196608});
+            262144});
             this.m_rNumFinTemp.Location = new System.Drawing.Point(170, 174);
             this.m_rNumFinTemp.Maximum = new decimal(new int[] {
-            60,
+            300,
             0,
             0,
             0});
             this.m_rNumFinTemp.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
-            196608});
+            262144});
             this.m_rNumFinTemp.Name = "m_rNumFinTemp";
             this.m_rNumFinTemp.Size = new System.Drawing.Size(137, 20);
             this.m_rNumFinTemp.TabIndex = 4;
@@ -197,23 +197,23 @@ namespace wf_AI_lab1
             // 
             // m_rNumInitTemp
             // 
-            this.m_rNumInitTemp.DecimalPlaces = 3;
+            this.m_rNumInitTemp.DecimalPlaces = 4;
             this.m_rNumInitTemp.Increment = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
-            196608});
+            262144});
             this.m_rNumInitTemp.Location = new System.Drawing.Point(170, 130);
             this.m_rNumInitTemp.Maximum = new decimal(new int[] {
-            60,
+            300,
             0,
             0,
             0});
             this.m_rNumInitTemp.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
-            196608});
+            262144});
             this.m_rNumInitTemp.Name = "m_rNumInitTemp";
             this.m_rNumInitTemp.Size = new System.Drawing.Size(137, 20);
             this.m_rNumInitTemp.TabIndex = 3;
@@ -226,12 +226,12 @@ namespace wf_AI_lab1
             // 
             // m_rNumAlpha
             // 
-            this.m_rNumAlpha.DecimalPlaces = 3;
+            this.m_rNumAlpha.DecimalPlaces = 4;
             this.m_rNumAlpha.Increment = new decimal(new int[] {
             1,
             0,
             0,
-            196608});
+            262144});
             this.m_rNumAlpha.Location = new System.Drawing.Point(170, 91);
             this.m_rNumAlpha.Maximum = new decimal(new int[] {
             1,
@@ -242,7 +242,7 @@ namespace wf_AI_lab1
             1,
             0,
             0,
-            196608});
+            262144});
             this.m_rNumAlpha.Name = "m_rNumAlpha";
             this.m_rNumAlpha.Size = new System.Drawing.Size(137, 20);
             this.m_rNumAlpha.TabIndex = 2;
@@ -256,7 +256,7 @@ namespace wf_AI_lab1
             // 
             this.m_rNumCountOfSteps.Location = new System.Drawing.Point(170, 55);
             this.m_rNumCountOfSteps.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -297,7 +297,7 @@ namespace wf_AI_lab1
             this.m_rGbxLog.Controls.Add(this.m_rTbxBoardInText);
             this.m_rGbxLog.Location = new System.Drawing.Point(12, 283);
             this.m_rGbxLog.Name = "m_rGbxLog";
-            this.m_rGbxLog.Size = new System.Drawing.Size(689, 252);
+            this.m_rGbxLog.Size = new System.Drawing.Size(313, 307);
             this.m_rGbxLog.TabIndex = 4;
             this.m_rGbxLog.TabStop = false;
             this.m_rGbxLog.Text = "Лог алгоритма";
@@ -305,18 +305,18 @@ namespace wf_AI_lab1
             // m_rBtnSaveLogs
             // 
             this.m_rBtnSaveLogs.Enabled = false;
-            this.m_rBtnSaveLogs.Location = new System.Drawing.Point(562, 205);
+            this.m_rBtnSaveLogs.Location = new System.Drawing.Point(6, 252);
             this.m_rBtnSaveLogs.Name = "m_rBtnSaveLogs";
             this.m_rBtnSaveLogs.Size = new System.Drawing.Size(121, 41);
             this.m_rBtnSaveLogs.TabIndex = 11;
             this.m_rBtnSaveLogs.Text = "Сохранить в файл";
             this.m_rBtnSaveLogs.UseVisualStyleBackColor = true;
-            this.m_rBtnSaveLogs.Click += new System.EventHandler(this.M_rBtnSaveLogs_Click);
+            this.m_rBtnSaveLogs.Click += new System.EventHandler(this.BtnSaveLogs_Click);
             // 
             // CFormAnnealing
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(709, 540);
+            this.ClientSize = new System.Drawing.Size(950, 602);
             this.Controls.Add(this.m_rGbxLog);
             this.Controls.Add(this.gbxAnnealingParams);
             this.Controls.Add(this.m_rDgvBoardTable);
