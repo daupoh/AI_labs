@@ -10,7 +10,7 @@ namespace wf_AI_lab1
     {
         readonly CAnnealing m_rAnnealing;
         readonly double[] m_aDefaultVals = { 8, 100, 0.98, 0.5, 30.0 };
-        
+        double m_fCurrentTemperature;
         public CFormAnnealing()
         {           
             InitializeComponent();
@@ -20,9 +20,7 @@ namespace wf_AI_lab1
         }
         private void BtnAnnealing_Click(object sender, EventArgs e)
         {                       
-            StartAnnealing();            
-            m_rTbxBoardInText.Text += "_______________________";
-            m_rBtnSaveLogs.Enabled = true;
+            PrepareAnnealing();                      
         }
         private void BtnSaveLogs_Click(object sender, EventArgs e)
         {
@@ -43,7 +41,20 @@ namespace wf_AI_lab1
         {
             CheckTemperatures();
         }
-        private void StartAnnealing()
+        private void ResultOfAnnealing()
+        {
+            int iMaxLen = (int)m_rNumSizeBoard.Value;
+            FilTable(iMaxLen);
+            m_rTbxBoardInText.Text = m_rAnnealing.LogLines;
+            gbxAnnealingParams.Enabled = true;
+            m_rGbxLog.Enabled = true;
+            m_rTbxBoardInText.Text += "_______________________";
+            m_rTbxBoardInText.SelectionStart = m_rTbxBoardInText.TextLength;
+            //scroll to the caret
+            m_rTbxBoardInText.ScrollToCaret();
+            m_rBtnSaveLogs.Enabled = true;            
+        }
+        private void PrepareAnnealing()
         {
             gbxAnnealingParams.Enabled = false;
             m_rGbxLog.Enabled = false;
@@ -52,29 +63,13 @@ namespace wf_AI_lab1
             double fAlpha = (double)m_rNumAlpha.Value;
             double fInitTemp = (double)m_rNumInitTemp.Value;
             double fFinTemp = (double)m_rNumFinTemp.Value;
-
-            m_rAnnealing.ReInitialize(iMaxLen, inSteps, fInitTemp, fFinTemp, fAlpha);            
-           
-            try
-            {
-                bool isBestSolutionFinded = m_rAnnealing.Annealing();                
-                if (isBestSolutionFinded)
-                {
-                    MessageBox.Show("Найдено лучшее решение!");
-                }
-                else
-                {
-                    MessageBox.Show("Не удалось найти решение задачи.");
-                }
-                FilTable(iMaxLen);
-                m_rTbxBoardInText.Text = m_rAnnealing.LogLines;
-                gbxAnnealingParams.Enabled = true;
-                m_rGbxLog.Enabled = true;
-            }
-            catch (Exception exp)
-            {
-                MessageBox.Show(exp.Message);
-            }
+            PrbAnnealing.Maximum = ACAnnealing.MAX_PROGRESS;
+            PrbAnnealing.Value = 0;
+            LblProgress.Text = "0% выполнено.";
+            m_rAnnealing.ReInitialize(iMaxLen, inSteps, fInitTemp, fFinTemp, fAlpha);
+            m_rAnnealing.PrepareAnnealing();
+            m_fCurrentTemperature = fInitTemp;
+            tmrAnnealing.Start();
         }        
         private void FilTable(int iMaxLen)
         {
@@ -126,8 +121,34 @@ namespace wf_AI_lab1
             rStreamWriter.WriteLine(m_rAnnealing.AllLogs);
             rStreamWriter.Close();
         }
-        
 
-        
+        private void TmrAnnealing_Tick(object sender, EventArgs e)
+        {
+            ACAnnealing.StepResult eResult = m_rAnnealing.Result;
+            switch(eResult)
+            {
+                case ACAnnealing.StepResult.MayContinue:
+                    m_rAnnealing.AnnealingStep(ref m_fCurrentTemperature);
+                    PrbAnnealing.Value = m_rAnnealing.Progress;
+                    break;
+                case ACAnnealing.StepResult.FindSolution:
+                    tmrAnnealing.Stop();
+                    PrbAnnealing.Value = m_rAnnealing.Progress;
+                    ResultOfAnnealing();
+                    MessageBox.Show("Найдено лучшее решение!");
+                    break;
+                case ACAnnealing.StepResult.Break:
+                    tmrAnnealing.Stop();
+                    ResultOfAnnealing();
+                    MessageBox.Show("Выполнение алгоритма прервано.");                    
+                    break;
+                case ACAnnealing.StepResult.End:
+                    tmrAnnealing.Stop();
+                    ResultOfAnnealing();
+                    MessageBox.Show("Не удалось найти решение задачи.");                    
+                    break;                
+            }
+            LblProgress.Text = PrbAnnealing.Value.ToString() + "% выполнено";
+        }
     }
 }

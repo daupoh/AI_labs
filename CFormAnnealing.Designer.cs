@@ -30,6 +30,7 @@ namespace wf_AI_lab1
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.m_rTbxBoardInText = new System.Windows.Forms.TextBox();
             this.m_rBtnAnnealing = new System.Windows.Forms.Button();
             this.m_rDgvBoardTable = new System.Windows.Forms.DataGridView();
@@ -46,7 +47,10 @@ namespace wf_AI_lab1
             this.m_rNumCountOfSteps = new System.Windows.Forms.NumericUpDown();
             this.m_rNumSizeBoard = new System.Windows.Forms.NumericUpDown();
             this.m_rGbxLog = new System.Windows.Forms.GroupBox();
+            this.PrbAnnealing = new System.Windows.Forms.ProgressBar();
             this.m_rBtnSaveLogs = new System.Windows.Forms.Button();
+            this.tmrAnnealing = new System.Windows.Forms.Timer(this.components);
+            this.LblProgress = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.m_rDgvBoardTable)).BeginInit();
             this.gbxAnnealingParams.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_rNumFinTemp)).BeginInit();
@@ -63,7 +67,7 @@ namespace wf_AI_lab1
             this.m_rTbxBoardInText.Multiline = true;
             this.m_rTbxBoardInText.Name = "m_rTbxBoardInText";
             this.m_rTbxBoardInText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.m_rTbxBoardInText.Size = new System.Drawing.Size(301, 227);
+            this.m_rTbxBoardInText.Size = new System.Drawing.Size(301, 308);
             this.m_rTbxBoardInText.TabIndex = 0;
             // 
             // m_rBtnAnnealing
@@ -88,8 +92,9 @@ namespace wf_AI_lab1
             this.m_rDgvBoardTable.Name = "m_rDgvBoardTable";
             this.m_rDgvBoardTable.ReadOnly = true;
             this.m_rDgvBoardTable.RowHeadersVisible = false;
+            this.m_rDgvBoardTable.RowHeadersWidth = 14;
             this.m_rDgvBoardTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.m_rDgvBoardTable.Size = new System.Drawing.Size(607, 555);
+            this.m_rDgvBoardTable.Size = new System.Drawing.Size(703, 644);
             this.m_rDgvBoardTable.TabIndex = 2;
             // 
             // gbxAnnealingParams
@@ -176,7 +181,7 @@ namespace wf_AI_lab1
             262144});
             this.m_rNumFinTemp.Location = new System.Drawing.Point(170, 174);
             this.m_rNumFinTemp.Maximum = new decimal(new int[] {
-            300,
+            1000,
             0,
             0,
             0});
@@ -205,7 +210,7 @@ namespace wf_AI_lab1
             262144});
             this.m_rNumInitTemp.Location = new System.Drawing.Point(170, 130);
             this.m_rNumInitTemp.Maximum = new decimal(new int[] {
-            300,
+            1000,
             0,
             0,
             0});
@@ -256,7 +261,7 @@ namespace wf_AI_lab1
             // 
             this.m_rNumCountOfSteps.Location = new System.Drawing.Point(170, 55);
             this.m_rNumCountOfSteps.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});
@@ -277,6 +282,11 @@ namespace wf_AI_lab1
             // m_rNumSizeBoard
             // 
             this.m_rNumSizeBoard.Location = new System.Drawing.Point(170, 21);
+            this.m_rNumSizeBoard.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.m_rNumSizeBoard.Minimum = new decimal(new int[] {
             4,
             0,
@@ -293,19 +303,29 @@ namespace wf_AI_lab1
             // 
             // m_rGbxLog
             // 
+            this.m_rGbxLog.Controls.Add(this.LblProgress);
+            this.m_rGbxLog.Controls.Add(this.PrbAnnealing);
             this.m_rGbxLog.Controls.Add(this.m_rBtnSaveLogs);
             this.m_rGbxLog.Controls.Add(this.m_rTbxBoardInText);
             this.m_rGbxLog.Location = new System.Drawing.Point(12, 283);
             this.m_rGbxLog.Name = "m_rGbxLog";
-            this.m_rGbxLog.Size = new System.Drawing.Size(313, 307);
+            this.m_rGbxLog.Size = new System.Drawing.Size(313, 382);
             this.m_rGbxLog.TabIndex = 4;
             this.m_rGbxLog.TabStop = false;
             this.m_rGbxLog.Text = "Лог алгоритма";
             // 
+            // PrbAnnealing
+            // 
+            this.PrbAnnealing.Location = new System.Drawing.Point(133, 333);
+            this.PrbAnnealing.Maximum = 1000000;
+            this.PrbAnnealing.Name = "PrbAnnealing";
+            this.PrbAnnealing.Size = new System.Drawing.Size(174, 23);
+            this.PrbAnnealing.TabIndex = 12;
+            // 
             // m_rBtnSaveLogs
             // 
             this.m_rBtnSaveLogs.Enabled = false;
-            this.m_rBtnSaveLogs.Location = new System.Drawing.Point(6, 252);
+            this.m_rBtnSaveLogs.Location = new System.Drawing.Point(6, 333);
             this.m_rBtnSaveLogs.Name = "m_rBtnSaveLogs";
             this.m_rBtnSaveLogs.Size = new System.Drawing.Size(121, 41);
             this.m_rBtnSaveLogs.TabIndex = 11;
@@ -313,10 +333,24 @@ namespace wf_AI_lab1
             this.m_rBtnSaveLogs.UseVisualStyleBackColor = true;
             this.m_rBtnSaveLogs.Click += new System.EventHandler(this.BtnSaveLogs_Click);
             // 
+            // tmrAnnealing
+            // 
+            this.tmrAnnealing.Interval = 1;
+            this.tmrAnnealing.Tick += new System.EventHandler(this.TmrAnnealing_Tick);
+            // 
+            // LblProgress
+            // 
+            this.LblProgress.AutoSize = true;
+            this.LblProgress.Location = new System.Drawing.Point(130, 359);
+            this.LblProgress.Name = "LblProgress";
+            this.LblProgress.Size = new System.Drawing.Size(74, 13);
+            this.LblProgress.TabIndex = 13;
+            this.LblProgress.Text = "% выполнено";
+            // 
             // CFormAnnealing
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(950, 602);
+            this.ClientSize = new System.Drawing.Size(1045, 677);
             this.Controls.Add(this.m_rGbxLog);
             this.Controls.Add(this.gbxAnnealingParams);
             this.Controls.Add(this.m_rDgvBoardTable);
@@ -357,6 +391,9 @@ namespace wf_AI_lab1
         private System.Windows.Forms.Button m_rBtnDefault;
         private System.Windows.Forms.GroupBox m_rGbxLog;
         private System.Windows.Forms.Button m_rBtnSaveLogs;
+        private System.Windows.Forms.ProgressBar PrbAnnealing;
+        private System.Windows.Forms.Timer tmrAnnealing;
+        private System.Windows.Forms.Label LblProgress;
     }
 }
 

@@ -5,7 +5,9 @@ namespace wf_AI_lab1
     class CAnnealing:ACAnnealing
     {      
         Random m_rRand = null;
-        
+        CSolution rSolWorking,rSolBest,rSolCurrent;
+        bool bIsUseNew = false;
+        int iTimer = 0;
         public CAnnealing(int maxLen, int steps, double initTemp, double finTemp, double alpha)
         {
             ReInitialize(maxLen, steps, initTemp, finTemp, alpha);
@@ -19,7 +21,8 @@ namespace wf_AI_lab1
             InitializeTemperatures(initTemp, finTemp);
             Alpha = alpha;
             InitializeBoard();
-            bAnneal = true;
+            Result = StepResult.NoResult;
+          
         }
         private void InitializeTemperatures(double initTemp, double finTemp)
         {
@@ -48,28 +51,24 @@ namespace wf_AI_lab1
             while (randFirst == randSecond);
             Board.SwapQueens(randFirst, randSecond);
         }
-        public bool Annealing()
+        public void StopAnnealing()
         {
-            CSolution rSolWorking, rSolCurrent, rSolBest;
-            int iTimer = 0;
-            
-            m_iProgress = 0;
-            bool bIsUseNew = false, bIsBestSolution = false;
-            double fTemperature = InitTemperature;
-            rSolWorking = new CSolution(MaxLen, MaxLen * MaxLen);
-            rSolBest = new CSolution(MaxLen, MaxLen * MaxLen);
-            rSolCurrent = new CSolution(GetCurrentSolution(), GetEvaluateSolution());
-            rSolWorking.CopySolution(rSolCurrent);
-
-            while (bAnneal && fTemperature > FinTemperature)
+            Result = StepResult.Break;
+        }
+        public void AnnealingStep(ref double fTemperature)
+        {
+            if (fTemperature <= FinTemperature || Result == StepResult.Break)
+            {
+                LogLines += "Лучшее решение не найдено.";
+                m_iProgress = MAX_PROGRESS;
+                Result = StepResult.End;
+            }
+            else
             {
                 LogLines += "Температура = " + fTemperature.ToString();
+                m_iProgress = (int)((1 - fTemperature / InitTemperature) * MAX_PROGRESS);
                 for (int i = 0; i < StepsPerChange; i++)
                 {
-                    if (!bAnneal)
-                    {
-                        break;
-                    }
                     TweakSolution();
                     rSolWorking = new CSolution(GetCurrentSolution(), GetEvaluateSolution());
                     if (rSolWorking.Energy <= rSolCurrent.Energy)
@@ -78,26 +77,29 @@ namespace wf_AI_lab1
                     }
                     else
                     {
-                        
+
                         double random = m_rRand.NextDouble();
                         int delta = rSolWorking.Energy - rSolCurrent.Energy;
-                        double calc = Math.Exp(-delta / fTemperature);
-                        //LogLines += "Вероятность принятия решения: " + Math.Round(calc, 4).ToString() + " против " + Math.Round(random, 4).ToString();
+                        double calc = Math.Exp(-delta / fTemperature);                       
                         if (calc > random)
                         {
                             bIsUseNew = true;
                         }
-                    }
+                    }                    
                     if (bIsUseNew)
                     {
                         bIsUseNew = false;
-                        rSolCurrent.CopySolution(rSolWorking);                        
+                        rSolCurrent.CopySolution(rSolWorking);
                         if (rSolCurrent.Energy < rSolBest.Energy)
                         {
-                            rSolBest.CopySolution(rSolCurrent);
+                            rSolBest.CopySolution(rSolCurrent);                            
                             if (rSolBest.Energy == 0)
                             {
-                                bIsBestSolution = true;
+                                LogLines += "Найдено лучшее решение.";
+                                Result = StepResult.FindSolution;
+                                m_iProgress = MAX_PROGRESS;
+                                Board.SetSolution(rSolBest.Solution);
+                                SaveLogs();
                                 break;
                             }
                         }
@@ -107,20 +109,28 @@ namespace wf_AI_lab1
                         rSolWorking.CopySolution(rSolCurrent);
                     }
                 }
-                m_iProgress = (int)((InitTemperature - fTemperature) / (InitTemperature - FinTemperature)*100);
-                iTimer++;
+                if (m_iProgress > MAX_PROGRESS)
+                {
+                    m_iProgress = MAX_PROGRESS;
+                }
+                iTimer++;                
                 LogLines += "Лучшее решение имеет Энергию " + rSolBest.Energy.ToString();
                 LogLines += "Счетчик " + iTimer.ToString();
+                Board.SetSolution(rSolBest.Solution);
                 fTemperature *= Alpha;
-                if (bIsBestSolution)
-                    break;
-                Console.WriteLine(Math.Round(fTemperature, 4));
-            }
-            m_iProgress = 100;
-            Board.SetSolution(rSolBest.Solution);
-            SaveLogs();
-            return bIsBestSolution;
+            }        
         }
+        public void PrepareAnnealing()
+        {
+            iTimer = 0;
+            bIsUseNew = false; 
+            rSolWorking = new CSolution(MaxLen, MaxLen * MaxLen);
+            rSolBest = new CSolution(MaxLen, MaxLen * MaxLen);
+            rSolCurrent = new CSolution(GetCurrentSolution(), GetEvaluateSolution());
+            rSolWorking.CopySolution(rSolCurrent);
+            Result = StepResult.MayContinue;
+        }
+        
         public string GetBoardInText()
         {
             return Board.ToString();

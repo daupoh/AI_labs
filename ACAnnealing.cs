@@ -9,12 +9,17 @@ namespace wf_AI_lab1
     abstract class ACAnnealing
     {
         int m_iMaxLength = 8, m_iStepPerChange = 100;
+        public const int MAX_PROGRESS = 100;
+        public enum StepResult
+        {
+            NoResult,MayContinue,Break, FindSolution, End
+        }
+        StepResult m_eStepResult;
         string sLog = "", sLongLog="";
         double m_fInitialTemperature = 30.0,
                 m_fFinalTemperature = 0.1,
                 m_fAlpha = 0.99;
-        CBoard m_rBoard = null;
-        protected bool bAnneal = false;
+        CBoard m_rBoard = null;        
         protected int m_iProgress;
         protected int MaxLen
         {
@@ -28,13 +33,18 @@ namespace wf_AI_lab1
                 m_iMaxLength = value;
             }
         }
-        public bool Anneal
+        public StepResult Result
         {
             get
             {
-                return bAnneal;
+                return m_eStepResult;
+            }
+            protected set
+            {
+                m_eStepResult = value;
             }
         }
+      
         public int Progress
         {
             get
