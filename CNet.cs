@@ -10,7 +10,7 @@ namespace wf_AI_lab1
     class CNet
     {
         int m_iCountOfVertex;
-        double m_fRibAttraction, m_fAlpha, m_fBeta;
+        double m_fRibAttraction, m_fPheromonePower, m_fDistancePower, m_fEvaporation;
         public struct Rib
         {
             double fDistance;
@@ -38,7 +38,7 @@ namespace wf_AI_lab1
                     Assert.IsTrue(value >= 0, "Значение расстояния между вершинами не может быть меньше 0.");
                     fPheromone = value;
                 }
-            }
+            }          
             public Rib(double fDistance, double fFerment)
             {
                 this.fDistance = fDistance;
@@ -47,6 +47,18 @@ namespace wf_AI_lab1
         }
 
         Rib[][] m_aGraph;
+        public double Evaporation
+        {
+            get
+            {
+                return m_fEvaporation;
+            }
+            set
+            {
+                Assert.IsTrue(value > 0 && value < 1);
+                m_fEvaporation = value;
+            }
+        }
         public int CountOfVertex
         {
             get
@@ -63,24 +75,24 @@ namespace wf_AI_lab1
         {
             get
             {
-                return m_fAlpha;
+                return m_fPheromonePower;
             }
             set
             {
                 Assert.IsTrue(value > 0);
-                m_fAlpha = value;
+                m_fPheromonePower = value;
             }
         }
         public double DistancePower
         {
             get
             {
-                return m_fBeta;
+                return m_fDistancePower;
             }
             set
             {
                 Assert.IsTrue(value > 0);
-                m_fBeta= value;
+                m_fDistancePower= value;
             }
         }
         public double Attraction
@@ -100,8 +112,8 @@ namespace wf_AI_lab1
         {
             CountOfVertex = iCountOfVertex;
             m_fRibAttraction = 1;
-            m_fAlpha = 1;
-            m_fBeta = 1;
+            m_fPheromonePower = 1;
+            m_fDistancePower = 1;
             m_aGraph = new Rib[CountOfVertex][];
             for (int i = 0; i < CountOfVertex; i++)
             {
@@ -134,8 +146,19 @@ namespace wf_AI_lab1
         }
         
         public void UpdatePheromones (int[] aPath)
-        {
+        {            
             double fSumOfPheromones = Attraction / GetPathLength(aPath);
+            for (int i = 0; i < aPath.Length-1; i++)
+            {
+                m_aGraph[i][i + 1].Pheromone += fSumOfPheromones + m_aGraph[i][i + 1].Pheromone*(1-Evaporation);
+            }
+            for (int i = 0; i < CountOfVertex; i++)
+            {
+                for (int j = 0; j < CountOfVertex; j++)
+                {
+                    m_aGraph[i][j].Pheromone *= Evaporation;
+                }
+            }
         }
        
         public void SetRibs(double[][] aDistanceMatrix)
