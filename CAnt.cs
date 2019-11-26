@@ -9,10 +9,10 @@ namespace wf_AI_lab1
 {
     class CAnt
     {
-        CNet m_rNet;
+        readonly CNet m_rNet;
         protected int[] m_aTabu;
         protected int m_iStartVertex,m_iPosition;
-        protected Random m_rRandomiser;
+        protected Random m_rRandomiser;        
        public int StartPos
         {
             get
@@ -25,6 +25,7 @@ namespace wf_AI_lab1
                 m_iStartVertex = value;                
             }
         }
+       
         public int[] Path
         {
             get
@@ -56,7 +57,7 @@ namespace wf_AI_lab1
                 m_aTabu[i] = -1;
             }            
             m_aTabu[0] = StartPos;
-            m_iPosition++;
+            m_iPosition++;            
         }
 
         public void Run(double fAlpha, double fBeta)

@@ -65,7 +65,7 @@ namespace wf_AI_lab1
             {
                 return m_iCountOfVertex;
             }
-            private set
+            set
             {
                 Assert.IsTrue(value > 1);
                 m_iCountOfVertex = value;
@@ -91,7 +91,7 @@ namespace wf_AI_lab1
             }
             set
             {
-                Assert.IsTrue(value > 0);
+                Assert.IsTrue(value >= 1);
                 m_fDistancePower= value;
             }
         }
@@ -108,45 +108,42 @@ namespace wf_AI_lab1
             }
         }
 
-        public CNet(int iCountOfVertex)
+        public CNet()
         {
-            CountOfVertex = iCountOfVertex;
+            m_iCountOfVertex = 2;
             m_fRibAttraction = 1;
             m_fPheromonePower = 1;
             m_fDistancePower = 1;
-            m_aGraph = new Rib[CountOfVertex][];
-            for (int i = 0; i < CountOfVertex; i++)
-            {
-                m_aGraph[i] = new Rib[CountOfVertex];
-                for (int j = 0; j < CountOfVertex; j++)
-                {
-                    m_aGraph[i][j] = new Rib(1, 0);
-                }
-            }
+            m_fEvaporation = 0.5;
         }
         public double[] GetAttractiveDestinations(int iFromPosition)
         {
+            Assert.IsTrue(m_aGraph != null);
             Assert.IsTrue(iFromPosition >= 0 && iFromPosition < CountOfVertex);
             double[] aAttractiveDestinations = new double[CountOfVertex];
             for (int i = 0; i < CountOfVertex; i++)
             {
                 aAttractiveDestinations[i] = Attraction / m_aGraph[iFromPosition][i].Distance;
             }
+
             return aAttractiveDestinations;
         }
-        public double[] GetPheromoneDestinations (int iFromPosition)
+        public double[] GetPheromoneDestinations(int iFromPosition)
         {
+            Assert.IsTrue(m_aGraph != null);
             Assert.IsTrue(iFromPosition >= 0 && iFromPosition < CountOfVertex);
             double[] aPheromoneDestinations = new double[CountOfVertex];
             for (int i = 0; i < CountOfVertex; i++)
             {
                 aPheromoneDestinations[i] = m_aGraph[iFromPosition][i].Pheromone;
             }
+
             return aPheromoneDestinations;
         }
         
         public void UpdatePheromones (int[] aPath)
-        {            
+        {
+            Assert.IsTrue(m_aGraph != null);
             double fSumOfPheromones = Attraction / GetPathLength(aPath);
             for (int i = 0; i < aPath.Length-1; i++)
             {
@@ -161,13 +158,14 @@ namespace wf_AI_lab1
             }
         }
        
-        public void SetRibs(double[][] aDistanceMatrix)
+        public void SetRibs(double[][] aDistanceMatrix, int iCountOfVertex)
         {
+            GeneretaGraph(iCountOfVertex);
             Assert.IsTrue(aDistanceMatrix.Length == CountOfVertex);
             foreach (double[] aRow in aDistanceMatrix)
             {
                 Assert.IsTrue(aRow.Length == CountOfVertex);
-            }
+            }            
             for (int i = 0; i < CountOfVertex; i++)
             {
                 for (int j = 0; j < CountOfVertex; j++)
@@ -179,6 +177,7 @@ namespace wf_AI_lab1
         }
         public double GetPathLength(int[] aPath)
         {
+            Assert.IsTrue(m_aGraph != null);
             CheckPath(aPath);
             double fLength = 0;
             int iStart = aPath[0];
@@ -195,6 +194,19 @@ namespace wf_AI_lab1
             for (int i = 0; i < aPath.Length; i++)
             {
                 Assert.IsTrue(aPath[i] >= 0 && aPath[i] < CountOfVertex);
+            }
+        }
+        private void GeneretaGraph(int iCountOfVertex)
+        {
+            CountOfVertex = iCountOfVertex;
+            m_aGraph = new Rib[CountOfVertex][];
+            for (int i = 0; i < CountOfVertex; i++)
+            {
+                m_aGraph[i] = new Rib[CountOfVertex];
+                for (int j = 0; j < CountOfVertex; j++)
+                {
+                    m_aGraph[i][j] = new Rib(1, 0);
+                }
             }
         }
     }
