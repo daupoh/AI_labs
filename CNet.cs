@@ -23,7 +23,7 @@ namespace wf_AI_lab1
                 }
                 set
                 {
-                    Assert.IsTrue(value > 0, "Значение расстояния между вершинами не может быть меньше или равно 0.");
+                    Assert.IsTrue(value >= 0, "Значение расстояния между вершинами не может быть меньше 0.");
                     fDistance = value;
                 }
             }
@@ -158,9 +158,9 @@ namespace wf_AI_lab1
             }
         }
        
-        public void SetRibs(double[][] aDistanceMatrix, int iCountOfVertex)
+        public void SetRibs(double[][] aDistanceMatrix)
         {
-            GeneretaGraph(iCountOfVertex);
+            GeneretaGraph();
             Assert.IsTrue(aDistanceMatrix.Length == CountOfVertex);
             foreach (double[] aRow in aDistanceMatrix)
             {
@@ -171,7 +171,7 @@ namespace wf_AI_lab1
                 for (int j = 0; j < CountOfVertex; j++)
                 {
                     m_aGraph[i][j].Distance = aDistanceMatrix[i][j];
-                    m_aGraph[i][j].Pheromone = 0;
+                    m_aGraph[i][j].Pheromone = 0.1;
                 }
             }
         }
@@ -196,9 +196,8 @@ namespace wf_AI_lab1
                 Assert.IsTrue(aPath[i] >= 0 && aPath[i] < CountOfVertex);
             }
         }
-        private void GeneretaGraph(int iCountOfVertex)
-        {
-            CountOfVertex = iCountOfVertex;
+        private void GeneretaGraph()
+        {            
             m_aGraph = new Rib[CountOfVertex][];
             for (int i = 0; i < CountOfVertex; i++)
             {

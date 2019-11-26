@@ -21,7 +21,7 @@ namespace wf_AI_lab1
             }
             set
             {
-                Assert.IsTrue(value > 0 && value < m_rNet.CountOfVertex);
+                Assert.IsTrue(value >= 0 && value < m_rNet.CountOfVertex);
                 m_iStartVertex = value;                
             }
         }
@@ -68,7 +68,7 @@ namespace wf_AI_lab1
                 double[] aProbability = new double[m_rNet.CountOfVertex],
                        aPheromones = m_rNet.GetPheromoneDestinations(iCurrentPos),
                        aAttractives = m_rNet.GetAttractiveDestinations(iCurrentPos);
-                double fSumAttractivePheromones = 0, fMaxProbability = 0;                
+                double fSumAttractivePheromones = 0, fMaxProbability = -1;                
                 for (int i = 0; i < m_rNet.CountOfVertex; i++)
                 {
                     if (NotTabu(i))

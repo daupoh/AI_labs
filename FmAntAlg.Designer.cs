@@ -103,7 +103,7 @@
             this.NudAttractive.Size = new System.Drawing.Size(120, 20);
             this.NudAttractive.TabIndex = 12;
             this.NudAttractive.Value = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
             0});
@@ -178,7 +178,7 @@
             this.NudEvaporation.Size = new System.Drawing.Size(120, 20);
             this.NudEvaporation.TabIndex = 4;
             this.NudEvaporation.Value = new decimal(new int[] {
-            5,
+            4,
             0,
             0,
             65536});
@@ -212,7 +212,7 @@
             this.NudPheromonePower.Size = new System.Drawing.Size(120, 20);
             this.NudPheromonePower.TabIndex = 2;
             this.NudPheromonePower.Value = new decimal(new int[] {
-            1,
+            3,
             0,
             0,
             0});
@@ -234,7 +234,7 @@
             this.NudAntCount.Size = new System.Drawing.Size(120, 20);
             this.NudAntCount.TabIndex = 1;
             this.NudAntCount.Value = new decimal(new int[] {
-            1,
+            5,
             0,
             0,
             0});
@@ -248,7 +248,7 @@
             0,
             0});
             this.NudVertexCount.Minimum = new decimal(new int[] {
-            2,
+            4,
             0,
             0,
             0});
@@ -256,7 +256,7 @@
             this.NudVertexCount.Size = new System.Drawing.Size(120, 20);
             this.NudVertexCount.TabIndex = 0;
             this.NudVertexCount.Value = new decimal(new int[] {
-            2,
+            4,
             0,
             0,
             0});
@@ -276,12 +276,14 @@
             // 
             // BtnStart
             // 
+            this.BtnStart.Enabled = false;
             this.BtnStart.Location = new System.Drawing.Point(325, 424);
             this.BtnStart.Name = "BtnStart";
             this.BtnStart.Size = new System.Drawing.Size(143, 52);
             this.BtnStart.TabIndex = 16;
             this.BtnStart.Text = "Запустить алгоритм";
             this.BtnStart.UseVisualStyleBackColor = true;
+            this.BtnStart.Click += new System.EventHandler(this.BtnStart_Click);
             // 
             // BtnRandomNet
             // 
@@ -328,7 +330,7 @@
             this.DgvAnts.AllowUserToDeleteRows = false;
             this.DgvAnts.AllowUserToResizeColumns = false;
             this.DgvAnts.AllowUserToResizeRows = false;
-            this.DgvAnts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
+            this.DgvAnts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.DgvAnts.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.DgvAnts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvAnts.Location = new System.Drawing.Point(9, 19);
