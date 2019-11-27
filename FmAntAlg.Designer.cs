@@ -50,6 +50,8 @@
             this.DgvAnts = new System.Windows.Forms.DataGridView();
             this.GbxLog = new System.Windows.Forms.GroupBox();
             this.TbxLog = new System.Windows.Forms.TextBox();
+            this.BtnRandAnts = new System.Windows.Forms.Button();
+            this.BtnSetZeroAnt = new System.Windows.Forms.Button();
             this.GbxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudAttractive)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudEvaporation)).BeginInit();
@@ -81,7 +83,7 @@
             this.GbxSettings.Controls.Add(this.NudVertexCount);
             this.GbxSettings.Location = new System.Drawing.Point(12, 12);
             this.GbxSettings.Name = "GbxSettings";
-            this.GbxSettings.Size = new System.Drawing.Size(369, 288);
+            this.GbxSettings.Size = new System.Drawing.Size(374, 288);
             this.GbxSettings.TabIndex = 0;
             this.GbxSettings.TabStop = false;
             this.GbxSettings.Text = "Настройки алгоритма";
@@ -270,9 +272,9 @@
             this.GbxNet.Controls.Add(this.BtnRandomNet);
             this.GbxNet.Controls.Add(this.DgvNet);
             this.GbxNet.Enabled = false;
-            this.GbxNet.Location = new System.Drawing.Point(387, 14);
+            this.GbxNet.Location = new System.Drawing.Point(545, 12);
             this.GbxNet.Name = "GbxNet";
-            this.GbxNet.Size = new System.Drawing.Size(398, 482);
+            this.GbxNet.Size = new System.Drawing.Size(398, 534);
             this.GbxNet.TabIndex = 1;
             this.GbxNet.TabStop = false;
             this.GbxNet.Text = "Сеть вершин";
@@ -280,9 +282,9 @@
             // BtnStart
             // 
             this.BtnStart.Enabled = false;
-            this.BtnStart.Location = new System.Drawing.Point(250, 424);
+            this.BtnStart.Location = new System.Drawing.Point(246, 476);
             this.BtnStart.Name = "BtnStart";
-            this.BtnStart.Size = new System.Drawing.Size(143, 52);
+            this.BtnStart.Size = new System.Drawing.Size(146, 52);
             this.BtnStart.TabIndex = 16;
             this.BtnStart.Text = "Запустить алгоритм";
             this.BtnStart.UseVisualStyleBackColor = true;
@@ -290,9 +292,9 @@
             // 
             // BtnRandomNet
             // 
-            this.BtnRandomNet.Location = new System.Drawing.Point(6, 424);
+            this.BtnRandomNet.Location = new System.Drawing.Point(6, 476);
             this.BtnRandomNet.Name = "BtnRandomNet";
-            this.BtnRandomNet.Size = new System.Drawing.Size(143, 52);
+            this.BtnRandomNet.Size = new System.Drawing.Size(146, 52);
             this.BtnRandomNet.TabIndex = 14;
             this.BtnRandomNet.Text = "Заполнить случайными значениями";
             this.BtnRandomNet.UseVisualStyleBackColor = true;
@@ -318,11 +320,13 @@
             // 
             // GbxAnts
             // 
+            this.GbxAnts.Controls.Add(this.BtnSetZeroAnt);
+            this.GbxAnts.Controls.Add(this.BtnRandAnts);
             this.GbxAnts.Controls.Add(this.DgvAnts);
             this.GbxAnts.Enabled = false;
             this.GbxAnts.Location = new System.Drawing.Point(12, 312);
             this.GbxAnts.Name = "GbxAnts";
-            this.GbxAnts.Size = new System.Drawing.Size(369, 184);
+            this.GbxAnts.Size = new System.Drawing.Size(527, 236);
             this.GbxAnts.TabIndex = 2;
             this.GbxAnts.TabStop = false;
             this.GbxAnts.Text = "Муравьи";
@@ -341,14 +345,14 @@
             this.DgvAnts.Name = "DgvAnts";
             this.DgvAnts.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.DgvAnts.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.DgvAnts.Size = new System.Drawing.Size(354, 159);
+            this.DgvAnts.Size = new System.Drawing.Size(512, 159);
             this.DgvAnts.TabIndex = 1;
             this.DgvAnts.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvAnts_CellEndEdit);
             // 
             // GbxLog
             // 
             this.GbxLog.Controls.Add(this.TbxLog);
-            this.GbxLog.Location = new System.Drawing.Point(791, 14);
+            this.GbxLog.Location = new System.Drawing.Point(949, 12);
             this.GbxLog.Name = "GbxLog";
             this.GbxLog.Size = new System.Drawing.Size(287, 476);
             this.GbxLog.TabIndex = 3;
@@ -365,11 +369,31 @@
             this.TbxLog.Size = new System.Drawing.Size(275, 451);
             this.TbxLog.TabIndex = 0;
             // 
+            // BtnRandAnts
+            // 
+            this.BtnRandAnts.Location = new System.Drawing.Point(9, 192);
+            this.BtnRandAnts.Name = "BtnRandAnts";
+            this.BtnRandAnts.Size = new System.Drawing.Size(152, 38);
+            this.BtnRandAnts.TabIndex = 15;
+            this.BtnRandAnts.Text = "Заполнить случайными значениями";
+            this.BtnRandAnts.UseVisualStyleBackColor = true;
+            this.BtnRandAnts.Click += new System.EventHandler(this.BtnRandAnts_Click);
+            // 
+            // BtnSetZeroAnt
+            // 
+            this.BtnSetZeroAnt.Location = new System.Drawing.Point(369, 190);
+            this.BtnSetZeroAnt.Name = "BtnSetZeroAnt";
+            this.BtnSetZeroAnt.Size = new System.Drawing.Size(152, 38);
+            this.BtnSetZeroAnt.TabIndex = 16;
+            this.BtnSetZeroAnt.Text = "Заполнить нулями";
+            this.BtnSetZeroAnt.UseVisualStyleBackColor = true;
+            this.BtnSetZeroAnt.Click += new System.EventHandler(this.BtnSetZeroAnt_Click);
+            // 
             // FmAntAlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1084, 508);
+            this.ClientSize = new System.Drawing.Size(1248, 560);
             this.Controls.Add(this.GbxLog);
             this.Controls.Add(this.GbxAnts);
             this.Controls.Add(this.GbxNet);
@@ -418,6 +442,8 @@
         private System.Windows.Forms.DataGridView DgvAnts;
         private System.Windows.Forms.GroupBox GbxLog;
         private System.Windows.Forms.TextBox TbxLog;
+        private System.Windows.Forms.Button BtnRandAnts;
+        private System.Windows.Forms.Button BtnSetZeroAnt;
     }
 }
 

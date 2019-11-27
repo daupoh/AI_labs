@@ -25,11 +25,13 @@ namespace wf_AI_lab1
 
         private void BtnCreateNet_Click(object sender, EventArgs e)
         {
-            CreateNet();
-            ReadyToSTart();
+            CreateNet();            
+            RandomNet();
         }
-        private void BtnRandomNet_Click(object sender, EventArgs e)
+        private void RandomNet()
         {
+            ClearAntTablePath();
+            TbxLog.Clear();
             for (int i = 0; i < DgvNet.RowCount; i++)
             {
                 for (int j = i; j < DgvNet.ColumnCount; j++)
@@ -37,7 +39,7 @@ namespace wf_AI_lab1
                     if (i != j)
                     {
                         double fVal = 0;
-                        while (fVal==0)
+                        while (fVal == 0)
                         {
                             fVal = Math.Truncate(m_rRand.NextDouble() * 20);
                         }
@@ -50,17 +52,16 @@ namespace wf_AI_lab1
                     }
                 }
             }
-            for (int i = 0; i < DgvAnts.RowCount; i++)
-            {
-                DgvAnts.Rows[i].Cells[0].Value = Math.Round(m_rRand.NextDouble() * ((m_rNet.CountOfVertex-1)*100)/100);
-            }
             ReadyToSTart();
+        }
+        private void BtnRandomNet_Click(object sender, EventArgs e)
+        {
+            RandomNet();
         }
         private void BtnStart_Click(object sender, EventArgs e)
         {
-            TbxLog.Clear();
+            TbxLog.Clear();            
             AntsRun();
-            
         }
         private void AntsRun()
         {
@@ -73,6 +74,7 @@ namespace wf_AI_lab1
                     aDistanceMatrix[i][j] = Convert.ToDouble(DgvNet.Rows[i].Cells[j].Value);
                 }
             }
+            
             m_rNet.SetRibs(aDistanceMatrix);
             for (int i = 0; i < m_aAnts.Count; i++)
             {
@@ -87,24 +89,39 @@ namespace wf_AI_lab1
                 }
                 sPath += aPath[aPath.Length - 1].ToString() + '}';
                 DgvAnts.Rows[i].Cells[1].Value = sPath;
-                DgvAnts.Rows[i].Cells[2].Value = m_rNet.GetPathLength(aPath);               
+                DgvAnts.Rows[i].Cells[2].Value = m_rNet.GetPathLength(aPath);
+                DgvAnts.Rows[i].Cells[3].Value = Math.Round(m_rNet.Attraction / m_rNet.GetPathLength(aPath),5);
             }
             for (int i = 0; i < m_aAnts.Count; i++)
             {
                 int[] aPath = m_aAnts[i].Path;
-                string sPheromoneLog = m_rNet.GetPheromones();                
-                m_rNet.UpdatePheromones(aPath);
-                sPheromoneLog = m_rNet.GetPheromones();
-                TbxLog.Text += sPheromoneLog;
+                m_rNet.UpdatePheromones(aPath);                
             }
+            for (int i = 0; i < m_aAnts.Count; i++)
+            {
+                m_aAnts[i].StartPos = Convert.ToInt32(DgvAnts.Rows[i].Cells[0].Value);
+                m_aAnts[i].PrepareToRun();
+                m_aAnts[i].Run(m_rNet.PheromonePower,m_rNet.DistancePower);
+                int[] aPath = m_aAnts[i].Path;
+                string sPath = "{";
+                for (int j = 0; j < aPath.Length - 1; j++)
+                {
+                    sPath += aPath[j].ToString() + ',';
+                }
+                sPath += aPath[aPath.Length - 1].ToString() + '}';
+                TbxLog.Text += sPath + "\r\n Длина пути: "+m_rNet.GetPathLength(aPath).ToString()+ "\r\n";
+            }
+        }
+        private void UpdateNet()
+        {
+             
         }
         private void CreateNet()
         {
             double fEvaporation = (double)NudEvaporation.Value,
-                    fDistancePower = (double)NudDistancePower.Value,
-                    fPheromonePower = (double)NudPheromonePower.Value;
+                  fDistancePower = (double)NudDistancePower.Value,
+                  fPheromonePower = (double)NudPheromonePower.Value;
             int iVertexCount = (int)NudVertexCount.Value,
-                iAntCount = (int)NudAntCount.Value,
                 iAttractive = (int)NudAttractive.Value;
 
             m_rNet.Attraction = iAttractive;
@@ -112,13 +129,14 @@ namespace wf_AI_lab1
             m_rNet.DistancePower = fDistancePower;
             m_rNet.PheromonePower = fPheromonePower;
             m_rNet.Evaporation = fEvaporation;
+            int iAntCount = (int)NudAntCount.Value;
             m_aAnts.Clear();
             for (int i = 0; i < iAntCount; i++)
             {
                 m_aAnts.Add(new CAnt(ref m_rNet));
             }
-            CreateNetTable();
             CreateAntsTable();
+            CreateNetTable();
         }
         private void CreateNetTable()
         {
@@ -143,7 +161,7 @@ namespace wf_AI_lab1
         {
             GbxAnts.Enabled = true;
             DgvAnts.Rows.Clear();
-            DgvAnts.ColumnCount = 3;            
+            DgvAnts.ColumnCount = 4;            
             DgvAnts.Columns[0].HeaderText = "Стартовая вершина";
             DgvAnts.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
             DgvAnts.Columns[1].HeaderText = "Путь";
@@ -152,6 +170,9 @@ namespace wf_AI_lab1
             DgvAnts.Columns[2].HeaderText = "Длина пути";
             DgvAnts.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
             DgvAnts.Columns[2].ReadOnly = true;
+            DgvAnts.Columns[3].HeaderText = "Объем феромон";
+            DgvAnts.Columns[3].SortMode = DataGridViewColumnSortMode.NotSortable;
+            DgvAnts.Columns[3].ReadOnly = true;
             DgvAnts.RowCount = m_aAnts.Count();
             for (int i = 0; i < m_aAnts.Count(); i++)
             {
@@ -160,7 +181,7 @@ namespace wf_AI_lab1
                 DgvAnts.Rows[i].Cells[0].Value = 0;
             }           
         }
-
+       
         private void DgvNet_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {            
             DgvNet.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = OnlyNumbers((string)DgvNet.Rows[e.RowIndex].Cells[e.ColumnIndex].Value,0);
@@ -223,7 +244,7 @@ namespace wf_AI_lab1
                     }
                     else
                     {
-                        bIsReady = bIsReady && DgvNet.Rows[j].Cells[i].Value.Equals(0);
+                        bIsReady = bIsReady && (Convert.ToDouble(DgvNet.Rows[i].Cells[j].Value).Equals(0));
                     }
                 }
             }
@@ -241,6 +262,40 @@ namespace wf_AI_lab1
             }
         }
 
-      
+        private void BtnRandAnts_Click(object sender, EventArgs e)
+        {
+            ClearAntTablePath();
+            for (int i = 0; i < DgvAnts.RowCount; i++)
+            {
+                DgvAnts.Rows[i].Cells[0].Value = Math.Round(m_rRand.NextDouble() * ((m_rNet.CountOfVertex - 1) * 100) / 100);
+            }
+            ReadyToSTart();
+        }
+
+        private void BtnSetZeroAnt_Click(object sender, EventArgs e)
+        {
+            ClearAntTablePath();
+            for (int i = 0; i < DgvAnts.RowCount; i++)
+            {
+                DgvAnts.Rows[i].Cells[0].Value = 0;
+            }
+            ReadyToSTart();
+        }
+        private void ClearAntTablePath()
+        {
+            TbxLog.Clear();
+            for (int i = 0; i < DgvAnts.Rows.Count; i++)
+            {
+                for (int j = 1; j < DgvAnts.ColumnCount; j++)
+                {
+                    DgvAnts.Rows[i].Cells[j].Value = "";
+                }
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            UpdateNet();
+        }
     }
 }

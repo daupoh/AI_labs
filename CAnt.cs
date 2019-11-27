@@ -63,8 +63,13 @@ namespace wf_AI_lab1
         {           
             while (m_iPosition < m_aTabu.Length)
             {
+                int iNextPos = m_aTabu[m_iPosition];
                 double fRand = m_rRandomiser.NextDouble();
-                int iNextPos = (int)Math.Round(fRand * (m_rNet.CountOfVertex-1));
+                while (!NotTabu(iNextPos))
+                {
+                    fRand = m_rRandomiser.NextDouble();
+                    iNextPos = (int)Math.Round(fRand * (m_rNet.CountOfVertex - 1));                    
+                }
                 Console.WriteLine(iNextPos.ToString() + " because of " + fRand);
                 m_aTabu[m_iPosition++] = iNextPos;
             }
@@ -74,7 +79,6 @@ namespace wf_AI_lab1
             while (m_iPosition < m_aTabu.Length)
             {
                 int iCurrentPos = m_aTabu[m_iPosition - 1], iNextPos = -1;
-
                 double[] aPheromones = m_rNet.GetPheromoneDestinations(iCurrentPos),
                              aAttractives = m_rNet.GetAttractiveDestinations(iCurrentPos);
                 double aProbability = 0, fSumAttractivePheromones = 0, fMaxProbability = 0;

@@ -123,7 +123,7 @@ namespace wf_AI_lab1
             double[] aAttractiveDestinations = new double[CountOfVertex];
             for (int i = 0; i < CountOfVertex; i++)
             {
-                aAttractiveDestinations[i] = Attraction / m_aGraph[iFromPosition][i].Distance;
+                aAttractiveDestinations[i] = 1.0 / m_aGraph[iFromPosition][i].Distance;
             }
 
             return aAttractiveDestinations;
@@ -201,8 +201,7 @@ namespace wf_AI_lab1
             {
                 fLength += m_aGraph[iStart][aPath[i]].Distance;
                 iStart = aPath[i];
-            }
-            fLength += m_aGraph[aPath[aPath.Length-1]][aPath[0]].Distance;
+            }           
             return fLength;
         }
       
