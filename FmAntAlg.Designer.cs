@@ -333,7 +333,7 @@
             this.DgvAnts.AllowUserToDeleteRows = false;
             this.DgvAnts.AllowUserToResizeColumns = false;
             this.DgvAnts.AllowUserToResizeRows = false;
-            this.DgvAnts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.DgvAnts.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DgvAnts.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.DgvAnts.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DgvAnts.Location = new System.Drawing.Point(9, 19);

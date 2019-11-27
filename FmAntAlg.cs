@@ -78,17 +78,23 @@ namespace wf_AI_lab1
             {
                 m_aAnts[i].StartPos = Convert.ToInt32(DgvAnts.Rows[i].Cells[0].Value);
                 m_aAnts[i].PrepareToRun();
-                m_aAnts[i].Run(m_rNet.PheromonePower, m_rNet.DistancePower);
+                m_aAnts[i].FirstRun();
                 int[] aPath = m_aAnts[i].Path;
-                m_rNet.UpdatePheromones(aPath);
-                string sPath = "{", sPheromoneLog = m_rNet.GetPheromones();
+                string sPath = "{";
                 for (int j = 0; j < aPath.Length - 1; j++)
                 {
                     sPath += aPath[j].ToString() + ',';
                 }
                 sPath += aPath[aPath.Length - 1].ToString() + '}';
                 DgvAnts.Rows[i].Cells[1].Value = sPath;
-                DgvAnts.Rows[i].Cells[2].Value = m_rNet.GetPathLength(aPath);
+                DgvAnts.Rows[i].Cells[2].Value = m_rNet.GetPathLength(aPath);               
+            }
+            for (int i = 0; i < m_aAnts.Count; i++)
+            {
+                int[] aPath = m_aAnts[i].Path;
+                string sPheromoneLog = m_rNet.GetPheromones();                
+                m_rNet.UpdatePheromones(aPath);
+                sPheromoneLog = m_rNet.GetPheromones();
                 TbxLog.Text += sPheromoneLog;
             }
         }
@@ -130,6 +136,7 @@ namespace wf_AI_lab1
                     DgvNet.Rows[i].Cells[j].Value = 0;
                 }
             }
+
         }
 
         private void CreateAntsTable()
@@ -151,8 +158,7 @@ namespace wf_AI_lab1
                 
                 DgvAnts.Rows[i].HeaderCell.Value = "Муравей " + i.ToString();
                 DgvAnts.Rows[i].Cells[0].Value = 0;
-            }
-
+            }           
         }
 
         private void DgvNet_CellEndEdit(object sender, DataGridViewCellEventArgs e)
