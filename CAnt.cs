@@ -40,11 +40,11 @@ namespace wf_AI_lab1
                 }
             }
         }
-        public CAnt(CNet rNet)
+        public CAnt(ref CNet rNet)
         {
             Assert.IsTrue(rNet !=null);
             m_rNet = rNet;
-            m_aTabu = new int[m_rNet.CountOfVertex];          
+            m_aTabu = new int[m_rNet.CountOfVertex];
             m_rRandomiser = new Random();
             m_iStartVertex = 0;
             m_iPosition = 0;
@@ -55,38 +55,71 @@ namespace wf_AI_lab1
             for (int i = 0; i < m_rNet.CountOfVertex; i++)
             {
                 m_aTabu[i] = -1;
-            }            
+            }
+            m_iPosition = 0;
             m_aTabu[0] = StartPos;
             m_iPosition++;            
         }
 
         public void Run(double fAlpha, double fBeta)
-        {           
+        {
+            m_rRandomiser = new Random();
             while (m_iPosition < m_aTabu.Length)
             {
-                int iCurrentPos = m_aTabu[m_iPosition-1], iNextPos = -1;
-                double[] aProbability = new double[m_rNet.CountOfVertex],
-                       aPheromones = m_rNet.GetPheromoneDestinations(iCurrentPos),
-                       aAttractives = m_rNet.GetAttractiveDestinations(iCurrentPos);
-                double fSumAttractivePheromones = 0, fMaxProbability = -1;                
+                int iCurrentPos = m_aTabu[m_iPosition - 1], iNextPos = -1;
+
+                double[] aPheromones = m_rNet.GetPheromoneDestinations(iCurrentPos),
+                             aAttractives = m_rNet.GetAttractiveDestinations(iCurrentPos);
+                double aProbability = 0, fSumAttractivePheromones = 0, fMaxProbability = 0;
                 for (int i = 0; i < m_rNet.CountOfVertex; i++)
                 {
                     if (NotTabu(i))
                     {
                         fSumAttractivePheromones += Math.Pow(aPheromones[i], fAlpha) * Math.Pow(aAttractives[i], fBeta);
                     }
-                }                
-                for (int i = 0; i < m_rNet.CountOfVertex; i++)
+                }
+                if (fSumAttractivePheromones == 0)
                 {
-                    if (NotTabu(i))
+                    Console.WriteLine("____****************___________");
+                    iNextPos = iCurrentPos;
+                    while (!NotTabu(iNextPos))
                     {
-                        aProbability[i] = Math.Pow(aPheromones[i], fAlpha) * Math.Pow(aAttractives[i], fBeta) / fSumAttractivePheromones;
-                        if (aProbability[i] > fMaxProbability)
+                        iNextPos = (int)Math.Round(m_rRandomiser.NextDouble() * (m_rNet.CountOfVertex - 1));
+                        Console.WriteLine("First Run From  " + iCurrentPos.ToString()+" try to "+iNextPos.ToString());
+                    }
+                    Console.WriteLine("First Run From  " + iCurrentPos.ToString() + " TO " + iNextPos.ToString());
+                }
+                else
+                {
+                    Console.WriteLine("Sum = " + Math.Round(fSumAttractivePheromones, 6).ToString());
+                    for (int i = 0; i < m_rNet.CountOfVertex; i++)
+                    {
+                        if (NotTabu(i))
                         {
-                            fMaxProbability = aProbability[i];
-                            iNextPos = i;
+                            aProbability = Math.Pow(aPheromones[i], fAlpha) * Math.Pow(aAttractives[i], fBeta) / fSumAttractivePheromones;
+                            Console.WriteLine("Probability of rib " + iCurrentPos.ToString() + " to " + i.ToString() + " "
+                                + Math.Round(aProbability, 4).ToString());
+
+                            if (aProbability > fMaxProbability)
+                            {
+                                iNextPos = i;
+                                fMaxProbability = aProbability;
+                                Console.WriteLine("New max probability = " + Math.Round(fMaxProbability, 4).ToString());
+                            }
                         }
                     }
+                }               
+                Console.WriteLine("_______________");
+                double fRandNumber = m_rRandomiser.NextDouble();
+                if (fMaxProbability <= fRandNumber)
+                {
+                    iNextPos = iCurrentPos;
+                    while (!NotTabu(iNextPos))
+                    {
+                        iNextPos = (int)Math.Round(m_rRandomiser.NextDouble() * (m_rNet.CountOfVertex - 1));
+                        Console.WriteLine("Random Run From  " + iCurrentPos.ToString() + " try to " + iNextPos.ToString());
+                    }
+                    Console.WriteLine("Random Run From  " + iCurrentPos.ToString() + " TO " + iNextPos.ToString());
                 }
                 m_aTabu[m_iPosition++] = iNextPos;
             }

@@ -12,7 +12,7 @@ namespace wf_AI_lab1
 {
     public partial class FmAntAlg : Form
     {
-        readonly CNet m_rNet;
+        CNet m_rNet;
         readonly IList<CAnt> m_aAnts;
         readonly Random m_rRand;
         public FmAntAlg()
@@ -39,7 +39,7 @@ namespace wf_AI_lab1
                         double fVal = 0;
                         while (fVal==0)
                         {
-                            fVal = Math.Truncate(m_rRand.NextDouble() * 100);
+                            fVal = Math.Truncate(m_rRand.NextDouble() * 20);
                         }
                         DgvNet.Rows[i].Cells[j].Value = fVal;
                         DgvNet.Rows[j].Cells[i].Value = DgvNet.Rows[i].Cells[j].Value;
@@ -52,9 +52,45 @@ namespace wf_AI_lab1
             }
             for (int i = 0; i < DgvAnts.RowCount; i++)
             {
-                DgvAnts.Rows[i].Cells[0].Value = Math.Truncate(m_rRand.NextDouble() * ((m_rNet.CountOfVertex-1)*100)/100);
+                DgvAnts.Rows[i].Cells[0].Value = Math.Round(m_rRand.NextDouble() * ((m_rNet.CountOfVertex-1)*100)/100);
             }
             ReadyToSTart();
+        }
+        private void BtnStart_Click(object sender, EventArgs e)
+        {
+            TbxLog.Clear();
+            AntsRun();
+            
+        }
+        private void AntsRun()
+        {
+            double[][] aDistanceMatrix = new double[m_rNet.CountOfVertex][];
+            for (int i = 0; i < m_rNet.CountOfVertex; i++)
+            {
+                aDistanceMatrix[i] = new double[m_rNet.CountOfVertex];
+                for (int j = 0; j < m_rNet.CountOfVertex; j++)
+                {
+                    aDistanceMatrix[i][j] = Convert.ToDouble(DgvNet.Rows[i].Cells[j].Value);
+                }
+            }
+            m_rNet.SetRibs(aDistanceMatrix);
+            for (int i = 0; i < m_aAnts.Count; i++)
+            {
+                m_aAnts[i].StartPos = Convert.ToInt32(DgvAnts.Rows[i].Cells[0].Value);
+                m_aAnts[i].PrepareToRun();
+                m_aAnts[i].Run(m_rNet.PheromonePower, m_rNet.DistancePower);
+                int[] aPath = m_aAnts[i].Path;
+                m_rNet.UpdatePheromones(aPath);
+                string sPath = "{", sPheromoneLog = m_rNet.GetPheromones();
+                for (int j = 0; j < aPath.Length - 1; j++)
+                {
+                    sPath += aPath[j].ToString() + ',';
+                }
+                sPath += aPath[aPath.Length - 1].ToString() + '}';
+                DgvAnts.Rows[i].Cells[1].Value = sPath;
+                DgvAnts.Rows[i].Cells[2].Value = m_rNet.GetPathLength(aPath);
+                TbxLog.Text += sPheromoneLog;
+            }
         }
         private void CreateNet()
         {
@@ -73,7 +109,7 @@ namespace wf_AI_lab1
             m_aAnts.Clear();
             for (int i = 0; i < iAntCount; i++)
             {
-                m_aAnts.Add(new CAnt(m_rNet));
+                m_aAnts.Add(new CAnt(ref m_rNet));
             }
             CreateNetTable();
             CreateAntsTable();
@@ -100,12 +136,15 @@ namespace wf_AI_lab1
         {
             GbxAnts.Enabled = true;
             DgvAnts.Rows.Clear();
-            DgvAnts.ColumnCount = 2;            
+            DgvAnts.ColumnCount = 3;            
             DgvAnts.Columns[0].HeaderText = "Стартовая вершина";
             DgvAnts.Columns[0].SortMode = DataGridViewColumnSortMode.NotSortable;
             DgvAnts.Columns[1].HeaderText = "Путь";
             DgvAnts.Columns[1].SortMode = DataGridViewColumnSortMode.NotSortable;
             DgvAnts.Columns[1].ReadOnly = true;
+            DgvAnts.Columns[2].HeaderText = "Длина пути";
+            DgvAnts.Columns[2].SortMode = DataGridViewColumnSortMode.NotSortable;
+            DgvAnts.Columns[2].ReadOnly = true;
             DgvAnts.RowCount = m_aAnts.Count();
             for (int i = 0; i < m_aAnts.Count(); i++)
             {
@@ -196,33 +235,6 @@ namespace wf_AI_lab1
             }
         }
 
-        private void BtnStart_Click(object sender, EventArgs e)
-        {
-            double[][] aDistanceMatrix = new double[m_rNet.CountOfVertex][];
-            for (int i = 0; i < m_rNet.CountOfVertex; i++)
-            {
-                aDistanceMatrix[i] = new double[m_rNet.CountOfVertex];
-                for (int j = 0; j < m_rNet.CountOfVertex; j++)
-                {
-                    aDistanceMatrix[i][j] = Convert.ToDouble(DgvNet.Rows[i].Cells[j].Value);
-                }
-            }
-            m_rNet.SetRibs(aDistanceMatrix);
-            for (int i = 0; i < m_aAnts.Count; i++)
-            {
-                m_aAnts[i].StartPos = Convert.ToInt32(DgvAnts.Rows[i].Cells[0].Value);
-                m_aAnts[i].PrepareToRun();
-                m_aAnts[i].Run(m_rNet.PheromonePower,m_rNet.DistancePower);
-                int[] aPath = m_aAnts[i].Path;
-                m_rNet.UpdatePheromones(aPath);
-                string sPath = "{";
-                for (int j = 0; j < aPath.Length-1; j++)
-                {
-                    sPath += aPath[j].ToString() + ',';
-                }
-                sPath += aPath[aPath.Length - 1].ToString() + '}';
-                DgvAnts.Rows[i].Cells[1].Value = sPath;
-            }
-        }
+      
     }
 }

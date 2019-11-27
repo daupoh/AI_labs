@@ -147,7 +147,7 @@ namespace wf_AI_lab1
             double fSumOfPheromones = Attraction / GetPathLength(aPath);
             for (int i = 0; i < aPath.Length-1; i++)
             {
-                m_aGraph[i][i + 1].Pheromone += fSumOfPheromones + m_aGraph[i][i + 1].Pheromone*(1-Evaporation);
+                m_aGraph[aPath[i]][aPath[i + 1]].Pheromone = fSumOfPheromones + m_aGraph[i][i + 1].Pheromone*(1-Evaporation);
             }
             for (int i = 0; i < CountOfVertex; i++)
             {
@@ -156,6 +156,22 @@ namespace wf_AI_lab1
                     m_aGraph[i][j].Pheromone *= Evaporation;
                 }
             }
+        }
+        public string GetPheromones()
+        {
+            Assert.IsTrue(m_aGraph != null);
+         
+            string sPheromoneLog = "";
+            for (int i = 0; i < CountOfVertex; i++)
+            {
+                for (int j = 0; j < CountOfVertex; j++)
+                {
+                    sPheromoneLog += Math.Round(m_aGraph[i][j].Pheromone, 5).ToString() + " ";
+                }
+                sPheromoneLog += "\r\n";
+            }
+            sPheromoneLog += "________________________\r\n";
+            return sPheromoneLog;
         }
        
         public void SetRibs(double[][] aDistanceMatrix)
@@ -171,7 +187,7 @@ namespace wf_AI_lab1
                 for (int j = 0; j < CountOfVertex; j++)
                 {
                     m_aGraph[i][j].Distance = aDistanceMatrix[i][j];
-                    m_aGraph[i][j].Pheromone = 0.1;
+                    m_aGraph[i][j].Pheromone = 0;
                 }
             }
         }
@@ -186,6 +202,7 @@ namespace wf_AI_lab1
                 fLength += m_aGraph[iStart][aPath[i]].Distance;
                 iStart = aPath[i];
             }
+            fLength += m_aGraph[aPath[aPath.Length-1]][aPath[0]].Distance;
             return fLength;
         }
       

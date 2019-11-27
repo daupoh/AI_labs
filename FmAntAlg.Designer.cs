@@ -48,6 +48,8 @@
             this.DgvNet = new System.Windows.Forms.DataGridView();
             this.GbxAnts = new System.Windows.Forms.GroupBox();
             this.DgvAnts = new System.Windows.Forms.DataGridView();
+            this.GbxLog = new System.Windows.Forms.GroupBox();
+            this.TbxLog = new System.Windows.Forms.TextBox();
             this.GbxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudAttractive)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudEvaporation)).BeginInit();
@@ -59,6 +61,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvNet)).BeginInit();
             this.GbxAnts.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvAnts)).BeginInit();
+            this.GbxLog.SuspendLayout();
             this.SuspendLayout();
             // 
             // GbxSettings
@@ -269,7 +272,7 @@
             this.GbxNet.Enabled = false;
             this.GbxNet.Location = new System.Drawing.Point(387, 14);
             this.GbxNet.Name = "GbxNet";
-            this.GbxNet.Size = new System.Drawing.Size(474, 482);
+            this.GbxNet.Size = new System.Drawing.Size(398, 482);
             this.GbxNet.TabIndex = 1;
             this.GbxNet.TabStop = false;
             this.GbxNet.Text = "Сеть вершин";
@@ -277,7 +280,7 @@
             // BtnStart
             // 
             this.BtnStart.Enabled = false;
-            this.BtnStart.Location = new System.Drawing.Point(325, 424);
+            this.BtnStart.Location = new System.Drawing.Point(250, 424);
             this.BtnStart.Name = "BtnStart";
             this.BtnStart.Size = new System.Drawing.Size(143, 52);
             this.BtnStart.TabIndex = 16;
@@ -309,7 +312,7 @@
             this.DgvNet.Name = "DgvNet";
             this.DgvNet.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.AutoSizeToAllHeaders;
             this.DgvNet.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.DgvNet.Size = new System.Drawing.Size(462, 399);
+            this.DgvNet.Size = new System.Drawing.Size(387, 399);
             this.DgvNet.TabIndex = 0;
             this.DgvNet.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvNet_CellEndEdit);
             // 
@@ -342,11 +345,32 @@
             this.DgvAnts.TabIndex = 1;
             this.DgvAnts.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvAnts_CellEndEdit);
             // 
+            // GbxLog
+            // 
+            this.GbxLog.Controls.Add(this.TbxLog);
+            this.GbxLog.Location = new System.Drawing.Point(791, 14);
+            this.GbxLog.Name = "GbxLog";
+            this.GbxLog.Size = new System.Drawing.Size(287, 476);
+            this.GbxLog.TabIndex = 3;
+            this.GbxLog.TabStop = false;
+            this.GbxLog.Text = "Лог";
+            // 
+            // TbxLog
+            // 
+            this.TbxLog.Location = new System.Drawing.Point(6, 19);
+            this.TbxLog.Multiline = true;
+            this.TbxLog.Name = "TbxLog";
+            this.TbxLog.ReadOnly = true;
+            this.TbxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TbxLog.Size = new System.Drawing.Size(275, 451);
+            this.TbxLog.TabIndex = 0;
+            // 
             // FmAntAlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1084, 508);
+            this.Controls.Add(this.GbxLog);
             this.Controls.Add(this.GbxAnts);
             this.Controls.Add(this.GbxNet);
             this.Controls.Add(this.GbxSettings);
@@ -364,6 +388,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.DgvNet)).EndInit();
             this.GbxAnts.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvAnts)).EndInit();
+            this.GbxLog.ResumeLayout(false);
+            this.GbxLog.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -390,6 +416,8 @@
         private System.Windows.Forms.Button BtnStart;
         private System.Windows.Forms.GroupBox GbxAnts;
         private System.Windows.Forms.DataGridView DgvAnts;
+        private System.Windows.Forms.GroupBox GbxLog;
+        private System.Windows.Forms.TextBox TbxLog;
     }
 }
 
