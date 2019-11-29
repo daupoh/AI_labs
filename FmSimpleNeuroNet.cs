@@ -12,13 +12,13 @@ namespace wf_AI_lab1
 {
     public partial class FmSimpleNeuroNet : Form
     {
-        double[] aInputVector;
+        int[] m_aInputVector;
+        CNet m_fNet;
         public FmSimpleNeuroNet()
         {
             InitializeComponent();
             ResizeDrawGrid(3);
-            CNet rNet = new CNet();
-            TbxInputVector.Text = rNet.AllNet();
+           
         }
         private void RbnField3_CheckedChanged(object sender, EventArgs e)
         {
@@ -57,11 +57,24 @@ namespace wf_AI_lab1
         private void BtnToVector_Click(object sender, EventArgs e)
         {
             TbxInputVector.Text = GetInputVector();
+            m_fNet = new CNet();
+            m_fNet.RandomizeWeights();
+            TbxInputVector.Text = m_fNet.AllNet();
+
         }
 
         private void FmSimpleNeuroNet_Shown(object sender, EventArgs e)
         {
             DgvDraw.ClearSelection();
+        }
+
+        private void BtnStartNet_Click(object sender, EventArgs e)
+        {
+
+            StartNet();
+
+            TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
+            TbxInputVector.ScrollToCaret();
         }
         private void ResizeDrawGrid(int iSize)
         {
@@ -69,6 +82,7 @@ namespace wf_AI_lab1
             DgvDraw.ColumnCount = iSize;
             int iCellWidth = DgvDraw.Width / iSize,
                 iCellHeight = DgvDraw.Height / iSize;
+            m_aInputVector = new int[iSize * iSize];
             for (int i = 0; i < iSize; i++)
             {
                 DgvDraw.Columns[i].Width = iCellWidth;
@@ -76,10 +90,9 @@ namespace wf_AI_lab1
                 for (int j = 0; j < iSize; j++)
                 {
                     DgvDraw[i,j].Style.BackColor = Color.White;
+                    m_aInputVector[i * j + j] = 0;
                 }
             }
-
-            aInputVector = new double[iSize * iSize];
         }
         private string GetInputVector()
         {
@@ -90,22 +103,27 @@ namespace wf_AI_lab1
                 {
                     if (DgvDraw[j,i].Style.BackColor==Color.White)
                     {
-                        aInputVector[i * DgvDraw.ColumnCount + j] = 0.0;
+                        m_aInputVector[i * DgvDraw.ColumnCount + j] = 0;
                     }
                     else
                     {
-                        aInputVector[i * DgvDraw.ColumnCount + j] = 1.0;
+                        m_aInputVector[i * DgvDraw.ColumnCount + j] = 1;
                     }
                 }
             }
-            for (int i = 0; i < aInputVector.Length-1; i++)
+            for (int i = 0; i < m_aInputVector.Length-1; i++)
             {
-                sVector += Math.Round(aInputVector[i],4).ToString()+',';
+                sVector += m_aInputVector[i].ToString()+',';
             }
-            sVector += Math.Round(aInputVector[aInputVector.Length - 1], 4).ToString() + '}';
+            sVector += m_aInputVector[m_aInputVector.Length - 1].ToString() + '}';
             return sVector;
         }
-        
+        private void StartNet()
+        { 
+            TbxInputVector.Text += "_________________________________\r\n";
+            m_fNet.Excite(m_aInputVector);
+            TbxInputVector.Text += m_fNet.GetTextResultVector()+"\r\n";
+        }
         private void MouseDrawing(MouseButtons rMouseBtn, int iRowIndex, int iColumnIndex)
         {
             if (rMouseBtn == MouseButtons.Left)

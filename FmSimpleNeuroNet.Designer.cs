@@ -36,12 +36,14 @@
             this.RbnField3 = new System.Windows.Forms.RadioButton();
             this.DgvDraw = new System.Windows.Forms.DataGridView();
             this.TbxInputVector = new System.Windows.Forms.TextBox();
+            this.BtnStartNet = new System.Windows.Forms.Button();
             this.GbxDraw.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvDraw)).BeginInit();
             this.SuspendLayout();
             // 
             // GbxDraw
             // 
+            this.GbxDraw.Controls.Add(this.BtnStartNet);
             this.GbxDraw.Controls.Add(this.BtnToVector);
             this.GbxDraw.Controls.Add(this.BtnClearDraw);
             this.GbxDraw.Controls.Add(this.RbnField15);
@@ -50,7 +52,7 @@
             this.GbxDraw.Controls.Add(this.DgvDraw);
             this.GbxDraw.Location = new System.Drawing.Point(12, 12);
             this.GbxDraw.Name = "GbxDraw";
-            this.GbxDraw.Size = new System.Drawing.Size(369, 434);
+            this.GbxDraw.Size = new System.Drawing.Size(369, 490);
             this.GbxDraw.TabIndex = 0;
             this.GbxDraw.TabStop = false;
             this.GbxDraw.Text = "Панель рисования";
@@ -140,11 +142,21 @@
             this.TbxInputVector.Size = new System.Drawing.Size(388, 415);
             this.TbxInputVector.TabIndex = 1;
             // 
+            // BtnStartNet
+            // 
+            this.BtnStartNet.Location = new System.Drawing.Point(254, 436);
+            this.BtnStartNet.Name = "BtnStartNet";
+            this.BtnStartNet.Size = new System.Drawing.Size(109, 48);
+            this.BtnStartNet.TabIndex = 6;
+            this.BtnStartNet.Text = "Запустить сеть";
+            this.BtnStartNet.UseVisualStyleBackColor = true;
+            this.BtnStartNet.Click += new System.EventHandler(this.BtnStartNet_Click);
+            // 
             // FmSimpleNeuroNet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 529);
+            this.ClientSize = new System.Drawing.Size(802, 529);
             this.Controls.Add(this.TbxInputVector);
             this.Controls.Add(this.GbxDraw);
             this.Name = "FmSimpleNeuroNet";
@@ -168,6 +180,7 @@
         private System.Windows.Forms.Button BtnClearDraw;
         private System.Windows.Forms.Button BtnToVector;
         private System.Windows.Forms.TextBox TbxInputVector;
+        private System.Windows.Forms.Button BtnStartNet;
     }
 }
 

@@ -8,9 +8,17 @@ namespace wf_AI_lab1
 {
     static class SCActivationFunction
     {
+        static Random m_fRandom = new Random();
         public enum FunctionType
         {
             Sigmoidal
+        }
+        public static double GetRandom
+        {
+            get
+            {
+                return m_fRandom.NextDouble();
+            }
         }
         public static FunctionType m_eFunctionType= FunctionType.Sigmoidal;
 

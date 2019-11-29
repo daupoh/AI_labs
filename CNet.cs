@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -75,8 +76,14 @@ namespace wf_AI_lab1
 
             aOutputConnections = new int[6] { 1, 0, 0, 1, 0, 1 };
             HideConnections(0, 5, aHideConnections, aOutputConnections);
-
-
         }
+        public void RandomizeWeights()
+        {
+            foreach(CNeuron rNeuron in m_aOutput)
+            {
+                rNeuron.RandomizeWeights();
+            }
+        }
+       
     }
 }

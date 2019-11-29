@@ -9,8 +9,9 @@ namespace wf_AI_lab1
 {
     abstract class ACNet
     {
-        IList<CNeuron> m_aInput, m_aOutput;
-        IList<CNeuron>[] m_aHide;
+        protected IList<CNeuron> m_aInput, m_aOutput;
+        protected IList<CNeuron>[] m_aHide;
+        
 
         protected ACNet(int iHideLevelsCount)
         {
@@ -29,7 +30,7 @@ namespace wf_AI_lab1
             sNet += "Входной уровень: \r\n";            
            foreach(CNeuron rNeuron in m_aInput)
             {
-                sNet += rNeuron.ShowConnections()+ "\r\n";                
+                sNet += rNeuron.NetConnections+ "\r\n";                
             }
             sNet += "-------------------------\r\n";
             for (int i = 0; i < m_aHide.Length; i++)
@@ -37,14 +38,14 @@ namespace wf_AI_lab1
                 sNet += "Внутренний уровень #" + i.ToString() + ": \r\n";
                 foreach (CNeuron rNeuron in m_aHide[i])
                 {
-                    sNet += rNeuron.ShowConnections() + "\r\n";
+                    sNet += rNeuron.NetConnections + "\r\n";
                 }               
             }
             sNet += "-------------------------\r\n";
             sNet += "Выходной уровень: \r\n";
             foreach (CNeuron rNeuron in m_aOutput)
             {
-                sNet += rNeuron.ShowConnections()+"\r\n";
+                sNet += rNeuron.NetConnections+"\r\n";
             }
             sNet += "-------------------------\r\n";
             return sNet;
@@ -114,6 +115,56 @@ namespace wf_AI_lab1
         protected void AddOutputNeuron()
         {
             m_aOutput.Add(new CNeuron("Выходной нейрон #" + (m_aOutput.Count + 1).ToString()));
+        }
+        public void Excite(int[] aExcitingVector)
+        {
+            Assert.IsTrue(aExcitingVector != null && aExcitingVector.Length == m_aInput.Count);
+            for (int i = 0; i < aExcitingVector.Length; i++)
+            {
+                if (aExcitingVector[i] == 1)
+                {
+                    m_aInput[i].Excite(1.0);
+                }
+            }
+            for (int i = 0; i < m_aHide.Length; i++)
+            {
+                for (int j = 0; j < m_aHide[i].Count; j++)
+                {
+                    m_aHide[i][j].Excite(0);
+                }
+            }
+            for (int i = 0; i < m_aOutput.Count; i++)
+            {
+                m_aOutput[i].Excite(0);
+            }
+        }
+        public void ErrorAnalys()
+        {
+            double[] aVectorResult = GetResultVector();
+
+        }
+        private double[] GetResultVector()
+        {
+            double[] aVectorResult = new double[m_aOutput.Count];            
+            for (int i = 0; i < m_aOutput.Count - 1; i++)
+            {
+                aVectorResult[i] = m_aOutput[i].Active;                
+            }
+            int iLast = m_aOutput.Count - 1;
+            aVectorResult[iLast] = m_aOutput[iLast].Active;
+            return aVectorResult;
+        }
+        public string GetTextResultVector()
+        {
+            double[] aVectorResult = GetResultVector();
+            string sVectorResult = "{";
+            for (int i = 0; i < m_aOutput.Count - 1; i++)
+            {                
+                sVectorResult += Math.Round(aVectorResult[i], 5).ToString() + ',';
+            }
+            int iLast = m_aOutput.Count - 1;            
+            sVectorResult += Math.Round(aVectorResult[iLast], 5).ToString() + '}';
+            return sVectorResult;
         }
 
     }
