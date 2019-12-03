@@ -38,6 +38,19 @@ namespace wf_AI_lab1
             sNet += "-------------------------\r\n";
             return sNet;
         }
+        public string GetTextResultVector()
+        {
+            double[] aVectorResult = GetResultVector();
+            string sVectorResult = "{";
+            for (int i = 0; i < m_aOutput.Count - 1; i++)
+            {
+                sVectorResult += Math.Round(aVectorResult[i], 5).ToString() + ',';
+            }
+            int iLast = m_aOutput.Count - 1;
+            sVectorResult += Math.Round(aVectorResult[iLast], 5).ToString() + '}';
+            return sVectorResult;
+        }
+
         public void Excite(int[] aExcitingVector)
         {
             Assert.IsTrue(aExcitingVector != null && aExcitingVector.Length == m_aInput.Count);
@@ -60,6 +73,7 @@ namespace wf_AI_lab1
                 m_aOutput[i].Excite(0);
             }
         }
+
         public void Learning(double fLearningMetric, int iAgeCount)
         {
             Assert.IsTrue(m_aTestCases.Count > 0 && iAgeCount>0 && fLearningMetric>0);
@@ -71,12 +85,11 @@ namespace wf_AI_lab1
                     Excite(aInputVector);
                     double[] aErrorResultVector = rTestCase.GetErrorVector(GetResultVector());
                     double[][] aErrorHideMatrix = GetHideErrorMatrix(aErrorResultVector);
-                                
+                    UpdateWeights(aErrorResultVector, aErrorHideMatrix, fLearningMetric);
                 }
             }
-
         }
-
+       
         /***************************** PROTECTED *********************************/
         protected ACNet(int iHideLevelsCount)
         {
@@ -186,17 +199,22 @@ namespace wf_AI_lab1
             }
             return aHideErrorMatrix;
         }
-        public string GetTextResultVector()
+        private void UpdateWeights(double[] aErrorResultVector, double[][] aErrorHideMatrix, double fLearningMetric)
         {
-            double[] aVectorResult = GetResultVector();
-            string sVectorResult = "{";
-            for (int i = 0; i < m_aOutput.Count - 1; i++)
-            {                
-                sVectorResult += Math.Round(aVectorResult[i], 5).ToString() + ',';
+            double fNewWeights;
+            for (int i = 0; i < m_aOutput.Count; i++)
+            {
+                fNewWeights = fLearningMetric * aErrorResultVector[i] * SCActivationFunction.GetReverseFunctionValue(m_aOutput[i].Active);
+                m_aOutput[i].UpdateWeights(fNewWeights);
             }
-            int iLast = m_aOutput.Count - 1;            
-            sVectorResult += Math.Round(aVectorResult[iLast], 5).ToString() + '}';
-            return sVectorResult;
+            for (int i = 0; i < m_aHide.Length; i++)
+            {
+                for (int j = 0; j < m_aHide[i].Count; j++)
+                {
+                    fNewWeights = fLearningMetric * aErrorHideMatrix[i][j] * SCActivationFunction.GetReverseFunctionValue(m_aHide[i][j].Active);
+                    m_aHide[i][j].UpdateWeights(fNewWeights);
+                }
+            }
         }
 
     }

@@ -105,7 +105,14 @@ namespace wf_AI_lab1
                 m_aDendrites[i].ConnectedNeuron.RandomizeWeights();
             }
         }
-    
+        public void UpdateWeights(double fNewWeight)
+        {
+            for (int i = 0; i < m_aDendrites.Count; i++)
+            {
+                fNewWeight = fNewWeight * m_aDendrites[i].ConnectedNeuron.Potencial + m_aDendrites[i].ConnectionWeight;
+                m_aDendrites[i] = m_aDendrites[i].Learn(fNewWeight);                
+            }
+        }
 
         public void Excite(double fDirectExciting)
         {
@@ -116,6 +123,7 @@ namespace wf_AI_lab1
             }
             m_fPotential += fDirectExciting;            
         }
+
       
         public double SynapseWeights(CNeuron rSynapse)
         {
