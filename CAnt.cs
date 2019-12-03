@@ -71,11 +71,7 @@ namespace wf_AI_lab1
                     iNextPos = (int)Math.Round(fRand * (m_rNet.CountOfVertex - 1));                    
                 }
                 Console.WriteLine(iNextPos.ToString() + " because of " + fRand);
-                m_aTabu[m_iPosition++] = iNextPos;
-                if (iNextPos==-1)
-                {
-                    iNextPos = 0;
-                }
+                m_aTabu[m_iPosition++] = iNextPos;               
             }
         }
         public void Run(double fAlpha, double fBeta)
@@ -112,11 +108,7 @@ namespace wf_AI_lab1
                     }
                 }
                 Console.WriteLine("_______________");
-                m_aTabu[m_iPosition++] = iNextPos;
-                if (iNextPos == -1)
-                {
-                    iNextPos = 0;
-                }
+                m_aTabu[m_iPosition++] = iNextPos;             
             }
         }
         private bool NotTabu(int iPos)
