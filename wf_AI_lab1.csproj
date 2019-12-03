@@ -55,6 +55,7 @@
     <Compile Include="ACNet.cs" />
     <Compile Include="CNet.cs" />
     <Compile Include="CNeuron.cs" />
+    <Compile Include="CTestCase.cs" />
     <Compile Include="FmSimpleNeuroNet.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -24,6 +24,14 @@ namespace wf_AI_lab1
                 AddOutputNeuron();
             }
             AddConnections();
+            AddTests();
+        }
+        public void RandomizeWeights()
+        {
+            foreach (CNeuron rNeuron in m_aOutput)
+            {
+                rNeuron.RandomizeWeights();
+            }
         }
         private void AddConnections()
         {
@@ -77,13 +85,11 @@ namespace wf_AI_lab1
             aOutputConnections = new int[6] { 1, 0, 0, 1, 0, 1 };
             HideConnections(0, 5, aHideConnections, aOutputConnections);
         }
-        public void RandomizeWeights()
+        private void AddTests()
         {
-            foreach(CNeuron rNeuron in m_aOutput)
-            {
-                rNeuron.RandomizeWeights();
-            }
+
         }
+      
        
     }
 }

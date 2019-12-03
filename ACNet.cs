@@ -11,19 +11,7 @@ namespace wf_AI_lab1
     {
         protected IList<CNeuron> m_aInput, m_aOutput;
         protected IList<CNeuron>[] m_aHide;
-        
-
-        protected ACNet(int iHideLevelsCount)
-        {
-            Assert.IsTrue(iHideLevelsCount >= 0);
-            m_aHide = new IList<CNeuron>[iHideLevelsCount];
-            for (int i = 0; i < iHideLevelsCount; i++)
-            {
-                m_aHide[i] = new List<CNeuron>();
-            }
-            m_aInput = new List<CNeuron>();
-            m_aOutput = new List<CNeuron>();
-        }
+        protected IList<CTestCase> m_aTestCases;       
         public string AllNet()
         {
             string sNet = "";
@@ -49,6 +37,58 @@ namespace wf_AI_lab1
             }
             sNet += "-------------------------\r\n";
             return sNet;
+        }
+        public void Excite(int[] aExcitingVector)
+        {
+            Assert.IsTrue(aExcitingVector != null && aExcitingVector.Length == m_aInput.Count);
+            for (int i = 0; i < aExcitingVector.Length; i++)
+            {
+                if (aExcitingVector[i] == 1)
+                {
+                    m_aInput[i].Excite(1.0);
+                }
+            }
+            for (int i = 0; i < m_aHide.Length; i++)
+            {
+                for (int j = 0; j < m_aHide[i].Count; j++)
+                {
+                    m_aHide[i][j].Excite(0);
+                }
+            }
+            for (int i = 0; i < m_aOutput.Count; i++)
+            {
+                m_aOutput[i].Excite(0);
+            }
+        }
+        public void Learning(double fLearningMetric, int iAgeCount)
+        {
+            Assert.IsTrue(m_aTestCases.Count > 0 && iAgeCount>0 && fLearningMetric>0);
+            for (int i = 0; i < iAgeCount; i++)
+            {
+                foreach (CTestCase rTestCase in m_aTestCases)
+                {
+                    int[] aInputVector = rTestCase.GetInputVector();
+                    Excite(aInputVector);
+                    double[] aErrorResultVector = rTestCase.GetErrorVector(GetResultVector());
+                    double[][] aErrorHideMatrix = GetHideErrorMatrix(aErrorResultVector);
+                                
+                }
+            }
+
+        }
+
+        /***************************** PROTECTED *********************************/
+        protected ACNet(int iHideLevelsCount)
+        {
+            Assert.IsTrue(iHideLevelsCount >= 0);
+            m_aHide = new IList<CNeuron>[iHideLevelsCount];
+            for (int i = 0; i < iHideLevelsCount; i++)
+            {
+                m_aHide[i] = new List<CNeuron>();
+            }
+            m_aInput = new List<CNeuron>();
+            m_aOutput = new List<CNeuron>();
+            m_aTestCases = new List<CTestCase>();
         }
         protected void InputConnections(int iInputIndex, int[][] aHideConnections,int[] aOutputConnections)
         {
@@ -116,33 +156,9 @@ namespace wf_AI_lab1
         {
             m_aOutput.Add(new CNeuron("Выходной нейрон #" + (m_aOutput.Count + 1).ToString()));
         }
-        public void Excite(int[] aExcitingVector)
-        {
-            Assert.IsTrue(aExcitingVector != null && aExcitingVector.Length == m_aInput.Count);
-            for (int i = 0; i < aExcitingVector.Length; i++)
-            {
-                if (aExcitingVector[i] == 1)
-                {
-                    m_aInput[i].Excite(1.0);
-                }
-            }
-            for (int i = 0; i < m_aHide.Length; i++)
-            {
-                for (int j = 0; j < m_aHide[i].Count; j++)
-                {
-                    m_aHide[i][j].Excite(0);
-                }
-            }
-            for (int i = 0; i < m_aOutput.Count; i++)
-            {
-                m_aOutput[i].Excite(0);
-            }
-        }
-        public void ErrorAnalys()
-        {
-            double[] aVectorResult = GetResultVector();
+      
 
-        }
+        /******************PRIVATE****************************************/
         private double[] GetResultVector()
         {
             double[] aVectorResult = new double[m_aOutput.Count];            
@@ -153,6 +169,22 @@ namespace wf_AI_lab1
             int iLast = m_aOutput.Count - 1;
             aVectorResult[iLast] = m_aOutput[iLast].Active;
             return aVectorResult;
+        }
+        private double[][] GetHideErrorMatrix(double[] aErrorResultVector)
+        {
+            double[][] aHideErrorMatrix = new double[m_aHide.Length][];            
+            for (int k = 0; k < m_aHide.Length; k++)
+            {
+                aHideErrorMatrix[k] = new double[m_aHide[k].Count];
+                for (int l = 0; l < m_aHide[k].Count; l++)
+                {
+                    for (int j = 0; j < m_aOutput.Count; j++)
+                    {
+                        aHideErrorMatrix[k][l] += m_aOutput[j].SynapseWeights(m_aHide[k][l]) * aErrorResultVector[j];
+                    }
+                }
+            }
+            return aHideErrorMatrix;
         }
         public string GetTextResultVector()
         {

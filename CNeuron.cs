@@ -116,7 +116,20 @@ namespace wf_AI_lab1
             }
             m_fPotential += fDirectExciting;            
         }
-        
+      
+        public double SynapseWeights(CNeuron rSynapse)
+        {
+            double fWeight = 0;
+            for (int i = 0; i < m_aDendrites.Count; i++)
+            {
+                if (m_aDendrites[i].ConnectedNeuron.Name == rSynapse.Name)
+                {
+                    fWeight = m_aDendrites[i].ConnectionWeight;
+                    break;
+                }
+            }
+            return fWeight;
+        }
         
     }
 }

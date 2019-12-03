@@ -33,6 +33,17 @@ namespace wf_AI_lab1
             }
             return fResult;
         }
+        public static double GetReverseFunctionValue(double fPotential)
+        {
+            double fResult = 0;
+            switch (m_eFunctionType)
+            {
+                case FunctionType.Sigmoidal:
+                    fResult = fPotential * (1 - fPotential);
+                    break;
+            }
+            return fResult;
+        }
 
     }
 }
