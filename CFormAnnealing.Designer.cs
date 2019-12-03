@@ -47,10 +47,10 @@ namespace wf_AI_lab1
             this.m_rNumCountOfSteps = new System.Windows.Forms.NumericUpDown();
             this.m_rNumSizeBoard = new System.Windows.Forms.NumericUpDown();
             this.m_rGbxLog = new System.Windows.Forms.GroupBox();
+            this.LblProgress = new System.Windows.Forms.Label();
             this.PrbAnnealing = new System.Windows.Forms.ProgressBar();
             this.m_rBtnSaveLogs = new System.Windows.Forms.Button();
             this.tmrAnnealing = new System.Windows.Forms.Timer(this.components);
-            this.LblProgress = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.m_rDgvBoardTable)).BeginInit();
             this.gbxAnnealingParams.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.m_rNumFinTemp)).BeginInit();
@@ -94,7 +94,7 @@ namespace wf_AI_lab1
             this.m_rDgvBoardTable.RowHeadersVisible = false;
             this.m_rDgvBoardTable.RowHeadersWidth = 14;
             this.m_rDgvBoardTable.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.m_rDgvBoardTable.Size = new System.Drawing.Size(703, 644);
+            this.m_rDgvBoardTable.Size = new System.Drawing.Size(741, 644);
             this.m_rDgvBoardTable.TabIndex = 2;
             // 
             // gbxAnnealingParams
@@ -314,6 +314,15 @@ namespace wf_AI_lab1
             this.m_rGbxLog.TabStop = false;
             this.m_rGbxLog.Text = "Лог алгоритма";
             // 
+            // LblProgress
+            // 
+            this.LblProgress.AutoSize = true;
+            this.LblProgress.Location = new System.Drawing.Point(130, 359);
+            this.LblProgress.Name = "LblProgress";
+            this.LblProgress.Size = new System.Drawing.Size(74, 13);
+            this.LblProgress.TabIndex = 13;
+            this.LblProgress.Text = "% выполнено";
+            // 
             // PrbAnnealing
             // 
             this.PrbAnnealing.Location = new System.Drawing.Point(133, 333);
@@ -338,19 +347,10 @@ namespace wf_AI_lab1
             this.tmrAnnealing.Interval = 1;
             this.tmrAnnealing.Tick += new System.EventHandler(this.TmrAnnealing_Tick);
             // 
-            // LblProgress
-            // 
-            this.LblProgress.AutoSize = true;
-            this.LblProgress.Location = new System.Drawing.Point(130, 359);
-            this.LblProgress.Name = "LblProgress";
-            this.LblProgress.Size = new System.Drawing.Size(74, 13);
-            this.LblProgress.TabIndex = 13;
-            this.LblProgress.Text = "% выполнено";
-            // 
             // CFormAnnealing
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(1045, 677);
+            this.ClientSize = new System.Drawing.Size(1084, 677);
             this.Controls.Add(this.m_rGbxLog);
             this.Controls.Add(this.gbxAnnealingParams);
             this.Controls.Add(this.m_rDgvBoardTable);
