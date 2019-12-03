@@ -85,7 +85,8 @@ namespace wf_AI_lab1
                     Excite(aInputVector);
                     double[] aErrorResultVector = rTestCase.GetErrorVector(GetResultVector());
                     double[][] aErrorHideMatrix = GetHideErrorMatrix(aErrorResultVector);
-                    UpdateWeights(aErrorResultVector, aErrorHideMatrix, fLearningMetric);
+                  //  UpdateWeights(aErrorResultVector, aErrorHideMatrix, fLearningMetric);
+                    Cooloff();
                 }
             }
         }
@@ -105,19 +106,22 @@ namespace wf_AI_lab1
         }
         protected void InputConnections(int iInputIndex, int[][] aHideConnections,int[] aOutputConnections)
         {
-            Assert.IsTrue(iInputIndex >= 0 && iInputIndex < m_aInput.Count);
-            Assert.IsTrue(aHideConnections != null && aHideConnections.Length == m_aHide.Length);
+            Assert.IsTrue(iInputIndex >= 0 && iInputIndex < m_aInput.Count);            
+            Assert.IsTrue(m_aHide.Length==0 || (aHideConnections != null && aHideConnections.Length == m_aHide.Length));
             Assert.IsTrue(aOutputConnections != null && aOutputConnections.Length == m_aOutput.Count);
-            for (int i = 0; i < aHideConnections.Length; i++)
+            if (m_aHide.Length != 0)
             {
-                Assert.IsTrue(aHideConnections[i].Length == m_aHide[i].Count);
-                for (int j = 0; j < aHideConnections[i].Length; j++)
+                for (int i = 0; i < aHideConnections.Length; i++)
                 {
-                    Assert.IsTrue(aHideConnections[i][j] == 0 || aHideConnections[i][j] == 1);
-                    if (aHideConnections[i][j] == 1)
+                    Assert.IsTrue(aHideConnections[i].Length == m_aHide[i].Count);
+                    for (int j = 0; j < aHideConnections[i].Length; j++)
                     {
-                        m_aHide[i][j].AddDendrit(m_aInput[iInputIndex]);
-                    }    
+                        Assert.IsTrue(aHideConnections[i][j] == 0 || aHideConnections[i][j] == 1);
+                        if (aHideConnections[i][j] == 1)
+                        {
+                            m_aHide[i][j].AddDendrit(m_aInput[iInputIndex]);
+                        }
+                    }
                 }
             }
             for (int i = 0; i < aOutputConnections.Length; i++)
@@ -169,6 +173,12 @@ namespace wf_AI_lab1
         {
             m_aOutput.Add(new CNeuron("Выходной нейрон #" + (m_aOutput.Count + 1).ToString()));
         }
+        protected void AddTest(int[] aInputVector, double[] aResultVector)
+        {
+            Assert.IsTrue(aInputVector != null && aResultVector != null);
+            Assert.IsTrue(aInputVector.Length == m_aInput.Count && aResultVector.Length == m_aOutput.Count);
+            m_aTestCases.Add(new CTestCase(aInputVector, aResultVector));
+        }
       
 
         /******************PRIVATE****************************************/
@@ -215,6 +225,24 @@ namespace wf_AI_lab1
                     m_aHide[i][j].UpdateWeights(fNewWeights);
                 }
             }
+        }
+        private void Cooloff()
+        {
+            for (int i = 0; i < m_aInput.Count; i++)
+            {
+                m_aInput[i].Cooloff();
+            }
+            for (int i = 0; i < m_aOutput.Count; i++)
+            {
+                m_aOutput[i].Cooloff();
+            }
+            for (int i = 0; i < m_aHide.Length; i++)
+            {
+                for (int j = 0; j < m_aHide[i].Count; j++)
+                {
+                    m_aHide[i][j].Cooloff();
+                }
+            }            
         }
 
     }

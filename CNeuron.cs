@@ -116,14 +116,18 @@ namespace wf_AI_lab1
 
         public void Excite(double fDirectExciting)
         {
-            Assert.IsTrue(fDirectExciting >= 0 && fDirectExciting <= 1);
+            m_fPotential = 0;
+            Assert.IsTrue(fDirectExciting >= 0 && fDirectExciting <= 1);            
             for (int i = 0; i < m_aDendrites.Count; i++)
             {
                 m_fPotential += m_aDendrites[i].ConnectedNeuron.Potencial * m_aDendrites[i].ConnectionWeight;
             }
-            m_fPotential += fDirectExciting;            
+            m_fPotential += fDirectExciting;
         }
-
+        public void Cooloff()
+        {
+            m_fPotential = 0;
+        }
       
         public double SynapseWeights(CNeuron rSynapse)
         {

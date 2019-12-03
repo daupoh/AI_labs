@@ -18,7 +18,9 @@ namespace wf_AI_lab1
         {
             InitializeComponent();
             ResizeDrawGrid(3);
-           
+            m_fNet = new CNet();
+            m_fNet.RandomizeWeights();
+
         }
         private void RbnField3_CheckedChanged(object sender, EventArgs e)
         {
@@ -56,11 +58,14 @@ namespace wf_AI_lab1
 
         private void BtnToVector_Click(object sender, EventArgs e)
         {
-            TbxInputVector.Text = GetInputVector();
-            m_fNet = new CNet();
-            m_fNet.RandomizeWeights();
+            TbxInputVector.Text = GetInputVector();            
             TbxInputVector.Text = m_fNet.AllNet();
-
+            
+        }
+        private void BtnLearnNet_Click(object sender, EventArgs e)
+        {
+            m_fNet.Learning(0.1, 500);
+            TbxInputVector.Text +="|***************************|\r\n" + m_fNet.AllNet();
         }
 
         private void FmSimpleNeuroNet_Shown(object sender, EventArgs e)
@@ -72,7 +77,7 @@ namespace wf_AI_lab1
         {
 
             StartNet();
-
+            TbxInputVector.Text += m_fNet.AllNet();
             TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
             TbxInputVector.ScrollToCaret();
         }
@@ -120,8 +125,9 @@ namespace wf_AI_lab1
         }
         private void StartNet()
         { 
-            TbxInputVector.Text += "_________________________________\r\n";
+            TbxInputVector.Text = "_________________________________\r\n";
             m_fNet.Excite(m_aInputVector);
+            TbxInputVector.Text += GetInputVector() + "\r\n"; 
             TbxInputVector.Text += m_fNet.GetTextResultVector()+"\r\n";
         }
         private void MouseDrawing(MouseButtons rMouseBtn, int iRowIndex, int iColumnIndex)
@@ -140,5 +146,6 @@ namespace wf_AI_lab1
             }
         }
 
+        
     }
 }

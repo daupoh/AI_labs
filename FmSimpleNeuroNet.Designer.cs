@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.GbxDraw = new System.Windows.Forms.GroupBox();
+            this.BtnStartNet = new System.Windows.Forms.Button();
             this.BtnToVector = new System.Windows.Forms.Button();
             this.BtnClearDraw = new System.Windows.Forms.Button();
             this.RbnField15 = new System.Windows.Forms.RadioButton();
@@ -36,13 +37,14 @@
             this.RbnField3 = new System.Windows.Forms.RadioButton();
             this.DgvDraw = new System.Windows.Forms.DataGridView();
             this.TbxInputVector = new System.Windows.Forms.TextBox();
-            this.BtnStartNet = new System.Windows.Forms.Button();
+            this.BtnLearnNet = new System.Windows.Forms.Button();
             this.GbxDraw.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvDraw)).BeginInit();
             this.SuspendLayout();
             // 
             // GbxDraw
             // 
+            this.GbxDraw.Controls.Add(this.BtnLearnNet);
             this.GbxDraw.Controls.Add(this.BtnStartNet);
             this.GbxDraw.Controls.Add(this.BtnToVector);
             this.GbxDraw.Controls.Add(this.BtnClearDraw);
@@ -56,6 +58,16 @@
             this.GbxDraw.TabIndex = 0;
             this.GbxDraw.TabStop = false;
             this.GbxDraw.Text = "Панель рисования";
+            // 
+            // BtnStartNet
+            // 
+            this.BtnStartNet.Location = new System.Drawing.Point(254, 436);
+            this.BtnStartNet.Name = "BtnStartNet";
+            this.BtnStartNet.Size = new System.Drawing.Size(109, 48);
+            this.BtnStartNet.TabIndex = 6;
+            this.BtnStartNet.Text = "Запустить сеть";
+            this.BtnStartNet.UseVisualStyleBackColor = true;
+            this.BtnStartNet.Click += new System.EventHandler(this.BtnStartNet_Click);
             // 
             // BtnToVector
             // 
@@ -142,15 +154,15 @@
             this.TbxInputVector.Size = new System.Drawing.Size(388, 415);
             this.TbxInputVector.TabIndex = 1;
             // 
-            // BtnStartNet
+            // BtnLearnNet
             // 
-            this.BtnStartNet.Location = new System.Drawing.Point(254, 436);
-            this.BtnStartNet.Name = "BtnStartNet";
-            this.BtnStartNet.Size = new System.Drawing.Size(109, 48);
-            this.BtnStartNet.TabIndex = 6;
-            this.BtnStartNet.Text = "Запустить сеть";
-            this.BtnStartNet.UseVisualStyleBackColor = true;
-            this.BtnStartNet.Click += new System.EventHandler(this.BtnStartNet_Click);
+            this.BtnLearnNet.Location = new System.Drawing.Point(105, 433);
+            this.BtnLearnNet.Name = "BtnLearnNet";
+            this.BtnLearnNet.Size = new System.Drawing.Size(109, 48);
+            this.BtnLearnNet.TabIndex = 7;
+            this.BtnLearnNet.Text = "Обучить сеть";
+            this.BtnLearnNet.UseVisualStyleBackColor = true;
+            this.BtnLearnNet.Click += new System.EventHandler(this.BtnLearnNet_Click);
             // 
             // FmSimpleNeuroNet
             // 
@@ -181,6 +193,7 @@
         private System.Windows.Forms.Button BtnToVector;
         private System.Windows.Forms.TextBox TbxInputVector;
         private System.Windows.Forms.Button BtnStartNet;
+        private System.Windows.Forms.Button BtnLearnNet;
     }
 }
 

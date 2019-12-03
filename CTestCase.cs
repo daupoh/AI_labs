@@ -13,7 +13,7 @@ namespace wf_AI_lab1
             m_iSizeOfResultVector;
         int[] m_aInputVector;
         double[] m_aResultVector;
-        public CTestCase(int[] aInputVector, int[] aResultVector)
+        public CTestCase(int[] aInputVector, double[] aResultVector)
         {
             Assert.IsTrue(aInputVector != null && aResultVector != null);
             Assert.IsTrue(aInputVector.Length >0 && aResultVector.Length >0);
