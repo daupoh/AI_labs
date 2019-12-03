@@ -47,11 +47,13 @@
             this.BtnRandomNet = new System.Windows.Forms.Button();
             this.DgvNet = new System.Windows.Forms.DataGridView();
             this.GbxAnts = new System.Windows.Forms.GroupBox();
+            this.BtnSetZeroAnt = new System.Windows.Forms.Button();
+            this.BtnRandAnts = new System.Windows.Forms.Button();
             this.DgvAnts = new System.Windows.Forms.DataGridView();
             this.GbxLog = new System.Windows.Forms.GroupBox();
             this.TbxLog = new System.Windows.Forms.TextBox();
-            this.BtnRandAnts = new System.Windows.Forms.Button();
-            this.BtnSetZeroAnt = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.GbxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudAttractive)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudEvaporation)).BeginInit();
@@ -68,6 +70,8 @@
             // 
             // GbxSettings
             // 
+            this.GbxSettings.Controls.Add(this.button2);
+            this.GbxSettings.Controls.Add(this.button1);
             this.GbxSettings.Controls.Add(this.LblAttractive);
             this.GbxSettings.Controls.Add(this.NudAttractive);
             this.GbxSettings.Controls.Add(this.BtnCreateNet);
@@ -99,6 +103,11 @@
             // NudAttractive
             // 
             this.NudAttractive.Location = new System.Drawing.Point(243, 206);
+            this.NudAttractive.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
             this.NudAttractive.Minimum = new decimal(new int[] {
             1,
             0,
@@ -191,6 +200,11 @@
             // NudDistancePower
             // 
             this.NudDistancePower.Location = new System.Drawing.Point(244, 114);
+            this.NudDistancePower.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.NudDistancePower.Minimum = new decimal(new int[] {
             1,
             0,
@@ -208,6 +222,11 @@
             // NudPheromonePower
             // 
             this.NudPheromonePower.Location = new System.Drawing.Point(244, 82);
+            this.NudPheromonePower.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
             this.NudPheromonePower.Minimum = new decimal(new int[] {
             1,
             0,
@@ -226,7 +245,7 @@
             // 
             this.NudAntCount.Location = new System.Drawing.Point(244, 56);
             this.NudAntCount.Maximum = new decimal(new int[] {
-            1000,
+            10000,
             0,
             0,
             0});
@@ -331,6 +350,26 @@
             this.GbxAnts.TabStop = false;
             this.GbxAnts.Text = "Муравьи";
             // 
+            // BtnSetZeroAnt
+            // 
+            this.BtnSetZeroAnt.Location = new System.Drawing.Point(369, 190);
+            this.BtnSetZeroAnt.Name = "BtnSetZeroAnt";
+            this.BtnSetZeroAnt.Size = new System.Drawing.Size(152, 38);
+            this.BtnSetZeroAnt.TabIndex = 16;
+            this.BtnSetZeroAnt.Text = "Заполнить нулями";
+            this.BtnSetZeroAnt.UseVisualStyleBackColor = true;
+            this.BtnSetZeroAnt.Click += new System.EventHandler(this.BtnSetZeroAnt_Click);
+            // 
+            // BtnRandAnts
+            // 
+            this.BtnRandAnts.Location = new System.Drawing.Point(9, 192);
+            this.BtnRandAnts.Name = "BtnRandAnts";
+            this.BtnRandAnts.Size = new System.Drawing.Size(152, 38);
+            this.BtnRandAnts.TabIndex = 15;
+            this.BtnRandAnts.Text = "Заполнить случайными значениями";
+            this.BtnRandAnts.UseVisualStyleBackColor = true;
+            this.BtnRandAnts.Click += new System.EventHandler(this.BtnRandAnts_Click);
+            // 
             // DgvAnts
             // 
             this.DgvAnts.AllowUserToAddRows = false;
@@ -369,25 +408,25 @@
             this.TbxLog.Size = new System.Drawing.Size(275, 451);
             this.TbxLog.TabIndex = 0;
             // 
-            // BtnRandAnts
+            // button1
             // 
-            this.BtnRandAnts.Location = new System.Drawing.Point(9, 192);
-            this.BtnRandAnts.Name = "BtnRandAnts";
-            this.BtnRandAnts.Size = new System.Drawing.Size(152, 38);
-            this.BtnRandAnts.TabIndex = 15;
-            this.BtnRandAnts.Text = "Заполнить случайными значениями";
-            this.BtnRandAnts.UseVisualStyleBackColor = true;
-            this.BtnRandAnts.Click += new System.EventHandler(this.BtnRandAnts_Click);
+            this.button1.Location = new System.Drawing.Point(117, 245);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(120, 37);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Создать муравьев";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
-            // BtnSetZeroAnt
+            // button2
             // 
-            this.BtnSetZeroAnt.Location = new System.Drawing.Point(369, 190);
-            this.BtnSetZeroAnt.Name = "BtnSetZeroAnt";
-            this.BtnSetZeroAnt.Size = new System.Drawing.Size(152, 38);
-            this.BtnSetZeroAnt.TabIndex = 16;
-            this.BtnSetZeroAnt.Text = "Заполнить нулями";
-            this.BtnSetZeroAnt.UseVisualStyleBackColor = true;
-            this.BtnSetZeroAnt.Click += new System.EventHandler(this.BtnSetZeroAnt_Click);
+            this.button2.Location = new System.Drawing.Point(6, 245);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(105, 37);
+            this.button2.TabIndex = 15;
+            this.button2.Text = "Обновить метрики";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // FmAntAlg
             // 
@@ -444,6 +483,8 @@
         private System.Windows.Forms.TextBox TbxLog;
         private System.Windows.Forms.Button BtnRandAnts;
         private System.Windows.Forms.Button BtnSetZeroAnt;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
 

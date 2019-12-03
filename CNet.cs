@@ -187,7 +187,7 @@ namespace wf_AI_lab1
                 for (int j = 0; j < CountOfVertex; j++)
                 {
                     m_aGraph[i][j].Distance = aDistanceMatrix[i][j];
-                    m_aGraph[i][j].Pheromone = 0;
+                    m_aGraph[i][j].Pheromone = 0.001;
                 }
             }
         }

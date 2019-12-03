@@ -72,6 +72,10 @@ namespace wf_AI_lab1
                 }
                 Console.WriteLine(iNextPos.ToString() + " because of " + fRand);
                 m_aTabu[m_iPosition++] = iNextPos;
+                if (iNextPos==-1)
+                {
+                    iNextPos = 0;
+                }
             }
         }
         public void Run(double fAlpha, double fBeta)
@@ -109,6 +113,10 @@ namespace wf_AI_lab1
                 }
                 Console.WriteLine("_______________");
                 m_aTabu[m_iPosition++] = iNextPos;
+                if (iNextPos == -1)
+                {
+                    iNextPos = 0;
+                }
             }
         }
         private bool NotTabu(int iPos)

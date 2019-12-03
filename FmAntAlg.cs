@@ -112,23 +112,33 @@ namespace wf_AI_lab1
                 TbxLog.Text += sPath + "\r\n Длина пути: "+m_rNet.GetPathLength(aPath).ToString()+ "\r\n";
             }
         }
-        private void UpdateNet()
-        {
-             
-        }
+        
         private void CreateNet()
         {
-            double fEvaporation = (double)NudEvaporation.Value,
-                  fDistancePower = (double)NudDistancePower.Value,
-                  fPheromonePower = (double)NudPheromonePower.Value;
-            int iVertexCount = (int)NudVertexCount.Value,
-                iAttractive = (int)NudAttractive.Value;
 
-            m_rNet.Attraction = iAttractive;
+            int iVertexCount = (int)NudVertexCount.Value;
+             
+
+          
             m_rNet.CountOfVertex = iVertexCount;
+
+            UpdateMetrics();
+            CreateAnts();
+            CreateNetTable();
+        }
+        private void UpdateMetrics()
+        {
+            double fEvaporation = (double)NudEvaporation.Value,
+               fDistancePower = (double)NudDistancePower.Value,
+               fPheromonePower = (double)NudPheromonePower.Value;
+            int iAttractive = (int)NudAttractive.Value;
+            m_rNet.Attraction = iAttractive;
             m_rNet.DistancePower = fDistancePower;
             m_rNet.PheromonePower = fPheromonePower;
             m_rNet.Evaporation = fEvaporation;
+        }
+        private void CreateAnts()
+        {
             int iAntCount = (int)NudAntCount.Value;
             m_aAnts.Clear();
             for (int i = 0; i < iAntCount; i++)
@@ -136,7 +146,6 @@ namespace wf_AI_lab1
                 m_aAnts.Add(new CAnt(ref m_rNet));
             }
             CreateAntsTable();
-            CreateNetTable();
         }
         private void CreateNetTable()
         {
@@ -293,9 +302,14 @@ namespace wf_AI_lab1
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Button1_Click(object sender, EventArgs e)
         {
-            UpdateNet();
+            CreateAnts();
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+            UpdateMetrics();
         }
     }
 }
