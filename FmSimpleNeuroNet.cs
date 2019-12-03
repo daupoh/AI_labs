@@ -60,7 +60,7 @@ namespace wf_AI_lab1
             m_fNet = new CNet();
             m_fNet.RandomizeWeights();
             TbxInputVector.Text = m_fNet.AllNet();
-
+            m_fNet.Learning(0.1, 1000);
         }
 
         private void FmSimpleNeuroNet_Shown(object sender, EventArgs e)

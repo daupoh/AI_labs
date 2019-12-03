@@ -87,7 +87,29 @@ namespace wf_AI_lab1
         }
         private void AddTests()
         {
+            int[] aInputVector = { 1, 0, 1, 1, 1, 1, 1, 0, 1 };
+            double[] aResultVector = { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+            AddTest(aInputVector, aResultVector);
 
+            aInputVector = new int[9] { 1, 1, 1, 0, 1, 0, 0, 1, 0 };
+            aResultVector = new double[6] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
+            AddTest(aInputVector, aResultVector);
+
+            aInputVector = new int[9] { 1, 1, 1, 1, 0, 0, 1, 0, 0 };
+            aResultVector = new double[6] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
+            AddTest(aInputVector, aResultVector);
+
+            aInputVector = new int[9] { 1, 1, 1, 1, 0, 1, 1, 0, 1 };
+            aResultVector = new double[6] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
+            AddTest(aInputVector, aResultVector);
+
+            aInputVector = new int[9] { 1, 1, 1, 1, 0, 0, 1, 1, 1 };
+            aResultVector = new double[6] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
+            AddTest(aInputVector, aResultVector);
+            
+            aInputVector = new int[9] { 1, 1, 1, 1, 0, 1, 1, 1, 1 };
+            aResultVector = new double[6] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+            AddTest(aInputVector, aResultVector);  
         }
       
        

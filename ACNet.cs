@@ -169,6 +169,12 @@ namespace wf_AI_lab1
         {
             m_aOutput.Add(new CNeuron("Выходной нейрон #" + (m_aOutput.Count + 1).ToString()));
         }
+        protected void AddTest(int[] aInputVector, double[] aResultVector)
+        {
+            Assert.IsTrue(aInputVector != null && aResultVector != null);
+            Assert.IsTrue(aInputVector.Length == m_aInput.Count && aResultVector.Length == m_aOutput.Count);
+            m_aTestCases.Add(new CTestCase(aInputVector, aResultVector));
+        }
       
 
         /******************PRIVATE****************************************/
