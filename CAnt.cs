@@ -89,25 +89,19 @@ namespace wf_AI_lab1
                         fSumAttractivePheromones += Math.Pow(aPheromones[i], fAlpha) * Math.Pow(aAttractives[i], fBeta);
                     }
                 }
-
-                Console.WriteLine("Sum = " + Math.Round(fSumAttractivePheromones, 6).ToString());
                 for (int i = 0; i < m_rNet.CountOfVertex; i++)
                 {
                     if (NotTabu(i))
                     {
                         aProbability = Math.Pow(aPheromones[i], fAlpha) * Math.Pow(aAttractives[i], fBeta) / fSumAttractivePheromones;
-                        Console.WriteLine("Probability of rib " + iCurrentPos.ToString() + " to " + i.ToString() + " "
-                            + Math.Round(aProbability, 4).ToString());
-
+                    
                         if (aProbability > fMaxProbability)
                         {
                             iNextPos = i;
-                            fMaxProbability = aProbability;
-                            Console.WriteLine("New max probability = " + Math.Round(fMaxProbability, 4).ToString());
+                            fMaxProbability = aProbability;                    
                         }
                     }
-                }
-                Console.WriteLine("_______________");
+                }                
                 m_aTabu[m_iPosition++] = iNextPos;             
             }
         }

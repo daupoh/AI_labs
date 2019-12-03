@@ -76,6 +76,7 @@ namespace wf_AI_lab1
             }
             
             m_rNet.SetRibs(aDistanceMatrix);
+
             for (int i = 0; i < m_aAnts.Count; i++)
             {
                 m_aAnts[i].StartPos = Convert.ToInt32(DgvAnts.Rows[i].Cells[0].Value);
@@ -102,6 +103,7 @@ namespace wf_AI_lab1
                 m_aAnts[i].StartPos = Convert.ToInt32(DgvAnts.Rows[i].Cells[0].Value);
                 m_aAnts[i].PrepareToRun();
                 m_aAnts[i].Run(m_rNet.PheromonePower,m_rNet.DistancePower);
+                
                 int[] aPath = m_aAnts[i].Path;
                 string sPath = "{";
                 for (int j = 0; j < aPath.Length - 1; j++)
@@ -110,6 +112,7 @@ namespace wf_AI_lab1
                 }
                 sPath += aPath[aPath.Length - 1].ToString() + '}';
                 TbxLog.Text += sPath + "\r\n Длина пути: "+m_rNet.GetPathLength(aPath).ToString()+ "\r\n";
+                m_rNet.UpdatePheromones(aPath);
             }
         }
         
