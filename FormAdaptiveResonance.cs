@@ -136,7 +136,7 @@ namespace wf_AI_lab2
         }
         private void CheckResonanceMayStart()
         {
-            if (CbxPrototypes.Items.Count>0 && CbxSigns.Items.Count>0)
+            if (CbxSigns.Items.Count>0)
             {
                 BtnStartResonance.Enabled = true;
             }
