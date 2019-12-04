@@ -314,5 +314,19 @@ namespace wf_AI_lab1
         {
             UpdateMetrics();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            int iAntCountOnVertex = m_aAnts.Count / m_rNet.CountOfVertex,
+                iVertexNumber=0;
+
+            for (int i = 0; i < m_rNet.CountOfVertex; i++)
+            {
+                for (int j = 0; j < iAntCountOnVertex; j++)
+                {
+                    DgvAnts.Rows[i * iAntCountOnVertex + j].Cells[0].Value = i;
+                }                
+            }
+        }
     }
 }

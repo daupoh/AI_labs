@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.GbxSettings = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.LblAttractive = new System.Windows.Forms.Label();
             this.NudAttractive = new System.Windows.Forms.NumericUpDown();
             this.BtnCreateNet = new System.Windows.Forms.Button();
@@ -52,8 +54,7 @@
             this.DgvAnts = new System.Windows.Forms.DataGridView();
             this.GbxLog = new System.Windows.Forms.GroupBox();
             this.TbxLog = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.GbxSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudAttractive)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudEvaporation)).BeginInit();
@@ -91,6 +92,26 @@
             this.GbxSettings.TabIndex = 0;
             this.GbxSettings.TabStop = false;
             this.GbxSettings.Text = "Настройки алгоритма";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(6, 245);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(105, 37);
+            this.button2.TabIndex = 15;
+            this.button2.Text = "Обновить метрики";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(117, 245);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(120, 37);
+            this.button1.TabIndex = 14;
+            this.button1.Text = "Создать муравьев";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // LblAttractive
             // 
@@ -339,6 +360,7 @@
             // 
             // GbxAnts
             // 
+            this.GbxAnts.Controls.Add(this.button3);
             this.GbxAnts.Controls.Add(this.BtnSetZeroAnt);
             this.GbxAnts.Controls.Add(this.BtnRandAnts);
             this.GbxAnts.Controls.Add(this.DgvAnts);
@@ -408,25 +430,15 @@
             this.TbxLog.Size = new System.Drawing.Size(275, 451);
             this.TbxLog.TabIndex = 0;
             // 
-            // button1
+            // button3
             // 
-            this.button1.Location = new System.Drawing.Point(117, 245);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(120, 37);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "Создать муравьев";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.Button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(6, 245);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(105, 37);
-            this.button2.TabIndex = 15;
-            this.button2.Text = "Обновить метрики";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.Button2_Click);
+            this.button3.Location = new System.Drawing.Point(177, 192);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(152, 38);
+            this.button3.TabIndex = 17;
+            this.button3.Text = "Разделить поровну";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // FmAntAlg
             // 
@@ -485,6 +497,7 @@
         private System.Windows.Forms.Button BtnSetZeroAnt;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button3;
     }
 }
 
