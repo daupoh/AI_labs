@@ -11,7 +11,7 @@ namespace wf_AI_lab2
     {
         int m_iLength;
         long m_iBits;
-        string m_sCode;
+        string m_sCode, m_sName;
         public string Code
         {
             get
@@ -22,6 +22,18 @@ namespace wf_AI_lab2
             {
                 CheckStringVector(value);
                 m_sCode = value;
+            }
+        }
+        public string Name
+        {
+            get
+            {
+                return m_sName+'('+Code+')';
+            }
+            private set
+            {
+                Assert.IsTrue(value.Length > 0);
+                m_sName = value;
             }
         }
         public int Length
@@ -60,10 +72,11 @@ namespace wf_AI_lab2
                 return iCountOfOne;
             }
         }
-        public CBinVector(string sVector)
+        public CBinVector(string sVector, string sName)
         {
             Length = sVector.Length;
-            Code = sVector;            
+            Code = sVector;
+            Name = sName;
             m_iBits = 0;
             for (int i = 0; i < Length; i++)
             {
@@ -76,7 +89,7 @@ namespace wf_AI_lab2
         }
         public CBinVector Clone()
         {
-            return new CBinVector(Code);
+            return new CBinVector(Code,Name);
         }
         public void Copy(CBinVector rCopied)
         {

@@ -63,16 +63,19 @@ namespace wf_AI_lab2
 
         private void BtnSaveSettings_Click(object sender, EventArgs e)
         {
-            DialogResult dialogResult = MessageBox.Show(m_sConfermStr, m_sConfermTitle,MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
+            if (m_rAdaptRes.MaxClusters != (int)nudMaxClusters.Value || m_rAdaptRes.VectorLength != (int)nudVectorLength.Value)
             {
-                m_rAdaptRes.MaxClusters = (int)nudMaxClusters.Value;
-                m_rAdaptRes.VectorLength = (int)nudVectorLength.Value;
-                m_rAdaptRes.Beta = (int)nudBeta.Value;
-                m_rAdaptRes.Attention = (double)nudAttention.Value;
-                SetListOfSigns();
-                EnabledSettingButtons(false);
-                ClearLists();
+                DialogResult dialogResult = MessageBox.Show(m_sConfermStr, m_sConfermTitle, MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    m_rAdaptRes.MaxClusters = (int)nudMaxClusters.Value;
+                    m_rAdaptRes.VectorLength = (int)nudVectorLength.Value;
+                    m_rAdaptRes.Beta = (int)nudBeta.Value;
+                    m_rAdaptRes.Attention = (double)nudAttention.Value;
+                    SetListOfSigns();
+                    EnabledSettingButtons(false);
+                    ClearLists();
+                }
             }
         }
         private void EnabledSettingButtons(bool bEnabled)
@@ -83,6 +86,7 @@ namespace wf_AI_lab2
         private void ClearLists()
         {
             m_rAdaptRes.ClearVectors();
+            m_rAdaptRes.ClearClusters();
             CbxSigns.Items.Clear();
             CbxSigns.Text = "";
             CbxPrototypes.Items.Clear();
@@ -130,7 +134,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateVector();
             m_rAdaptRes.AddVectorSign(sCode);
-            CbxSigns.Items.Add("Признак #" + CbxSigns.Items.Count.ToString() + " (" + sCode + ")");
+            CbxSigns.Items.Add(m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Name);
             BalloonTip("Вектор признаков успешно добавлен.");
             CheckResonanceMayStart();
         }
@@ -215,7 +219,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateVector();
             m_rAdaptRes.AddVectorPrototype(sCode);
-            CbxPrototypes.Items.Add("Прототип #" + CbxPrototypes.Items.Count.ToString() + " (" + sCode + ")");
+            CbxPrototypes.Items.Add(m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Name);
             BalloonTip("Вектор прототип успешно добавлен.");
             CheckResonanceMayStart();
         }
@@ -255,7 +259,8 @@ namespace wf_AI_lab2
         private void BtnStartResonance_Click(object sender, EventArgs e)
         {
             try
-            {                
+            {
+                m_rAdaptRes.ClearClusters();
                 m_rAdaptRes.Resonance();
                 MessageBox.Show("Алгоритм успешно выполнен!");
                 gbClusters.Enabled = true;
@@ -265,8 +270,8 @@ namespace wf_AI_lab2
                     CbxClusters.Enabled = true;
                     for (int i = 0; i < aClusters.Length; i++)
                     {
-                        string sCode = aClusters[i].PrototypeVector.Code;
-                        CbxClusters.Items.Add("Кластер #" + CbxClusters.Items.Count.ToString() + " (" + sCode + ")");
+                        string sCode = aClusters[i].Name;
+                        CbxClusters.Items.Add(sCode);
                     }
                 }                
             }
@@ -302,8 +307,8 @@ namespace wf_AI_lab2
             {
                 for (int i = 0; i < aVectors.Length; i++)
                 {
-                    string sCode = aVectors[i].Code;
-                    CbxClusterSigns.Items.Add("Признак #" + CbxClusterSigns.Items.Count.ToString() + " (" + sCode + ")");
+                    string sName = aVectors[i].Name;
+                    CbxClusterSigns.Items.Add(sName);
                 }
                 CbxClusterSigns.Enabled = true;
             }
@@ -313,7 +318,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateRandomVector();
             m_rAdaptRes.AddVectorSign(sCode);
-            CbxSigns.Items.Add("Признак #" + CbxSigns.Items.Count.ToString() + " (" + sCode + ")");
+            CbxSigns.Items.Add(m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Name);
             BalloonTip("Вектор признаков успешно добавлен.");
             CheckResonanceMayStart();
         }
@@ -341,7 +346,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateRandomVector();
             m_rAdaptRes.AddVectorPrototype(sCode);
-            CbxPrototypes.Items.Add("Прототип #" + CbxPrototypes.Items.Count.ToString() + " (" + sCode + ")");
+            CbxPrototypes.Items.Add(m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Name);
             BalloonTip("Вектор прототип успешно добавлен.");
             CheckResonanceMayStart();
         }

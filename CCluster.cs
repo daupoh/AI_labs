@@ -11,7 +11,7 @@ namespace wf_AI_lab2
     {
         CBinVector rVectorPrototype;
         readonly IList<CBinVector> aClusteredVectorSigns;
-
+        string m_sName;
         public CBinVector PrototypeVector
         {
             get
@@ -24,10 +24,23 @@ namespace wf_AI_lab2
                 rVectorPrototype = value;
             }
         }
+        public string Name
+        {
+            get
+            {
+                return m_sName;
+            }
+            set
+            {
+                Assert.IsTrue(value.Length > 0);
+                m_sName = value;
+            }
+        }
 
-        public CCluster(CBinVector rVector)
+        public CCluster(CBinVector rVector, string sName)
         {
             PrototypeVector = rVector;
+            Name = sName;
             aClusteredVectorSigns = new List<CBinVector>();
         }
         public void AddVectorSign(CBinVector rVector)
