@@ -283,7 +283,7 @@ namespace wf_AI_lab2
             BtnStartResonance.Enabled = false;
             GbSigns.Enabled = false;
             BtnReset.Enabled = true;
-            gbSettings.Enabled = false;
+           
         }
 
         private void BtnReset_Click(object sender, EventArgs e)
