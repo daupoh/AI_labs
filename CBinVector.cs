@@ -10,7 +10,7 @@ namespace wf_AI_lab2
     class CBinVector
     {
         int m_iLength;
-        long m_iBits;
+    
         string m_sCode, m_sName;
         public string Code
         {
@@ -28,7 +28,7 @@ namespace wf_AI_lab2
         {
             get
             {
-                return m_sName+'('+Code+')';
+                return m_sName;
             }
             private set
             {
@@ -48,15 +48,7 @@ namespace wf_AI_lab2
                 m_iLength = value;
             }
         }
-        public long Number
-        {
-            get { return m_iBits; }
-            private set
-            {
-                Assert.IsTrue(value>=0);
-                m_iBits = value;
-            }
-        }
+      
         public int Relevance
         {
             get
@@ -77,15 +69,7 @@ namespace wf_AI_lab2
             Length = sVector.Length;
             Code = sVector;
             Name = sName;
-            m_iBits = 0;
-            for (int i = 0; i < Length; i++)
-            {
-                char c = sVector[Length - i - 1];
-                if (c == '1')
-                {
-                    m_iBits += (long)Math.Pow(2, i);
-                }
-            }
+           
         }
         public CBinVector Clone()
         {
@@ -94,7 +78,7 @@ namespace wf_AI_lab2
         public void Copy(CBinVector rCopied)
         {
             Assert.IsTrue(rCopied.Length == Length);
-            m_iBits = rCopied.Number;
+          
             m_sCode = rCopied.Code;
         }
         public void MultVector(CBinVector rVector)
@@ -112,8 +96,7 @@ namespace wf_AI_lab2
                     sNewCode += '0';
                 }
             }
-            m_sCode = sNewCode;
-            Number &= rVector.Number;
+            m_sCode = sNewCode;         
         }       
         private void CheckStringVector(string sVector)
         {

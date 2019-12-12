@@ -63,20 +63,20 @@ namespace wf_AI_lab2
 
         private void BtnSaveSettings_Click(object sender, EventArgs e)
         {
-            if (m_rAdaptRes.MaxClusters != (int)nudMaxClusters.Value || m_rAdaptRes.VectorLength != (int)nudVectorLength.Value)
+            if (m_rAdaptRes.VectorLength != (int)nudVectorLength.Value)
             {
                 DialogResult dialogResult = MessageBox.Show(m_sConfermStr, m_sConfermTitle, MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    m_rAdaptRes.MaxClusters = (int)nudMaxClusters.Value;
-                    m_rAdaptRes.VectorLength = (int)nudVectorLength.Value;
-                    m_rAdaptRes.Beta = (int)nudBeta.Value;
-                    m_rAdaptRes.Attention = (double)nudAttention.Value;
-                    SetListOfSigns();
-                    EnabledSettingButtons(false);
-                    ClearLists();
+                    m_rAdaptRes.VectorLength = (int)nudVectorLength.Value;                              
+                    SetListOfSigns();                  
+                    Reset();
                 }
             }
+            m_rAdaptRes.MaxClusters = (int)nudMaxClusters.Value;
+            m_rAdaptRes.Beta = (int)nudBeta.Value;
+            m_rAdaptRes.Attention = (double)nudAttention.Value;
+            EnabledSettingButtons(false);
         }
         private void EnabledSettingButtons(bool bEnabled)
         {
@@ -134,7 +134,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateVector();
             m_rAdaptRes.AddVectorSign(sCode);
-            CbxSigns.Items.Add(m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Name);
+            CbxSigns.Items.Add(m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Name+ " ("+m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Code+')');
             BalloonTip("Вектор признаков успешно добавлен.");
             CheckResonanceMayStart();
         }
@@ -219,7 +219,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateVector();
             m_rAdaptRes.AddVectorPrototype(sCode);
-            CbxPrototypes.Items.Add(m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Name);
+            CbxPrototypes.Items.Add(m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Name+" ("+ m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Code+')');
             BalloonTip("Вектор прототип успешно добавлен.");
             CheckResonanceMayStart();
         }
@@ -255,12 +255,13 @@ namespace wf_AI_lab2
             BtnDeleteSign.Enabled = true;
             BtnSaveVector.Enabled = true;
         }
-
         private void BtnStartResonance_Click(object sender, EventArgs e)
         {
             try
             {
+                ClearClusterList();
                 m_rAdaptRes.ClearClusters();
+                TbLog.Text = "";
                 m_rAdaptRes.Resonance();
                 MessageBox.Show("Алгоритм успешно выполнен!");
                 gbClusters.Enabled = true;
@@ -270,7 +271,7 @@ namespace wf_AI_lab2
                     CbxClusters.Enabled = true;
                     for (int i = 0; i < aClusters.Length; i++)
                     {
-                        string sCode = aClusters[i].Name;
+                        string sCode = aClusters[i].Name+'('+aClusters[i].PrototypeVector.Code+')';
                         CbxClusters.Items.Add(sCode);
                     }
                 }                
@@ -279,20 +280,28 @@ namespace wf_AI_lab2
             {
                 MessageBox.Show("Ошибка при выполнении алгоритма!\r\n"+ rExp.Message);
             }
-            TbLog.Text = m_rAdaptRes.Log;
-            BtnStartResonance.Enabled = false;
-            GbSigns.Enabled = false;
             BtnReset.Enabled = true;
-           
+            CbxClusterSigns.Enabled = false;
+            TbLog.Text = m_rAdaptRes.Log+"\r\n"+m_rAdaptRes.ResultOutput();
+            TbLog.SelectionStart = TbLog.Text.Length;
+            TbLog.ScrollToCaret();
+            
+        }       
+        private void ClearClusterList()
+        {
+            CbxClusters.Items.Clear();
+            CbxClusters.Text = "";
+            CbxClusterSigns.Items.Clear();
+            CbxClusterSigns.Text = "";
         }
-
         private void BtnReset_Click(object sender, EventArgs e)
         {
+            Reset();
+        }
+        private void Reset()
+        {
             gbClusters.Enabled = false;
-            CbxClusters.Items.Clear();
-            CbxClusterSigns.Items.Clear();
-            CbxClusters.Text = "";
-            CbxClusterSigns.Text = "";
+            ClearClusterList();
             GbSigns.Enabled = true;
             gbSettings.Enabled = true;
             ClearLists();
@@ -307,7 +316,7 @@ namespace wf_AI_lab2
             {
                 for (int i = 0; i < aVectors.Length; i++)
                 {
-                    string sName = aVectors[i].Name;
+                    string sName = aVectors[i].Name +" ("+ aVectors[i].Code+')';
                     CbxClusterSigns.Items.Add(sName);
                 }
                 CbxClusterSigns.Enabled = true;
@@ -318,7 +327,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateRandomVector();
             m_rAdaptRes.AddVectorSign(sCode);
-            CbxSigns.Items.Add(m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Name);
+            CbxSigns.Items.Add(m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Name +" ("+ m_rAdaptRes.GetVectorSign(CbxSigns.Items.Count).Code+')');
             BalloonTip("Вектор признаков успешно добавлен.");
             CheckResonanceMayStart();
         }
@@ -346,7 +355,7 @@ namespace wf_AI_lab2
         {
             string sCode = GenerateRandomVector();
             m_rAdaptRes.AddVectorPrototype(sCode);
-            CbxPrototypes.Items.Add(m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Name);
+            CbxPrototypes.Items.Add(m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Name + " ("+m_rAdaptRes.GetVectorPrototype(CbxPrototypes.Items.Count).Code+')');
             BalloonTip("Вектор прототип успешно добавлен.");
             CheckResonanceMayStart();
         }

@@ -30,6 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.GbSigns = new System.Windows.Forms.GroupBox();
+            this.BtnAddRandPrototype = new System.Windows.Forms.Button();
+            this.BtnAddRandSign = new System.Windows.Forms.Button();
             this.BtnAddPrototype = new System.Windows.Forms.Button();
             this.CbxPrototypes = new System.Windows.Forms.ComboBox();
             this.LblVectorPrototypes = new System.Windows.Forms.Label();
@@ -61,8 +63,6 @@
             this.nudBeta = new System.Windows.Forms.NumericUpDown();
             this.nudMaxClusters = new System.Windows.Forms.NumericUpDown();
             this.nicAddVectorSucces = new System.Windows.Forms.NotifyIcon(this.components);
-            this.BtnAddRandSign = new System.Windows.Forms.Button();
-            this.BtnAddRandPrototype = new System.Windows.Forms.Button();
             this.GbLog = new System.Windows.Forms.GroupBox();
             this.TbLog = new System.Windows.Forms.TextBox();
             this.GbSigns.SuspendLayout();
@@ -97,6 +97,26 @@
             this.GbSigns.TabIndex = 0;
             this.GbSigns.TabStop = false;
             this.GbSigns.Text = "Признаки и прототипы";
+            // 
+            // BtnAddRandPrototype
+            // 
+            this.BtnAddRandPrototype.Location = new System.Drawing.Point(71, 145);
+            this.BtnAddRandPrototype.Name = "BtnAddRandPrototype";
+            this.BtnAddRandPrototype.Size = new System.Drawing.Size(129, 34);
+            this.BtnAddRandPrototype.TabIndex = 15;
+            this.BtnAddRandPrototype.Text = "Добавить случайный вектор";
+            this.BtnAddRandPrototype.UseVisualStyleBackColor = true;
+            this.BtnAddRandPrototype.Click += new System.EventHandler(this.BtnAddRandPrototype_Click);
+            // 
+            // BtnAddRandSign
+            // 
+            this.BtnAddRandSign.Location = new System.Drawing.Point(71, 63);
+            this.BtnAddRandSign.Name = "BtnAddRandSign";
+            this.BtnAddRandSign.Size = new System.Drawing.Size(129, 34);
+            this.BtnAddRandSign.TabIndex = 14;
+            this.BtnAddRandSign.Text = "Добавить случайный вектор";
+            this.BtnAddRandSign.UseVisualStyleBackColor = true;
+            this.BtnAddRandSign.Click += new System.EventHandler(this.BtnRandSign_Click);
             // 
             // BtnAddPrototype
             // 
@@ -329,7 +349,7 @@
             // lblVectorLength
             // 
             this.lblVectorLength.AutoSize = true;
-            this.lblVectorLength.Location = new System.Drawing.Point(6, 78);
+            this.lblVectorLength.Location = new System.Drawing.Point(6, 38);
             this.lblVectorLength.Name = "lblVectorLength";
             this.lblVectorLength.Size = new System.Drawing.Size(84, 13);
             this.lblVectorLength.TabIndex = 7;
@@ -355,7 +375,7 @@
             // 
             // lblMaxClusters
             // 
-            this.lblMaxClusters.Location = new System.Drawing.Point(6, 32);
+            this.lblMaxClusters.Location = new System.Drawing.Point(6, 77);
             this.lblMaxClusters.Name = "lblMaxClusters";
             this.lblMaxClusters.Size = new System.Drawing.Size(153, 33);
             this.lblMaxClusters.TabIndex = 4;
@@ -392,7 +412,7 @@
             // 
             // nudVectorLength
             // 
-            this.nudVectorLength.Location = new System.Drawing.Point(203, 71);
+            this.nudVectorLength.Location = new System.Drawing.Point(203, 31);
             this.nudVectorLength.Minimum = new decimal(new int[] {
             2,
             0,
@@ -433,7 +453,7 @@
             // 
             // nudMaxClusters
             // 
-            this.nudMaxClusters.Location = new System.Drawing.Point(203, 32);
+            this.nudMaxClusters.Location = new System.Drawing.Point(203, 77);
             this.nudMaxClusters.Minimum = new decimal(new int[] {
             1,
             0,
@@ -454,26 +474,6 @@
             this.nicAddVectorSucces.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.nicAddVectorSucces.Icon = global::wf_AI_lab2.Properties.Resources.droid;
             this.nicAddVectorSucces.Visible = true;
-            // 
-            // BtnAddRandSign
-            // 
-            this.BtnAddRandSign.Location = new System.Drawing.Point(71, 63);
-            this.BtnAddRandSign.Name = "BtnAddRandSign";
-            this.BtnAddRandSign.Size = new System.Drawing.Size(129, 34);
-            this.BtnAddRandSign.TabIndex = 14;
-            this.BtnAddRandSign.Text = "Добавить случайный вектор";
-            this.BtnAddRandSign.UseVisualStyleBackColor = true;
-            this.BtnAddRandSign.Click += new System.EventHandler(this.BtnRandSign_Click);
-            // 
-            // BtnAddRandPrototype
-            // 
-            this.BtnAddRandPrototype.Location = new System.Drawing.Point(71, 145);
-            this.BtnAddRandPrototype.Name = "BtnAddRandPrototype";
-            this.BtnAddRandPrototype.Size = new System.Drawing.Size(129, 34);
-            this.BtnAddRandPrototype.TabIndex = 15;
-            this.BtnAddRandPrototype.Text = "Добавить случайный вектор";
-            this.BtnAddRandPrototype.UseVisualStyleBackColor = true;
-            this.BtnAddRandPrototype.Click += new System.EventHandler(this.BtnAddRandPrototype_Click);
             // 
             // GbLog
             // 

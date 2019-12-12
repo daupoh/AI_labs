@@ -38,8 +38,8 @@ namespace wf_AI_lab2
         }
 
         public CCluster(CBinVector rVector, string sName)
-        {
-            PrototypeVector = rVector;
+        {            
+            PrototypeVector = new CBinVector(rVector.Code,rVector.Name);
             Name = sName;
             aClusteredVectorSigns = new List<CBinVector>();
         }

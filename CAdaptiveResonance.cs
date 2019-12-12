@@ -69,7 +69,7 @@ namespace wf_AI_lab2
             }
             set
             {
-                Assert.IsTrue(value > 0 && value < 1.0);
+                Assert.IsTrue(value > 0 && value <= 1.0);
                 m_fAttention= value;
             }
         }
@@ -94,6 +94,7 @@ namespace wf_AI_lab2
         {
             m_aClusters.Clear();
             m_iClusterCounter = 0;
+            m_sLog = "";
         }
         public CBinVector GetVectorSign(int iVectorIndex)
         {
@@ -136,18 +137,49 @@ namespace wf_AI_lab2
             Assert.IsTrue(iVectorIndex > -1 && iVectorIndex < m_aVectorPrototypes.Count);
             m_aVectorPrototypes.RemoveAt(iVectorIndex);
         }
+        public string ResultOutput()
+        {
+            string sResult = "";
+            sResult += "Изначальные признаки:\r\n";
+            foreach(CBinVector rVector in m_aVectorSigns)
+            {
+                sResult += "\t"+rVector.Name + " ("+rVector.Code+")\r\n";
+            }
+            sResult += "Изначальные прототипы:\r\n";
+            foreach (CBinVector rVector in m_aVectorPrototypes)
+            {
+                sResult += "\t" + rVector.Name + " ("+rVector.Code + ")\r\n";
+            }
+            sResult += "Сформированные кластеры:\r\n";
+            foreach (CCluster rCluster in m_aClusters)
+            {
+                sResult += "\t" + rCluster.Name + " с Прототипом "+rCluster.PrototypeVector.Name+" ("+ rCluster.PrototypeVector.Code + ")\r\n";
+                sResult += "\t\t" + "Признаки кластера:\r\n";
+                foreach (CBinVector rVector in rCluster.GetSigns())
+                {
+                    sResult += "\t\t\t"+rVector.Name + " ("+rVector.Code + ")\r\n";
+                }
+            }
+            return sResult;
+        }
         public void Resonance()
         {
+            int iIndex = 0;
             Assert.IsTrue(m_aVectorSigns.Count > 0,"Количество векторов признаком не может быть равно 0.");
             AddPrototypesToClusters();
             if (m_aClusters.Count == 0)
             {
                 string sName = "Кластер #" + m_iClusterCounter++;
                 m_aClusters.Add(new CCluster(m_aVectorSigns[0], sName));
+                Log += "Кластер " + m_aClusters[0].PrototypeVector.Code;
+                m_aClusters[0].AddVectorSign(m_aVectorSigns[0]);
+                Log += "обновлен " + m_aClusters[0].PrototypeVector.Code;
+                iIndex++;
             }
             int iSteps = 0;
-            foreach (CBinVector rVectorSign in m_aVectorSigns)
+            while (iIndex < m_aVectorSigns.Count)
             {
+                CBinVector rVectorSign = m_aVectorSigns[iIndex];
                 bool bSignAddedToCluster = false;
                 Log += "Шаг " + iSteps++.ToString();
                 Log += "Проверка вектора признаков "+rVectorSign.Code;
@@ -176,6 +208,7 @@ namespace wf_AI_lab2
                     m_aClusters[m_aClusters.Count - 1].AddVectorSign(rVectorSign);
                     Log += "Вектор признаков " + rVectorSign.Code + " создал новый кластер " + m_aClusters[m_aClusters.Count - 1].PrototypeVector.Code;
                 }
+                iIndex++;
             }
             Log += "______________________";
         }
