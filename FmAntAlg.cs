@@ -65,6 +65,8 @@ namespace wf_AI_lab1
         }
         private void AntsRun()
         {
+            string sMinPath = "", sMinRandomPath="";
+            double fMinDistance = int.MaxValue, fMinRandomDistance=int.MaxValue;
             double[][] aDistanceMatrix = new double[m_rNet.CountOfVertex][];
             for (int i = 0; i < m_rNet.CountOfVertex; i++)
             {
@@ -74,24 +76,24 @@ namespace wf_AI_lab1
                     aDistanceMatrix[i][j] = Convert.ToDouble(DgvNet.Rows[i].Cells[j].Value);
                 }
             }
-            
             m_rNet.SetRibs(aDistanceMatrix);
-
             for (int i = 0; i < m_aAnts.Count; i++)
             {
                 m_aAnts[i].StartPos = Convert.ToInt32(DgvAnts.Rows[i].Cells[0].Value);
                 m_aAnts[i].PrepareToRun();
                 m_aAnts[i].FirstRun();
                 int[] aPath = m_aAnts[i].Path;
-                string sPath = "{";
-                for (int j = 0; j < aPath.Length - 1; j++)
-                {
-                    sPath += aPath[j].ToString() + ',';
-                }
+                string sPath = PathToString(aPath);
                 sPath += aPath[aPath.Length - 1].ToString() + '}';
                 DgvAnts.Rows[i].Cells[1].Value = sPath;
                 DgvAnts.Rows[i].Cells[2].Value = m_rNet.GetPathLength(aPath);
                 DgvAnts.Rows[i].Cells[3].Value = Math.Round(m_rNet.Attraction / m_rNet.GetPathLength(aPath),5);
+                double fDistance = m_rNet.GetPathLength(m_aAnts[i].Path);
+                if (fDistance < fMinRandomDistance)
+                {
+                    fMinRandomDistance = fDistance;
+                    sMinRandomPath = PathToString(m_aAnts[i].Path);
+                }                
             }
             for (int i = 0; i < m_aAnts.Count; i++)
             {
@@ -105,17 +107,31 @@ namespace wf_AI_lab1
                 m_aAnts[i].Run(m_rNet.PheromonePower,m_rNet.DistancePower);
                 
                 int[] aPath = m_aAnts[i].Path;
-                string sPath = "{";
-                for (int j = 0; j < aPath.Length - 1; j++)
+                string sPath = PathToString(aPath);
+                double fDistance = m_rNet.GetPathLength(aPath);
+                if (fDistance<fMinDistance)
                 {
-                    sPath += aPath[j].ToString() + ',';
+                    fMinDistance = fDistance;
+                    sMinPath = sPath;
                 }
-                sPath += aPath[aPath.Length - 1].ToString() + '}';
-                TbxLog.Text += sPath + "\r\n Длина пути: "+m_rNet.GetPathLength(aPath).ToString()+ "\r\n";
+                TbxLog.Text += sPath + "\r\n Длина пути: "+ fDistance.ToString()+ "\r\n";
                 m_rNet.UpdatePheromones(aPath);
             }
+            TbxLog.Text += "Минимальный случайный путь " + sMinRandomPath + "\r\n Длина пути: " + fMinRandomDistance.ToString() + "\r\n";
+            TbxLog.Text += "Минимальный рассчитанный путь "+sMinPath + "\r\n Длина пути: " + fMinDistance.ToString() + "\r\n";
+            TbxLog.SelectionStart = TbxLog.Text.Length;
+            TbxLog.ScrollToCaret();
         }
-        
+      private string PathToString(int[] aPath)
+        {
+            string sPath = "{";
+            for (int j = 0; j < aPath.Length - 1; j++)
+            {
+                sPath += aPath[j].ToString() + ',';
+            }
+            sPath += aPath[aPath.Length - 1].ToString() + '}';
+            return sPath;
+        }
         private void CreateNet()
         {
 
@@ -317,8 +333,7 @@ namespace wf_AI_lab1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            int iAntCountOnVertex = m_aAnts.Count / m_rNet.CountOfVertex,
-                iVertexNumber=0;
+            int iAntCountOnVertex = m_aAnts.Count / m_rNet.CountOfVertex;             
 
             for (int i = 0; i < m_rNet.CountOfVertex; i++)
             {
