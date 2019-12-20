@@ -33,7 +33,7 @@ namespace wf_AI_lab1
             }
             return fResult;
         }
-        public static double GetReverseFunctionValue(double fPotential)
+        public static double GetDerivativeFunctionValue(double fPotential)
         {
             double fResult = 0;
             switch (m_eFunctionType)

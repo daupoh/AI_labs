@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.GbxDraw = new System.Windows.Forms.GroupBox();
+            this.BtnLearnNet = new System.Windows.Forms.Button();
             this.BtnStartNet = new System.Windows.Forms.Button();
             this.BtnToVector = new System.Windows.Forms.Button();
             this.BtnClearDraw = new System.Windows.Forms.Button();
@@ -37,7 +38,6 @@
             this.RbnField3 = new System.Windows.Forms.RadioButton();
             this.DgvDraw = new System.Windows.Forms.DataGridView();
             this.TbxInputVector = new System.Windows.Forms.TextBox();
-            this.BtnLearnNet = new System.Windows.Forms.Button();
             this.GbxDraw.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvDraw)).BeginInit();
             this.SuspendLayout();
@@ -58,6 +58,16 @@
             this.GbxDraw.TabIndex = 0;
             this.GbxDraw.TabStop = false;
             this.GbxDraw.Text = "Панель рисования";
+            // 
+            // BtnLearnNet
+            // 
+            this.BtnLearnNet.Location = new System.Drawing.Point(105, 433);
+            this.BtnLearnNet.Name = "BtnLearnNet";
+            this.BtnLearnNet.Size = new System.Drawing.Size(109, 48);
+            this.BtnLearnNet.TabIndex = 7;
+            this.BtnLearnNet.Text = "Обучить сеть";
+            this.BtnLearnNet.UseVisualStyleBackColor = true;
+            this.BtnLearnNet.Click += new System.EventHandler(this.BtnLearnNet_Click);
             // 
             // BtnStartNet
             // 
@@ -153,16 +163,6 @@
             this.TbxInputVector.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TbxInputVector.Size = new System.Drawing.Size(388, 415);
             this.TbxInputVector.TabIndex = 1;
-            // 
-            // BtnLearnNet
-            // 
-            this.BtnLearnNet.Location = new System.Drawing.Point(105, 433);
-            this.BtnLearnNet.Name = "BtnLearnNet";
-            this.BtnLearnNet.Size = new System.Drawing.Size(109, 48);
-            this.BtnLearnNet.TabIndex = 7;
-            this.BtnLearnNet.Text = "Обучить сеть";
-            this.BtnLearnNet.UseVisualStyleBackColor = true;
-            this.BtnLearnNet.Click += new System.EventHandler(this.BtnLearnNet_Click);
             // 
             // FmSimpleNeuroNet
             // 

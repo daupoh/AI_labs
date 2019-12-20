@@ -214,14 +214,14 @@ namespace wf_AI_lab1
             double fNewWeights;
             for (int i = 0; i < m_aOutput.Count; i++)
             {
-                fNewWeights = fLearningMetric * aErrorResultVector[i] * SCActivationFunction.GetReverseFunctionValue(m_aOutput[i].Active);
+                fNewWeights = fLearningMetric * aErrorResultVector[i] * SCActivationFunction.GetDerivativeFunctionValue(m_aOutput[i].Active);
                 m_aOutput[i].UpdateWeights(fNewWeights);
             }
             for (int i = 0; i < m_aHide.Length; i++)
             {
                 for (int j = 0; j < m_aHide[i].Count; j++)
                 {
-                    fNewWeights = fLearningMetric * aErrorHideMatrix[i][j] * SCActivationFunction.GetReverseFunctionValue(m_aHide[i][j].Active);
+                    fNewWeights = fLearningMetric * aErrorHideMatrix[i][j] * SCActivationFunction.GetDerivativeFunctionValue(m_aHide[i][j].Active);
                     m_aHide[i][j].UpdateWeights(fNewWeights);
                 }
             }

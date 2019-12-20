@@ -8,48 +8,39 @@ using System.Threading.Tasks;
 namespace wf_AI_lab1
 {
     class CNeuron
-    {
-        const double MINIMUM_WEIGHT = 0.3;
-        struct Connection
-        {
-            CNeuron rNeuron;
-            double fWeight;
-            public double ConnectionWeight
-            {
-                get
-                {
-                    return Math.Round(fWeight, 5);
-                }
-            }
-            public Connection(CNeuron rNeuron, double fWeight)
-            {               
-                this.fWeight = fWeight;
-                this.rNeuron = rNeuron;
-            }
-            public CNeuron ConnectedNeuron
-            {
-                get
-                {
-                    return rNeuron;
-                }
-            }
-           
-            public Connection Learn(double fWeight)
-            {
-                this.fWeight = fWeight;
-                return this;
-            }
-        }
-
-        double m_fPotential;
-        string m_sName = "";
-        double[] m_aErrors;
-        IList<Connection> m_aDendrites;
+    {        
+        
+        double m_fPotential, m_fError;
+        string m_sName = "";        
+     
         public double Potencial
         {
             get
             {
                 return m_fPotential;
+            }
+            private set
+            {
+                Assert.IsTrue(value >= 0 && value <= 1);
+                m_fPotential = value;
+            }
+        }
+        public double Error
+        {
+            get
+            {
+                return m_fError;
+            }
+            set
+            {
+                m_fError = value;
+            }
+        }        
+        public double Derivative
+        {
+            get
+            {
+                return SCActivationFunction.GetDerivativeFunctionValue(m_fPotential);
             }
         }
         public double Active
@@ -65,82 +56,26 @@ namespace wf_AI_lab1
             {
                 return m_sName;
             }
-        }
-        public string NetConnections
-        {
-            get
+            private set
             {
-                string sConnections = "";
-                sConnections += "Нейрон " + Name + " зависит от:\r\n";
-                foreach (Connection rDendrit in m_aDendrites)
-                {
-                    sConnections += rDendrit.ConnectedNeuron.Name + " с весом " + rDendrit.ConnectionWeight.ToString() + "\r\n";
-                }
-                sConnections += "___________________________";
-                return sConnections;
+                Assert.IsTrue(value.Length > 0);
+                m_sName = value;
             }
-        }
+        }       
         public CNeuron(string sName)
         {
-            Assert.IsTrue(sName.Length > 0);
-            this.m_sName = sName;
-            m_fPotential = 0;
-            m_aDendrites = new List<Connection>();
-        }
-        public void AddDendrit(CNeuron rNeuron)
-        {
-            Assert.IsTrue(rNeuron != null);
-            m_aDendrites.Add(new Connection(rNeuron, 0));            
-        }
-        public void RandomizeWeights()
-        {
-            for (int i = 0; i < m_aDendrites.Count; i++)
-            {
-                double fRandWeight = SCActivationFunction.GetRandom * MINIMUM_WEIGHT;                
-                if (SCActivationFunction.GetRandom>0.5)
-                {
-                    fRandWeight *= -1;
-                }
-                m_aDendrites[i]= m_aDendrites[i].Learn(fRandWeight);
-                m_aDendrites[i].ConnectedNeuron.RandomizeWeights();
-            }
-        }
-        public void UpdateWeights(double fNewWeight)
-        {
-            for (int i = 0; i < m_aDendrites.Count; i++)
-            {
-                fNewWeight = fNewWeight * m_aDendrites[i].ConnectedNeuron.Potencial + m_aDendrites[i].ConnectionWeight;
-                m_aDendrites[i] = m_aDendrites[i].Learn(fNewWeight);                
-            }
-        }
+            Name = sName;
+            Potencial = 0;
+            Error = 0;
+        }                
 
-        public void Excite(double fDirectExciting)
+        public void Excite(double fExcite)
         {
-            m_fPotential = 0;
-            Assert.IsTrue(fDirectExciting >= 0 && fDirectExciting <= 1);            
-            for (int i = 0; i < m_aDendrites.Count; i++)
-            {
-                m_fPotential += m_aDendrites[i].ConnectedNeuron.Potencial * m_aDendrites[i].ConnectionWeight;
-            }
-            m_fPotential += fDirectExciting;
+            Potencial = fExcite;
         }
         public void Cooloff()
         {
-            m_fPotential = 0;
-        }
-      
-        public double SynapseWeights(CNeuron rSynapse)
-        {
-            double fWeight = 0;
-            for (int i = 0; i < m_aDendrites.Count; i++)
-            {
-                if (m_aDendrites[i].ConnectedNeuron.Name == rSynapse.Name)
-                {
-                    fWeight = m_aDendrites[i].ConnectionWeight;
-                    break;
-                }
-            }
-            return fWeight;
+            Potencial = 0;
         }
         
     }

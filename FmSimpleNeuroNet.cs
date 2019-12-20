@@ -140,5 +140,9 @@ namespace wf_AI_lab1
             }
         }
 
+        private void BtnLearnNet_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

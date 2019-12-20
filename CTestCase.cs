@@ -41,7 +41,7 @@ namespace wf_AI_lab1
             double[] aErrorVector = new double[m_iSizeOfResultVector];
             for (int i = 0; i < m_iSizeOfResultVector; i++)
             {
-                aErrorVector[i] = m_aResultVector[i] - SCActivationFunction.GetReverseFunctionValue(aActualResultVector[i]);
+                aErrorVector[i] = m_aResultVector[i] - SCActivationFunction.GetDerivativeFunctionValue(aActualResultVector[i]);
             }
             return aErrorVector;
         }
