@@ -30,7 +30,7 @@ namespace wf_AI_lab1
         {
             foreach (CNeuron rNeuron in m_aOutput)
             {
-                rNeuron.RandomizeWeights();
+                
             }
         }
         private void AddConnections()

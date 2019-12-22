@@ -20,8 +20,7 @@ namespace wf_AI_lab1
                 return m_fPotential;
             }
             private set
-            {
-                Assert.IsTrue(value >= 0 && value <= 1);
+            {               
                 m_fPotential = value;
             }
         }
@@ -77,6 +76,11 @@ namespace wf_AI_lab1
         {
             Potencial = 0;
         }
-        
+        public bool Equal(CNeuron rCompared)
+        {
+            bool bIsIt = true;
+            bIsIt = bIsIt && rCompared.Potencial == Potencial && rCompared.Name == Name && rCompared.Error==Error;
+            return bIsIt;
+        }
     }
 }

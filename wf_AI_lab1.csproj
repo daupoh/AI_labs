@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ACNet.cs" />
+    <Compile Include="CConnection.cs" />
     <Compile Include="CLevel.cs" />
     <Compile Include="CNet.cs" />
     <Compile Include="CNeuron.cs" />

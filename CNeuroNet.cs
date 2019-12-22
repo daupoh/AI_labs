@@ -11,6 +11,7 @@ namespace wf_AI_lab1
     {
         IList<CLevel> m_aLevels;
         int m_iHideLevelCount, m_iLevelCount;
+        bool bNeuronsAdded = false;
         public CNeuroNet(int iHideLevelCount) 
         {
             Assert.IsTrue(iHideLevelCount >= 0);
@@ -27,9 +28,21 @@ namespace wf_AI_lab1
                 m_aLevels.Add(new CLevel(m_aLevels[0], aLevelNeuronNumbers[i + 1], "Скрытый слой #"+(i+1).ToString(), false));
             }
             m_aLevels.Add(new CLevel(m_aLevels[m_iLevelCount-1], aLevelNeuronNumbers[m_iLevelCount - 1], "Выходной слой", true));
-            for (int i = 0; i < m_iLevelCount; i++)
+            bNeuronsAdded = true;
+        }
+        public void SetConnections(bool[][][] aConnections)
+        {
+            if (bNeuronsAdded)
             {
-                m_aLevels[i].RandomizeConnections();
+                Assert.IsTrue(aConnections != null && aConnections.Length == m_iLevelCount - 1);
+                for (int i = 1; i < m_iLevelCount; i++)
+                {
+                    m_aLevels[i].SetConnections(aConnections[i]);
+                }
+            }
+            else
+            {
+                Assert.IsTrue(false);
             }
         }
        
