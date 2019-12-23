@@ -1,19 +1,16 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wf_AI_lab1
 {
     class CLevel
     {
-        IList<CNeuron> m_aNeurons;
-        IList<CConnection> m_aConnections;
-        CLevel m_rInputLevel;
+        readonly IList<CNeuron> m_aNeurons;
+        readonly IList<CConnection> m_aConnections;
+        readonly CLevel m_rInputLevel;
        
-        bool m_bIsSensorLevel, m_bIsResultLevel;
+        readonly bool m_bIsSensorLevel, m_bIsResultLevel;
         string m_sName;
         public int NeuronCount
         {
@@ -118,15 +115,37 @@ namespace wf_AI_lab1
         }     
         public void Learning(double fLearningNormal)
         {
-            for (int i = 0; i < m_aConnections.Count; i++)
+            if (!m_bIsSensorLevel)
             {
-                m_aConnections[i].Weight += fLearningNormal * m_aConnections[i].BiggerLevelNeuron.Error *
-                    m_aConnections[i].BiggerLevelNeuron.Derivative * m_aConnections[i].LessLevelNeuron.Active;
+                for (int i = 0; i < m_aConnections.Count; i++)
+                {
+                    m_aConnections[i].Weight += fLearningNormal * m_aConnections[i].BiggerLevelNeuron.Error *
+                        m_aConnections[i].BiggerLevelNeuron.Derivative * m_aConnections[i].LessLevelNeuron.Active;
+                }
+            }
+            else
+            {
+                Assert.IsTrue(false);
             }
         }
+        public void Clear()
+        {
+            ClearConnections();            
+            m_aNeurons.Clear();            
+        }
+        public void ClearConnections()
+        {
+            m_aConnections.Clear();
+            foreach (CNeuron rNeuron in m_aNeurons)
+            {
+                rNeuron.Cooloff();
+            }
+        }
+        
+        
         public void UpdateByErrorVector()
         {
-            if (!m_bIsResultLevel)
+            if (!m_bIsResultLevel && !m_bIsSensorLevel)
             {
                 for (int i = 0; i < m_rInputLevel.NeuronCount; i++)
                 {

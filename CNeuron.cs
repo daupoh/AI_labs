@@ -1,16 +1,11 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wf_AI_lab1
 {
     class CNeuron
     {        
         
-        double m_fPotential, m_fError;
+        double m_fPotential;
         string m_sName = "";        
      
         public double Potencial
@@ -24,17 +19,7 @@ namespace wf_AI_lab1
                 m_fPotential = value;
             }
         }
-        public double Error
-        {
-            get
-            {
-                return m_fError;
-            }
-            set
-            {
-                m_fError = value;
-            }
-        }        
+        public double Error { get; set; }
         public double Derivative
         {
             get
@@ -75,12 +60,11 @@ namespace wf_AI_lab1
         public void Cooloff()
         {
             Potencial = 0;
+            Error = 0;
         }
         public bool Equal(CNeuron rCompared)
-        {
-            bool bIsIt = true;
-            bIsIt = bIsIt && rCompared.Potencial == Potencial && rCompared.Name == Name && rCompared.Error==Error;
-            return bIsIt;
+        {            
+            return rCompared.Potencial == Potencial && rCompared.Name == Name && rCompared.Error == Error;
         }
     }
 }

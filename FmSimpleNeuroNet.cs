@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace wf_AI_lab1
 {
     public partial class FmSimpleNeuroNet : Form
     {
-        int[] m_aInputVector;
-        CNet m_fNet;
+        int[] m_aInputVector;        
         public FmSimpleNeuroNet()
         {
             InitializeComponent();
@@ -57,10 +50,7 @@ namespace wf_AI_lab1
         private void BtnToVector_Click(object sender, EventArgs e)
         {
             TbxInputVector.Text = GetInputVector();
-            m_fNet = new CNet();
-            m_fNet.RandomizeWeights();
-            TbxInputVector.Text = m_fNet.AllNet();
-            m_fNet.Learning(0.1, 1000);
+          
         }
 
         private void FmSimpleNeuroNet_Shown(object sender, EventArgs e)
@@ -121,8 +111,8 @@ namespace wf_AI_lab1
         private void StartNet()
         { 
             TbxInputVector.Text += "_________________________________\r\n";
-            m_fNet.Excite(m_aInputVector);
-            TbxInputVector.Text += m_fNet.GetTextResultVector()+"\r\n";
+           
+            TbxInputVector.Text +="\r\n";
         }
         private void MouseDrawing(MouseButtons rMouseBtn, int iRowIndex, int iColumnIndex)
         {
@@ -142,7 +132,7 @@ namespace wf_AI_lab1
 
         private void BtnLearnNet_Click(object sender, EventArgs e)
         {
-
+            //
         }
     }
 }

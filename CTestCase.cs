@@ -1,18 +1,13 @@
 ﻿using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wf_AI_lab1
 {
     class CTestCase
     {
-        int m_iSizeOfInputVector,
+        readonly int m_iSizeOfInputVector,
             m_iSizeOfResultVector;
-        int[] m_aInputVector;
-        double[] m_aResultVector;
+        readonly int[] m_aInputVector;
+        readonly double[] m_aResultVector;
         public CTestCase(int[] aInputVector, double[] aResultVector)
         {
             Assert.IsTrue(aInputVector != null && aResultVector != null);

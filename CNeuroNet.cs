@@ -1,38 +1,35 @@
 ﻿using NUnit.Framework;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace wf_AI_lab1
 {
     class CNeuroNet
     {
-        IList<CLevel> m_aLevels;
-        int m_iHideLevelCount, m_iLevelCount;
-        bool bNeuronsAdded = false;
-        public CNeuroNet(int iHideLevelCount) 
-        {
-            Assert.IsTrue(iHideLevelCount >= 0);
+        readonly IList<CLevel> m_aLevels;
+        readonly IList<CTestCase> m_aTestCases;
+        int m_iLevelCount;
+        bool m_bNeuronsAdded = false;
+        public CNeuroNet() 
+        {            
             m_aLevels = new List<CLevel>();
-            m_iHideLevelCount = iHideLevelCount;
-            m_iLevelCount = iHideLevelCount + 2;
+            m_aTestCases = new List<CTestCase>();       
         }
-        public void SetNeuronCountOnLevel(int[] aLevelNeuronNumbers)
+        public void SetNeuronCountOnLevel(int[] aLevelNeuronsCount)
         {
-            Assert.IsTrue(aLevelNeuronNumbers != null && aLevelNeuronNumbers.Length == m_iLevelCount);
-            m_aLevels.Add(new CLevel(null, aLevelNeuronNumbers[0], "Входной слой", false));
-            for (int i = 0; i < m_iHideLevelCount; i++)
+            Assert.IsTrue(aLevelNeuronsCount != null && aLevelNeuronsCount.Length >1);
+            m_iLevelCount = aLevelNeuronsCount.Length;
+            int iHideLevelCount = m_iLevelCount - 2;
+            m_aLevels.Add(new CLevel(null, aLevelNeuronsCount[0], "Входной слой", false));
+            for (int i = 0; i < iHideLevelCount; i++)
             {
-                m_aLevels.Add(new CLevel(m_aLevels[0], aLevelNeuronNumbers[i + 1], "Скрытый слой #"+(i+1).ToString(), false));
+                m_aLevels.Add(new CLevel(m_aLevels[0], aLevelNeuronsCount[i + 1], "Скрытый слой #"+(i+1).ToString(), false));
             }
-            m_aLevels.Add(new CLevel(m_aLevels[m_iLevelCount-1], aLevelNeuronNumbers[m_iLevelCount - 1], "Выходной слой", true));
-            bNeuronsAdded = true;
+            m_aLevels.Add(new CLevel(m_aLevels[m_iLevelCount-1], aLevelNeuronsCount[m_iLevelCount - 1], "Выходной слой", true));
+            m_bNeuronsAdded = true;
         }
         public void SetConnections(bool[][][] aConnections)
         {
-            if (bNeuronsAdded)
+            if (m_bNeuronsAdded)
             {
                 Assert.IsTrue(aConnections != null && aConnections.Length == m_iLevelCount - 1);
                 for (int i = 1; i < m_iLevelCount; i++)
@@ -43,6 +40,79 @@ namespace wf_AI_lab1
             else
             {
                 Assert.IsTrue(false);
+            }
+        }
+        public void AddTestCase(int[] aInputVector, double[] aResultVector)
+        {
+            if (m_bNeuronsAdded)
+            {
+                Assert.IsTrue(aInputVector.Length == m_aLevels[0].NeuronCount);
+                Assert.IsTrue(aResultVector.Length == m_aLevels[m_iLevelCount - 1].NeuronCount);
+                m_aTestCases.Add(new CTestCase(aInputVector, aResultVector));
+            }
+            else
+            {
+                Assert.IsTrue(false);
+            }
+        }
+        public void Learn(int iAgesCount, double fLearnNormal)
+        {
+            if (m_bNeuronsAdded)
+            {
+                for (int i = 0; i < iAgesCount; i++)
+                {
+                    foreach (CTestCase rTest in m_aTestCases)
+                    {
+                        m_aLevels[0].Excite(rTest.GetInputVector());
+                        LevelsGetExcited();
+                        LevelsErrorUpdates(rTest);
+                        LevelsLearning(fLearnNormal);
+                    }
+                }
+            }
+            else
+            {
+                Assert.IsTrue(false);
+            }
+        }
+        public void Clear()
+        {
+            if (m_bNeuronsAdded)
+            {
+                foreach (CLevel rLevel in m_aLevels)
+                {
+                    rLevel.Clear();
+                }
+                m_aLevels.Clear();
+                m_iLevelCount = 0;
+                m_aTestCases.Clear();
+            }
+            else
+            {
+                Assert.IsTrue(false);
+            }
+        }
+        private void LevelsGetExcited()
+        {
+            for (int j = 1; j < m_iLevelCount; j++)
+            {
+                m_aLevels[j].GetExcited();
+            }
+        }
+        private void LevelsErrorUpdates(CTestCase rTest)
+        {
+            double[] aErrorVector = rTest.GetErrorVector(m_aLevels[m_iLevelCount - 1].ResultVector);
+            m_aLevels[m_iLevelCount - 1].ErrorVector = aErrorVector;
+            for (int k = m_iLevelCount - 2; k > 0; k--)
+            {
+                m_aLevels[k].UpdateByErrorVector();
+            }
+        }
+        private void LevelsLearning(double fLearnNormal)
+        {
+            for (int l = 1; l < m_iLevelCount; l++)
+            {
+                m_aLevels[l].Learning(fLearnNormal);
             }
         }
        
