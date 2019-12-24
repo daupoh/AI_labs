@@ -1,10 +1,12 @@
 ﻿
+using NUnit.Framework;
+
 namespace wf_AI_lab1
 {
     class CNetHandler
     {
         readonly CNeuroNet m_rNet;
-
+        public string ErrorLog { get; private set; }
         public CNetHandler()
         {
             m_rNet = new CNeuroNet();
@@ -12,11 +14,26 @@ namespace wf_AI_lab1
         public void SimpleNet()
         {
             int[] aLevelNeuronsCount = {9,6 };
+            try
+            {
+                m_rNet.Clear();
+            }
+            catch (AssertionException rExp)
+            {
+                ErrorLog += rExp.Message+"\r\n";
+            }
             m_rNet.SetNeuronCountOnLevel(aLevelNeuronsCount);
             m_rNet.SetConnections(GetConnections());
             AddTests();            
-
         }
+        public string State
+        {
+            get
+            {
+                return m_rNet.State;
+            }
+        }
+        
         private bool[][][] GetConnections()
         {
             bool[][][] aConnections = new bool[1][][];            

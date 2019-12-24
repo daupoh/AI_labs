@@ -12,6 +12,25 @@ namespace wf_AI_lab1
        
         readonly bool m_bIsSensorLevel, m_bIsResultLevel;
         string m_sName;
+        public string State
+        {
+            get
+            {
+                string sState = "Список нейронов:" + "\r\n";
+                foreach (CNeuron rNeuron in m_aNeurons)
+                {
+                    sState += rNeuron.Name + "\r\n";
+                }
+                sState += "Список входящих связей:" + "\r\n";
+                foreach (CConnection rConnection in m_aConnections)
+                {
+                    sState += "Нейрон "+ rConnection.LessLevelNeuron.Name + " влияет на нейрон "+
+                        rConnection.BiggerLevelNeuron.Name+" с весом "+rConnection.Weight.ToString() + "\r\n";
+                }
+                sState += "----------------------------";
+                return sState;
+            }
+        }
         public int NeuronCount
         {
             get

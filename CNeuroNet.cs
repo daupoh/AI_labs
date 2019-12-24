@@ -9,6 +9,28 @@ namespace wf_AI_lab1
         readonly IList<CTestCase> m_aTestCases;
         int m_iLevelCount;
         bool m_bNeuronsAdded = false;
+        public string State
+        {
+            get
+            {
+                string sState = "";
+                if (m_bNeuronsAdded)
+                {
+                    foreach(CLevel rLevel in m_aLevels)
+                    {
+                        sState += "Уровень "+rLevel.Name+"\r\n";
+                        sState += rLevel.State;
+                    }
+                }
+                else
+                {
+                    sState = "В сеть не были добавлены нейроны.\r\n";
+                }
+                return sState;
+
+            }
+
+        }
         public CNeuroNet() 
         {            
             m_aLevels = new List<CLevel>();
@@ -92,6 +114,7 @@ namespace wf_AI_lab1
                 Assert.IsTrue(false);
             }
         }
+        
         private void LevelsGetExcited()
         {
             for (int j = 1; j < m_iLevelCount; j++)
