@@ -22,9 +22,16 @@ namespace wf_AI_lab1
             {
                 ErrorLog += rExp.Message+"\r\n";
             }
-            m_rNet.SetNeuronCountOnLevel(aLevelNeuronsCount);
-            m_rNet.SetConnections(GetConnections());
+            m_rNet.SetNeuronCountOnLevel(aLevelNeuronsCount);            
             AddTests();            
+        }
+        public void Learn(int iAgesCount, double fLearnNormal)
+        {
+            m_rNet.Learn(iAgesCount,fLearnNormal);
+        }
+        public double[] GetResult(int[] aInputVector)
+        {
+            return m_rNet.GetResult(aInputVector);
         }
         public string State
         {
@@ -34,64 +41,6 @@ namespace wf_AI_lab1
             }
         }
         
-        private bool[][][] GetConnections()
-        {
-            bool[][][] aConnections = new bool[1][][];            
-            aConnections[0] = new bool[6][];
-            for (int i = 0; i < aConnections.Length; i++)
-            {
-                aConnections[0][i] = new bool[9];
-            }
-            aConnections[0][0] = GetSymbolN();
-            aConnections[0][1] = GetSymbolT();
-            aConnections[0][2] = GetSymbolP();
-            aConnections[0][3] = GetSymbolS();
-            aConnections[0][4] = GetSymbolG();
-            aConnections[0][5] = GetSymbolO();
-            return aConnections;
-        }
-        private bool[] GetSymbolN()
-        {
-            bool[] aSym = { true, false, true, 
-                            true, true,  true, 
-                            true, false, true };
-            return aSym;
-        }
-        private bool[] GetSymbolT()
-        {
-            bool[] aSym = { true, true, true, 
-                            false, true, false, 
-                            false, true, false };
-            return aSym;
-        }
-        private bool[] GetSymbolP()
-        {
-            bool[] aSym = { true, true, true, 
-                            true, false, true, 
-                            true, false, true };
-            return aSym;
-        }
-        private bool[] GetSymbolS()
-        {
-            bool[] aSym = { true, true, true,
-                            true, false, false,
-                            true, true, true };
-            return aSym;
-        }
-        private bool[] GetSymbolG()
-        {
-            bool[] aSym = { true, true, true,
-                            true, false, false,
-                            true, false, false };
-            return aSym;
-        }
-        private bool[] GetSymbolO()
-        {
-            bool[] aSym = { true, true, true,
-                            true, false, true,
-                            true, true, true };
-            return aSym;
-        }
         private void AddTests()
         {
             /////////////-------H---------///

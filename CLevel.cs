@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,8 +25,8 @@ namespace wf_AI_lab1
                 sState += "Список входящих связей:" + "\r\n";
                 foreach (CConnection rConnection in m_aConnections)
                 {
-                    sState += "Нейрон "+ rConnection.LessLevelNeuron.Name + " влияет на нейрон "+
-                        rConnection.BiggerLevelNeuron.Name+" с весом "+rConnection.Weight.ToString() + "\r\n";
+                    sState += rConnection.LessLevelNeuron.Name + " влияет на \r\n" +
+                        rConnection.BiggerLevelNeuron.Name+" с весом "+rConnection.Weight.ToString() + "\r\n\r\n";
                 }
                 sState += "----------------------------";
                 return sState;
@@ -115,20 +116,15 @@ namespace wf_AI_lab1
                 m_aNeurons.Add(new CNeuron("Нейрон уровня " + sLevelName + "_#" + i.ToString()));
             }           
         }
-        public void SetConnections(bool[][] aConnections)
-        {
-            Assert.IsTrue(aConnections!=null && aConnections.Length == NeuronCount);
+        public void SetConnections()
+        {            
             for (int i = 0; i < NeuronCount; i++)
-            {
-                Assert.IsTrue(aConnections[i]!=null && aConnections[i].Length == m_rInputLevel.NeuronCount);
+            {         
                 for (int j = 0; j < m_rInputLevel.NeuronCount; j++)
                 {
                     CNeuron rLessLevelNeuron = m_rInputLevel.m_aNeurons[j],
                         rBigerLevelNeuron = m_aNeurons[i];
-                    if (aConnections[i][j])
-                    {
-                        m_aConnections.Add(new CConnection(this, rLessLevelNeuron, rBigerLevelNeuron));
-                    }
+                    m_aConnections.Add(new CConnection(this, rLessLevelNeuron, rBigerLevelNeuron));
                 }
             }
         }     

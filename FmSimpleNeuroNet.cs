@@ -6,7 +6,8 @@ namespace wf_AI_lab1
 {
     public partial class FmSimpleNeuroNet : Form
     {
-        int[] m_aInputVector;        
+        int[] m_aInputVector;
+        CNetHandler m_rNetHandler;
         public FmSimpleNeuroNet()
         {
             InitializeComponent();
@@ -50,7 +51,14 @@ namespace wf_AI_lab1
         private void BtnToVector_Click(object sender, EventArgs e)
         {
             TbxInputVector.Text = GetInputVector();
-          
+            double[] aResults = m_rNetHandler.GetResult(m_aInputVector);
+            string sResult = "{";
+            for (int i = 0; i < aResults.Length-1; i++)
+            {
+                sResult+=Math.Round(aResults[i],4).ToString()+",";
+            }
+            sResult+= Math.Round(aResults[aResults.Length-1], 4).ToString() + "}";
+            TbxInputVector.Text += "\r\n" + sResult + "\r\n";
         }
 
         private void FmSimpleNeuroNet_Shown(object sender, EventArgs e)
@@ -60,7 +68,6 @@ namespace wf_AI_lab1
 
         private void BtnStartNet_Click(object sender, EventArgs e)
         {
-
             StartNet();
 
             TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
@@ -111,7 +118,9 @@ namespace wf_AI_lab1
         private void StartNet()
         { 
             TbxInputVector.Text += "_________________________________\r\n";
-           
+            m_rNetHandler = new CNetHandler();
+            m_rNetHandler.SimpleNet();
+            TbxInputVector.Text += m_rNetHandler.State;
             TbxInputVector.Text +="\r\n";
         }
         private void MouseDrawing(MouseButtons rMouseBtn, int iRowIndex, int iColumnIndex)
@@ -132,7 +141,15 @@ namespace wf_AI_lab1
 
         private void BtnLearnNet_Click(object sender, EventArgs e)
         {
-            //
+            m_rNetHandler.Learn(100, 0.1);
+            TbxInputVector.Text += "_________________________________\r\n";
+            TbxInputVector.Text += "_________LEARNING_______\r\n";
+            TbxInputVector.Text += "_________________________________\r\n";
+            TbxInputVector.Text += m_rNetHandler.State;
+            TbxInputVector.Text += "\r\n";
+
+            TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
+            TbxInputVector.ScrollToCaret();
         }
     }
 }

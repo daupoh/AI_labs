@@ -46,24 +46,13 @@ namespace wf_AI_lab1
             {
                 m_aLevels.Add(new CLevel(m_aLevels[0], aLevelNeuronsCount[i + 1], "Скрытый слой #"+(i+1).ToString(), false));
             }
-            m_aLevels.Add(new CLevel(m_aLevels[m_iLevelCount-1], aLevelNeuronsCount[m_iLevelCount - 1], "Выходной слой", true));
+            m_aLevels.Add(new CLevel(m_aLevels[m_aLevels.Count- 1], aLevelNeuronsCount[m_iLevelCount - 1], "Выходной слой", true));
             m_bNeuronsAdded = true;
-        }
-        public void SetConnections(bool[][][] aConnections)
-        {
-            if (m_bNeuronsAdded)
+            for (int i = 1; i < m_iLevelCount; i++)
             {
-                Assert.IsTrue(aConnections != null && aConnections.Length == m_iLevelCount - 1);
-                for (int i = 1; i < m_iLevelCount; i++)
-                {
-                    m_aLevels[i].SetConnections(aConnections[i]);
-                }
+                m_aLevels[i].SetConnections();
             }
-            else
-            {
-                Assert.IsTrue(false);
-            }
-        }
+        }      
         public void AddTestCase(int[] aInputVector, double[] aResultVector)
         {
             if (m_bNeuronsAdded)
@@ -96,6 +85,10 @@ namespace wf_AI_lab1
             {
                 Assert.IsTrue(false);
             }
+        }
+        public double[] GetResult(int[] aInputVector)
+        {
+            return m_aLevels[m_iLevelCount - 1].ResultVector;
         }
         public void Clear()
         {
