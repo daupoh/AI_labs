@@ -69,7 +69,6 @@ namespace wf_AI_lab1
         private void BtnStartNet_Click(object sender, EventArgs e)
         {
             StartNet();
-
             TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
             TbxInputVector.ScrollToCaret();
         }
@@ -141,7 +140,7 @@ namespace wf_AI_lab1
 
         private void BtnLearnNet_Click(object sender, EventArgs e)
         {
-            m_rNetHandler.Learn(100, 0.1);
+            m_rNetHandler.Learn(2000, 0.1);
             TbxInputVector.Text += "_________________________________\r\n";
             TbxInputVector.Text += "_________LEARNING_______\r\n";
             TbxInputVector.Text += "_________________________________\r\n";

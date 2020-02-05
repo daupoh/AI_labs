@@ -128,6 +128,13 @@ namespace wf_AI_lab1
                 }
             }
         }     
+        public void Cooloff()
+        {
+            foreach(CNeuron rNeuron in m_aNeurons)
+            {
+                rNeuron.Cooloff();
+            }
+        }
         public void Learning(double fLearningNormal)
         {
             if (!m_bIsSensorLevel)
@@ -135,8 +142,10 @@ namespace wf_AI_lab1
                 for (int i = 0; i < m_aConnections.Count; i++)
                 {
                     m_aConnections[i].Weight += fLearningNormal * m_aConnections[i].BiggerLevelNeuron.Error *
-                        m_aConnections[i].BiggerLevelNeuron.Derivative * m_aConnections[i].LessLevelNeuron.Active;
+                        m_aConnections[i].BiggerLevelNeuron.Derivative * m_aConnections[i].LessLevelNeuron.Active;                    
+                   
                 }
+
             }
             else
             {
@@ -209,10 +218,11 @@ namespace wf_AI_lab1
                     double fPotencial = 0;
                     CNeuron rBiggerLevelNeuron = m_aNeurons[i];
                     CConnection[] aInputConnections = FindInputConnections(rBiggerLevelNeuron);
+                    
                     foreach(CConnection rConnection in aInputConnections)
                     {
                         fPotencial += rConnection.Weight * rConnection.LessLevelNeuron.Active;
-                    }
+                    }                    
                     rBiggerLevelNeuron.Excite(fPotencial);
                 }
             }

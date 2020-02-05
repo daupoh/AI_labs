@@ -28,7 +28,7 @@ namespace wf_AI_lab1
             switch (m_eFunctionType)
             {
                 case FunctionType.Sigmoidal:
-                    fResult = 1.0 / (1 + Math.Exp(-fPotential));
+                    fResult = 1.0 / (1 + Math.Exp(-fPotential));                    
                     break;
             }
             return fResult;
@@ -39,7 +39,7 @@ namespace wf_AI_lab1
             switch (m_eFunctionType)
             {
                 case FunctionType.Sigmoidal:
-                    fResult = fPotential * (1 - fPotential);
+                    fResult = GetFunctionValue(fPotential) * (1 - GetFunctionValue(fPotential));
                     break;
             }
             return fResult;

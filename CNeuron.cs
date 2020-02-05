@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace wf_AI_lab1
 {
@@ -31,6 +32,7 @@ namespace wf_AI_lab1
         {
             get
             {
+               
                 return SCActivationFunction.GetFunctionValue(m_fPotential);
             }
         }

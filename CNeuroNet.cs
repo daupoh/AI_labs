@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 
 namespace wf_AI_lab1
@@ -66,18 +67,20 @@ namespace wf_AI_lab1
                 Assert.IsTrue(false);
             }
         }
+        
         public void Learn(int iAgesCount, double fLearnNormal)
         {
             if (m_bNeuronsAdded)
             {
                 for (int i = 0; i < iAgesCount; i++)
-                {
+                {   
                     foreach (CTestCase rTest in m_aTestCases)
                     {
                         m_aLevels[0].Excite(rTest.GetInputVector());
                         LevelsGetExcited();
                         LevelsErrorUpdates(rTest);
                         LevelsLearning(fLearnNormal);
+                        LevelsCooloff();
                     }
                 }
             }
@@ -88,6 +91,8 @@ namespace wf_AI_lab1
         }
         public double[] GetResult(int[] aInputVector)
         {
+            m_aLevels[0].Excite(aInputVector);
+            LevelsGetExcited();
             return m_aLevels[m_iLevelCount - 1].ResultVector;
         }
         public void Clear()
@@ -107,7 +112,13 @@ namespace wf_AI_lab1
                 Assert.IsTrue(false);
             }
         }
-        
+        private void LevelsCooloff()
+        {
+            foreach (CLevel rLevel in m_aLevels)
+            {
+                rLevel.Cooloff();
+            }
+        }
         private void LevelsGetExcited()
         {
             for (int j = 1; j < m_iLevelCount; j++)
@@ -127,7 +138,7 @@ namespace wf_AI_lab1
         private void LevelsLearning(double fLearnNormal)
         {
             for (int l = 1; l < m_iLevelCount; l++)
-            {
+            {                
                 m_aLevels[l].Learning(fLearnNormal);
             }
         }

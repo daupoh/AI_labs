@@ -31,6 +31,7 @@ namespace wf_AI_lab1
         }
         public double[] GetResult(int[] aInputVector)
         {
+            
             return m_rNet.GetResult(aInputVector);
         }
         public string State
@@ -43,107 +44,38 @@ namespace wf_AI_lab1
         
         private void AddTests()
         {
-            /////////////-------H---------///
-            int[] aInputVector = { 1, 0, 1, 1, 1, 1, 1, 0, 1 };
+            /////////////------- - ---------///
+            int[] aInputVector = { 1, 1, 1, 0, 0, 0, 0, 0, 0 };
             double[] aResultVector = { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
             m_rNet.AddTestCase(aInputVector, aResultVector);
 
-            aInputVector = new int[] { 1, 0, 0, 1, 1, 1, 1, 0, 1 };
-            aResultVector = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 0, 0, 1, 1, 1, 1, 1, 0, 1 };
-            aResultVector = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 0, 1, 1, 1, 1, 1, 0, 0 };
-            aResultVector = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////-------T---------///
-            aInputVector = new int[] { 1, 1, 1, 0, 1, 0, 0, 1, 0 };
+            /////////////-------^---------///
+            aInputVector = new int[] { 0, 1, 0, 1, 0, 1, 0, 0, 0 };
             aResultVector = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
             m_rNet.AddTestCase(aInputVector, aResultVector);
 
-            aInputVector = new int[] { 1, 1, 0, 0, 1, 0, 0, 1, 0 };
-            aResultVector = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 0, 1, 1, 0, 1, 0, 0, 1, 0 };
-            aResultVector = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 1, 0, 1, 0, 0, 0, 0 };
-            aResultVector = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////-------П---------///
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 1, 1, 0, 1 };
+            /////////////--------_---------///
+            aInputVector = new int[] { 0, 0, 0, 0, 0, 0, 1, 1, 1 };
             aResultVector = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
             m_rNet.AddTestCase(aInputVector, aResultVector);
 
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 1, 1, 0, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 1, 0, 0, 1 };
-            aResultVector = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 1, 0, 0, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////-------С---------///
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 0, 1, 1, 1 };
+            /////////////-------|---------///
+            aInputVector = new int[] { 0, 1, 0, 0, 1, 0, 0, 1, 0 };
             aResultVector = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
             m_rNet.AddTestCase(aInputVector, aResultVector);
 
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 0, 1, 1, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 0, 1, 0, 0, 1, 1, 1 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 0, 1, 0, 0, 1, 1, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////-------Г---------///
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 0, 1, 0, 0 };
+          
+            /////////////-------/---------///
+            aInputVector = new int[] { 0, 0, 1, 0, 1, 0, 1, 0, 0 };
             aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
             m_rNet.AddTestCase(aInputVector, aResultVector);
 
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 0, 0, 0, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 0, 1, 0, 0, 1, 0, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 0, 1, 1, 1, 0, 0, 1, 0, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////-------О---------///
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 1, 1, 1, 1 };
+          
+            /////////////-------\---------///
+            aInputVector = new int[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
             aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
             m_rNet.AddTestCase(aInputVector, aResultVector);
 
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 1, 1, 1, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 0, 1, 0, 1, 1, 1, 1 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            aInputVector = new int[] { 1, 1, 1, 1, 0, 1, 0, 1, 1 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
         }
 
     }
