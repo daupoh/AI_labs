@@ -11,9 +11,15 @@ namespace wf_AI_lab1
         {
             m_rNet = new CNeuroNet();
         }
-        public void SimpleNet()
+        public void SimpleNet(int[] aHiddenLevelCounts)
         {
-            int[] aLevelNeuronsCount = {9,6 };
+            int[] aLevelNeuronsCount = new int[aHiddenLevelCounts.Length];
+            aLevelNeuronsCount[0] = 64;
+            for (int i = 0; i < aHiddenLevelCounts.Length; i++)
+            {
+                aLevelNeuronsCount[i + 1] = aHiddenLevelCounts[i];
+            }
+            aLevelNeuronsCount[aLevelNeuronsCount.Length] = 6;
             try
             {
                 m_rNet.Clear();
@@ -22,8 +28,7 @@ namespace wf_AI_lab1
             {
                 ErrorLog += rExp.Message+"\r\n";
             }
-            m_rNet.SetNeuronCountOnLevel(aLevelNeuronsCount);            
-            AddTests();            
+            m_rNet.SetNeuronCountOnLevel(aLevelNeuronsCount);                            
         }
         public void Learn(int iAgesCount, double fLearnNormal)
         {
@@ -41,42 +46,11 @@ namespace wf_AI_lab1
                 return m_rNet.State;
             }
         }
-        
-        private void AddTests()
+        public void AddTest(int[] aInputVector, double[] aResultVector)
         {
-            /////////////------- - ---------///
-            int[] aInputVector = { 1, 1, 1, 0, 0, 0, 0, 0, 0 };
-            double[] aResultVector = { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
             m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////-------^---------///
-            aInputVector = new int[] { 0, 1, 0, 1, 0, 1, 0, 0, 0 };
-            aResultVector = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////--------_---------///
-            aInputVector = new int[] { 0, 0, 0, 0, 0, 0, 1, 1, 1 };
-            aResultVector = new double[] { 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-            /////////////-------|---------///
-            aInputVector = new int[] { 0, 1, 0, 0, 1, 0, 0, 1, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-          
-            /////////////-------/---------///
-            aInputVector = new int[] { 0, 0, 1, 0, 1, 0, 1, 0, 0 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
-          
-            /////////////-------\---------///
-            aInputVector = new int[] { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
-            aResultVector = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
-            m_rNet.AddTestCase(aInputVector, aResultVector);
-
         }
+       
 
     }
 }

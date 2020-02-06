@@ -11,22 +11,8 @@ namespace wf_AI_lab1
         public FmSimpleNeuroNet()
         {
             InitializeComponent();
-            ResizeDrawGrid(3);
-           
-        }
-        private void RbnField3_CheckedChanged(object sender, EventArgs e)
-        {
-            ResizeDrawGrid(3);
-        }
-
-        private void RbnField8_CheckedChanged(object sender, EventArgs e)
-        {
             ResizeDrawGrid(8);
-        }
-
-        private void RbnField15_CheckedChanged(object sender, EventArgs e)
-        {
-            ResizeDrawGrid(15);
+           
         }
         private void DgvDraw_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -68,9 +54,12 @@ namespace wf_AI_lab1
 
         private void BtnStartNet_Click(object sender, EventArgs e)
         {
+            CheckLevelCounts();
             StartNet();
-            TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
-            TbxInputVector.ScrollToCaret();
+        }
+        private void CheckLevelCounts()
+        {
+            string[] sNumbers = TbxLevelNeuronCounts.Text.Split(',');
         }
         private void ResizeDrawGrid(int iSize)
         {
@@ -115,12 +104,16 @@ namespace wf_AI_lab1
             return sVector;
         }
         private void StartNet()
-        { 
-            TbxInputVector.Text += "_________________________________\r\n";
+        {
             m_rNetHandler = new CNetHandler();
             m_rNetHandler.SimpleNet();
+            GbxLearning.Enabled = true;
+
+            TbxInputVector.Text += "_________________________________\r\n";            
             TbxInputVector.Text += m_rNetHandler.State;
-            TbxInputVector.Text +="\r\n";
+            TbxInputVector.Text +="\r\n";            
+            TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
+            TbxInputVector.ScrollToCaret();
         }
         private void MouseDrawing(MouseButtons rMouseBtn, int iRowIndex, int iColumnIndex)
         {
@@ -150,5 +143,6 @@ namespace wf_AI_lab1
             TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
             TbxInputVector.ScrollToCaret();
         }
+      
     }
 }
