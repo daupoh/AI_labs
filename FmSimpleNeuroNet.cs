@@ -7,12 +7,14 @@ namespace wf_AI_lab1
     public partial class FmSimpleNeuroNet : Form
     {
         int[] m_aInputVector;
+        double[] m_aResultVector;
         CNetHandler m_rNetHandler;
         public FmSimpleNeuroNet()
         {
             InitializeComponent();
             ResizeDrawGrid(8);
-           
+            m_aResultVector = new double[6];
+            SetResultVector(0);
         }
         private void DgvDraw_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
         {
@@ -25,6 +27,10 @@ namespace wf_AI_lab1
         }      
         private void BtnClearDraw_Click(object sender, EventArgs e)
         {
+            ClearDrawPanel();
+        }
+        private void ClearDrawPanel()
+        {
             for (int i = 0; i < DgvDraw.RowCount; i++)
             {
                 for (int j = 0; j < DgvDraw.ColumnCount; j++)
@@ -33,7 +39,6 @@ namespace wf_AI_lab1
                 }
             }
         }
-
         private void BtnToVector_Click(object sender, EventArgs e)
         {
             TbxInputVector.Text = GetInputVector();
@@ -53,13 +58,48 @@ namespace wf_AI_lab1
         }
 
         private void BtnStartNet_Click(object sender, EventArgs e)
-        {
-            CheckLevelCounts();
+        {            
             StartNet();
+            RbtnAnd.Checked = true;
+            SetResultVector(0);
+            ClearTetsCounts();
+            BtnAnalyse.Enabled = true;
         }
-        private void CheckLevelCounts()
+        private void ClearTetsCounts()
         {
-            string[] sNumbers = TbxLevelNeuronCounts.Text.Split(',');
+            NudAnd.Value = 0;
+            NudOr.Value = 0;
+            NudXor.Value = 0;
+            NudNot.Value = 0;
+            NudProp.Value = 0;
+            NudEq.Value = 0;
+
+        }
+        private void StartNet()
+        {
+            string[] aTextNumbers = TbxLevelNeuronCounts.Text.Split(',');
+            int[] aNumbers = new int[aTextNumbers.Length];
+            try
+            {
+                for (int i = 0; i < aNumbers.Length; i++)
+                {
+                    aNumbers[i] = Convert.ToInt32(aTextNumbers[i]);
+                }
+                m_rNetHandler = new CNetHandler();
+                m_rNetHandler.SimpleNet(aNumbers);
+                GbxLearning.Enabled = true;
+
+                TbxInputVector.Text += "_________________________________\r\n";
+                TbxInputVector.Text += m_rNetHandler.State;
+                TbxInputVector.Text += "\r\n";
+                TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
+                TbxInputVector.ScrollToCaret();
+            }
+            catch
+            {
+                MessageBox.Show("Список количества нейронов в скрытых уровнях " +
+                    "должен представлять собой набор целых чисел, разделенных запятой, например:\"8,4,4\"");
+            }
         }
         private void ResizeDrawGrid(int iSize)
         {
@@ -79,14 +119,13 @@ namespace wf_AI_lab1
                 }
             }
         }
-        private string GetInputVector()
+        private void UpdateInputVector()
         {
-            string sVector = "{";
             for (int i = 0; i < DgvDraw.RowCount; i++)
             {
                 for (int j = 0; j < DgvDraw.ColumnCount; j++)
                 {
-                    if (DgvDraw[j,i].Style.BackColor==Color.White)
+                    if (DgvDraw[j, i].Style.BackColor == Color.White)
                     {
                         m_aInputVector[i * DgvDraw.ColumnCount + j] = 0;
                     }
@@ -96,6 +135,28 @@ namespace wf_AI_lab1
                     }
                 }
             }
+        }
+        private void DrawFromInputVector()
+        {
+            for (int i = 0; i < DgvDraw.RowCount; i++)
+            {
+                for (int j = 0; j < DgvDraw.ColumnCount; j++)
+                {
+                    if (m_aInputVector[i * DgvDraw.ColumnCount + j]==0)
+                    {
+                        DgvDraw[j, i].Style.BackColor = Color.White;
+                    }
+                    else
+                    {
+                        DgvDraw[j, i].Style.BackColor = Color.Black;
+                    }
+                }
+            }
+        }
+        private string GetInputVector()
+        {
+            string sVector = "{";
+            UpdateInputVector();
             for (int i = 0; i < m_aInputVector.Length-1; i++)
             {
                 sVector += m_aInputVector[i].ToString()+',';
@@ -103,18 +164,7 @@ namespace wf_AI_lab1
             sVector += m_aInputVector[m_aInputVector.Length - 1].ToString() + '}';
             return sVector;
         }
-        private void StartNet()
-        {
-            m_rNetHandler = new CNetHandler();
-            m_rNetHandler.SimpleNet();
-            GbxLearning.Enabled = true;
-
-            TbxInputVector.Text += "_________________________________\r\n";            
-            TbxInputVector.Text += m_rNetHandler.State;
-            TbxInputVector.Text +="\r\n";            
-            TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
-            TbxInputVector.ScrollToCaret();
-        }
+      
         private void MouseDrawing(MouseButtons rMouseBtn, int iRowIndex, int iColumnIndex)
         {
             if (rMouseBtn == MouseButtons.Left)
@@ -143,6 +193,137 @@ namespace wf_AI_lab1
             TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
             TbxInputVector.ScrollToCaret();
         }
-      
+        private void SetResultVector(int iIndex)
+        {
+            for (int i = 0; i < m_aResultVector.Length; i++)
+            {
+                m_aResultVector[i] = 0;
+            }
+            m_aResultVector[iIndex] = 1;
+        }
+        private void RbtnAnd_CheckedChanged(object sender, EventArgs e)
+        {
+            SetResultVector(0);
+        }
+
+        private void RbtOr_CheckedChanged(object sender, EventArgs e)
+        {
+            SetResultVector(1);
+        }
+
+        private void RbtXor_CheckedChanged(object sender, EventArgs e)
+        {
+            SetResultVector(2);
+        }
+
+        private void RbtNot_CheckedChanged(object sender, EventArgs e)
+        {
+            SetResultVector(3);
+        }
+
+        private void RbtProp_CheckedChanged(object sender, EventArgs e)
+        {
+            SetResultVector(4);
+        }
+
+        private void RbtEq_CheckedChanged(object sender, EventArgs e)
+        {
+            SetResultVector(5);
+        }
+
+        private void BtnAddTest_Click(object sender, EventArgs e)
+        {
+            if (m_aResultVector[0]==1)
+            {
+                NudAnd.Value++;
+            }
+            else if (m_aResultVector[1]==1){
+                NudOr.Value++;
+            }
+            else if (m_aResultVector[2] == 1)
+            {
+                NudXor.Value++;
+            }
+            else if (m_aResultVector[3] == 1)
+            {
+                NudNot.Value++;
+            }
+            else if (m_aResultVector[4] == 1)
+            {
+                NudProp.Value++;
+            }
+            else if (m_aResultVector[5] == 1)
+            {
+                NudEq.Value++;
+            }
+            GetInputVector();
+            m_rNetHandler.AddTest(m_aInputVector, m_aResultVector);
+        }
+        private void CopyToInputVector(int[] aNewVector)
+        {
+            for (int i = 0; i < aNewVector.Length; i++)
+            {
+                m_aInputVector[i] = aNewVector[i];
+            }
+        }
+        private void BtnSymAnd_Click(object sender, EventArgs e)
+        {
+            int[] aSym = new int[64] { 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0,
+                0, 1, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 
+                0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1 };
+            CopyToInputVector(aSym);
+            ClearDrawPanel();
+            DrawFromInputVector();
+        }
+
+        private void BtnSymOr_Click(object sender, EventArgs e)
+        {
+            int[] aSym = new int[64] { 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 
+                1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1,
+                1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0 };
+            CopyToInputVector(aSym);
+            ClearDrawPanel();
+            DrawFromInputVector();
+        }
+
+        private void BtnSymXor_Click(object sender, EventArgs e)
+        {
+            int[] aSym = new int[64] {0,0,1,1,1,1,0,0,0,1,0,1,1,0,1,0,1,0,0,1,1,0,0,
+                                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,
+                                    1,0,1,0,1,1,0,1,0,0,0,1,1,1,1,0,0};
+            CopyToInputVector(aSym);
+            ClearDrawPanel();
+            DrawFromInputVector();
+        }
+
+        private void BtnSymNot_Click(object sender, EventArgs e)
+        {
+            int[] aSym = new int[64] {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,
+                1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+                0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+            CopyToInputVector(aSym);
+            ClearDrawPanel();
+            DrawFromInputVector();
+        }
+
+        private void BtnSymProp_Click(object sender, EventArgs e)
+        {
+            int[] aSym = new int[64] {0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,
+                1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,
+                1,1,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0};
+            CopyToInputVector(aSym);
+            ClearDrawPanel();
+            DrawFromInputVector();
+        }
+
+        private void BtnSymEq_Click(object sender, EventArgs e)
+        {
+            int[] aSym = new int[64] {0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,
+                1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+                1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0};
+            CopyToInputVector(aSym);
+            ClearDrawPanel();
+            DrawFromInputVector();
+        }
     }
 }

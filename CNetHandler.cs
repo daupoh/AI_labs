@@ -13,13 +13,13 @@ namespace wf_AI_lab1
         }
         public void SimpleNet(int[] aHiddenLevelCounts)
         {
-            int[] aLevelNeuronsCount = new int[aHiddenLevelCounts.Length];
+            int[] aLevelNeuronsCount = new int[aHiddenLevelCounts.Length+2];
             aLevelNeuronsCount[0] = 64;
             for (int i = 0; i < aHiddenLevelCounts.Length; i++)
             {
                 aLevelNeuronsCount[i + 1] = aHiddenLevelCounts[i];
             }
-            aLevelNeuronsCount[aLevelNeuronsCount.Length] = 6;
+            aLevelNeuronsCount[aLevelNeuronsCount.Length-1] = 6;
             try
             {
                 m_rNet.Clear();

@@ -45,7 +45,7 @@ namespace wf_AI_lab1
             m_aLevels.Add(new CLevel(null, aLevelNeuronsCount[0], "Входной слой", false));
             for (int i = 0; i < iHideLevelCount; i++)
             {
-                m_aLevels.Add(new CLevel(m_aLevels[0], aLevelNeuronsCount[i + 1], "Скрытый слой #"+(i+1).ToString(), false));
+                m_aLevels.Add(new CLevel(m_aLevels[i], aLevelNeuronsCount[i + 1], "Скрытый слой #"+(i+1).ToString(), false));
             }
             m_aLevels.Add(new CLevel(m_aLevels[m_aLevels.Count- 1], aLevelNeuronsCount[m_iLevelCount - 1], "Выходной слой", true));
             m_bNeuronsAdded = true;
