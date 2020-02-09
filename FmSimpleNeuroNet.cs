@@ -6,14 +6,17 @@ namespace wf_AI_lab1
 {
     public partial class FmSimpleNeuroNet : Form
     {
+        const int GRID_SIZE = 4, RESULTS_COUNT = 6;
         int[] m_aInputVector;
         double[] m_aResultVector;
+        double m_fAges;
+        int m_iProgresStep;
         CNetHandler m_rNetHandler;
         public FmSimpleNeuroNet()
         {
             InitializeComponent();
-            ResizeDrawGrid(8);
-            m_aResultVector = new double[6];
+            ResizeDrawGrid(GRID_SIZE);
+            m_aResultVector = new double[RESULTS_COUNT];
             SetResultVector(0);
         }
         private void DgvDraw_CellMouseMove(object sender, DataGridViewCellMouseEventArgs e)
@@ -86,8 +89,8 @@ namespace wf_AI_lab1
                     aNumbers[i] = Convert.ToInt32(aTextNumbers[i]);
                 }
                 m_rNetHandler = new CNetHandler();
-                m_rNetHandler.SimpleNet(aNumbers);
-                GbxLearning.Enabled = true;
+                m_rNetHandler.SimpleNet(GRID_SIZE* GRID_SIZE, RESULTS_COUNT, aNumbers);
+                GbxTest.Enabled = true;
 
                 TbxInputVector.Text += "_________________________________\r\n";
                 TbxInputVector.Text += m_rNetHandler.State;
@@ -182,16 +185,16 @@ namespace wf_AI_lab1
         }
 
         private void BtnLearnNet_Click(object sender, EventArgs e)
-        {
-            m_rNetHandler.Learn(2000, 0.1);
-            TbxInputVector.Text += "_________________________________\r\n";
-            TbxInputVector.Text += "_________LEARNING_______\r\n";
-            TbxInputVector.Text += "_________________________________\r\n";
-            TbxInputVector.Text += m_rNetHandler.State;
-            TbxInputVector.Text += "\r\n";
-
-            TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
-            TbxInputVector.ScrollToCaret();
+        {            
+            PrbLearning.Value = 0;
+            m_fAges = (double)NudAges.Value;
+            m_iProgresStep = (int)Math.Round(m_fAges / 100);
+            GbxDraw.Enabled = false;
+            GbxSetting.Enabled = false;
+            GbxTest.Enabled = false;
+            NudAges.Enabled = false;
+            BtnLearnNet.Enabled = false;
+            TmrLearning.Start();
         }
         private void SetResultVector(int iIndex)
         {
@@ -324,6 +327,37 @@ namespace wf_AI_lab1
             CopyToInputVector(aSym);
             ClearDrawPanel();
             DrawFromInputVector();
+        }
+
+        private void TmrLearning_Tick(object sender, EventArgs e)
+        {
+            if (PrbLearning.Value<100)
+            {
+                for (int i = 0; i < m_iProgresStep; i++)
+                {
+                    m_rNetHandler.Learn(0.1);
+                }                
+                PrbLearning.Value += 100 / m_iProgresStep;
+            }
+            else
+            {
+                TmrLearning.Stop();
+                PrbLearning.Value = 100;
+                GbxDraw.Enabled = true;
+                GbxSetting.Enabled = true;
+                GbxTest.Enabled = true;
+                NudAges.Enabled = true;
+                BtnLearnNet.Enabled = true;
+                TbxInputVector.Text += "_________________________________\r\n";
+                TbxInputVector.Text += "_________LEARNING_______\r\n";
+                TbxInputVector.Text += "_________________________________\r\n";
+                TbxInputVector.Text += m_rNetHandler.State;
+                TbxInputVector.Text += "\r\n";
+
+                TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
+                TbxInputVector.ScrollToCaret();
+            }
+            
         }
     }
 }

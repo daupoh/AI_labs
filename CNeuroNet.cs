@@ -68,20 +68,17 @@ namespace wf_AI_lab1
             }
         }
         
-        public void Learn(int iAgesCount, double fLearnNormal)
+        public void Learn(double fLearnNormal)
         {
             if (m_bNeuronsAdded)
             {
-                for (int i = 0; i < iAgesCount; i++)
-                {   
-                    foreach (CTestCase rTest in m_aTestCases)
-                    {
-                        m_aLevels[0].Excite(rTest.GetInputVector());
-                        LevelsGetExcited();
-                        LevelsErrorUpdates(rTest);
-                        LevelsLearning(fLearnNormal);
-                        LevelsCooloff();
-                    }
+                foreach (CTestCase rTest in m_aTestCases)
+                {
+                    m_aLevels[0].Excite(rTest.GetInputVector());
+                    LevelsGetExcited();
+                    LevelsErrorUpdates(rTest);
+                    LevelsLearning(fLearnNormal);
+                    LevelsCooloff();
                 }
             }
             else

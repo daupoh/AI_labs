@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.GbxDraw = new System.Windows.Forms.GroupBox();
             this.BtnAnalyse = new System.Windows.Forms.Button();
             this.BtnSymEq = new System.Windows.Forms.Button();
@@ -41,7 +42,7 @@
             this.BtnLearnNet = new System.Windows.Forms.Button();
             this.BtnStartNet = new System.Windows.Forms.Button();
             this.TbxInputVector = new System.Windows.Forms.TextBox();
-            this.GbxLearning = new System.Windows.Forms.GroupBox();
+            this.GbxTest = new System.Windows.Forms.GroupBox();
             this.NudEq = new System.Windows.Forms.NumericUpDown();
             this.NudProp = new System.Windows.Forms.NumericUpDown();
             this.NudNot = new System.Windows.Forms.NumericUpDown();
@@ -61,9 +62,11 @@
             this.GbxSetting = new System.Windows.Forms.GroupBox();
             this.LblLevelNeuronCounts = new System.Windows.Forms.Label();
             this.TbxLevelNeuronCounts = new System.Windows.Forms.TextBox();
+            this.TmrLearning = new System.Windows.Forms.Timer(this.components);
+            this.GbxLearning = new System.Windows.Forms.GroupBox();
             this.GbxDraw.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DgvDraw)).BeginInit();
-            this.GbxLearning.SuspendLayout();
+            this.GbxTest.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEq)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudProp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudNot)).BeginInit();
@@ -72,6 +75,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NudAnd)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudAges)).BeginInit();
             this.GbxSetting.SuspendLayout();
+            this.GbxLearning.SuspendLayout();
             this.SuspendLayout();
             // 
             // GbxDraw
@@ -194,7 +198,7 @@
             // 
             // BtnLearnNet
             // 
-            this.BtnLearnNet.Location = new System.Drawing.Point(6, 286);
+            this.BtnLearnNet.Location = new System.Drawing.Point(188, 56);
             this.BtnLearnNet.Name = "BtnLearnNet";
             this.BtnLearnNet.Size = new System.Drawing.Size(119, 46);
             this.BtnLearnNet.TabIndex = 7;
@@ -222,32 +226,28 @@
             this.TbxInputVector.Size = new System.Drawing.Size(337, 478);
             this.TbxInputVector.TabIndex = 1;
             // 
-            // GbxLearning
+            // GbxTest
             // 
-            this.GbxLearning.Controls.Add(this.NudEq);
-            this.GbxLearning.Controls.Add(this.NudProp);
-            this.GbxLearning.Controls.Add(this.NudNot);
-            this.GbxLearning.Controls.Add(this.NudXor);
-            this.GbxLearning.Controls.Add(this.NudOr);
-            this.GbxLearning.Controls.Add(this.NudAnd);
-            this.GbxLearning.Controls.Add(this.RbtNot);
-            this.GbxLearning.Controls.Add(this.NudAges);
-            this.GbxLearning.Controls.Add(this.LblAges);
-            this.GbxLearning.Controls.Add(this.PrbLearning);
-            this.GbxLearning.Controls.Add(this.BtnLearnNet);
-            this.GbxLearning.Controls.Add(this.BtnAddTest);
-            this.GbxLearning.Controls.Add(this.RbtEq);
-            this.GbxLearning.Controls.Add(this.RbtProp);
-            this.GbxLearning.Controls.Add(this.RbtXor);
-            this.GbxLearning.Controls.Add(this.RbtOr);
-            this.GbxLearning.Controls.Add(this.RbtnAnd);
-            this.GbxLearning.Enabled = false;
-            this.GbxLearning.Location = new System.Drawing.Point(387, 123);
-            this.GbxLearning.Name = "GbxLearning";
-            this.GbxLearning.Size = new System.Drawing.Size(313, 367);
-            this.GbxLearning.TabIndex = 2;
-            this.GbxLearning.TabStop = false;
-            this.GbxLearning.Text = "Обучение сети";
+            this.GbxTest.Controls.Add(this.NudEq);
+            this.GbxTest.Controls.Add(this.NudProp);
+            this.GbxTest.Controls.Add(this.NudNot);
+            this.GbxTest.Controls.Add(this.NudXor);
+            this.GbxTest.Controls.Add(this.NudOr);
+            this.GbxTest.Controls.Add(this.NudAnd);
+            this.GbxTest.Controls.Add(this.RbtNot);
+            this.GbxTest.Controls.Add(this.BtnAddTest);
+            this.GbxTest.Controls.Add(this.RbtEq);
+            this.GbxTest.Controls.Add(this.RbtProp);
+            this.GbxTest.Controls.Add(this.RbtXor);
+            this.GbxTest.Controls.Add(this.RbtOr);
+            this.GbxTest.Controls.Add(this.RbtnAnd);
+            this.GbxTest.Enabled = false;
+            this.GbxTest.Location = new System.Drawing.Point(387, 123);
+            this.GbxTest.Name = "GbxTest";
+            this.GbxTest.Size = new System.Drawing.Size(313, 178);
+            this.GbxTest.TabIndex = 2;
+            this.GbxTest.TabStop = false;
+            this.GbxTest.Text = "Тестовые случаи";
             // 
             // NudEq
             // 
@@ -341,7 +341,7 @@
             // 
             // NudAges
             // 
-            this.NudAges.Location = new System.Drawing.Point(166, 253);
+            this.NudAges.Location = new System.Drawing.Point(166, 30);
             this.NudAges.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -363,7 +363,7 @@
             // 
             // LblAges
             // 
-            this.LblAges.Location = new System.Drawing.Point(11, 254);
+            this.LblAges.Location = new System.Drawing.Point(6, 30);
             this.LblAges.Name = "LblAges";
             this.LblAges.Size = new System.Drawing.Size(94, 19);
             this.LblAges.TabIndex = 8;
@@ -371,7 +371,7 @@
             // 
             // PrbLearning
             // 
-            this.PrbLearning.Location = new System.Drawing.Point(6, 338);
+            this.PrbLearning.Location = new System.Drawing.Point(6, 108);
             this.PrbLearning.Name = "PrbLearning";
             this.PrbLearning.Size = new System.Drawing.Size(301, 23);
             this.PrbLearning.TabIndex = 16;
@@ -474,13 +474,32 @@
             this.TbxLevelNeuronCounts.Size = new System.Drawing.Size(141, 20);
             this.TbxLevelNeuronCounts.TabIndex = 0;
             // 
+            // TmrLearning
+            // 
+            this.TmrLearning.Interval = 10;
+            this.TmrLearning.Tick += new System.EventHandler(this.TmrLearning_Tick);
+            // 
+            // GbxLearning
+            // 
+            this.GbxLearning.Controls.Add(this.LblAges);
+            this.GbxLearning.Controls.Add(this.NudAges);
+            this.GbxLearning.Controls.Add(this.BtnLearnNet);
+            this.GbxLearning.Controls.Add(this.PrbLearning);
+            this.GbxLearning.Location = new System.Drawing.Point(387, 348);
+            this.GbxLearning.Name = "GbxLearning";
+            this.GbxLearning.Size = new System.Drawing.Size(313, 142);
+            this.GbxLearning.TabIndex = 4;
+            this.GbxLearning.TabStop = false;
+            this.GbxLearning.Text = "Обучение сети";
+            // 
             // FmSimpleNeuroNet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1055, 509);
-            this.Controls.Add(this.GbxSetting);
             this.Controls.Add(this.GbxLearning);
+            this.Controls.Add(this.GbxSetting);
+            this.Controls.Add(this.GbxTest);
             this.Controls.Add(this.TbxInputVector);
             this.Controls.Add(this.GbxDraw);
             this.Name = "FmSimpleNeuroNet";
@@ -488,8 +507,8 @@
             this.Shown += new System.EventHandler(this.FmSimpleNeuroNet_Shown);
             this.GbxDraw.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.DgvDraw)).EndInit();
-            this.GbxLearning.ResumeLayout(false);
-            this.GbxLearning.PerformLayout();
+            this.GbxTest.ResumeLayout(false);
+            this.GbxTest.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NudEq)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudProp)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudNot)).EndInit();
@@ -499,6 +518,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.NudAges)).EndInit();
             this.GbxSetting.ResumeLayout(false);
             this.GbxSetting.PerformLayout();
+            this.GbxLearning.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -519,7 +539,7 @@
         private System.Windows.Forms.Button BtnSymAnd;
         private System.Windows.Forms.Button BtnSymNot;
         private System.Windows.Forms.Button BtnSymOr;
-        private System.Windows.Forms.GroupBox GbxLearning;
+        private System.Windows.Forms.GroupBox GbxTest;
         private System.Windows.Forms.GroupBox GbxSetting;
         private System.Windows.Forms.Label LblLevelNeuronCounts;
         private System.Windows.Forms.TextBox TbxLevelNeuronCounts;
@@ -539,6 +559,8 @@
         private System.Windows.Forms.NumericUpDown NudXor;
         private System.Windows.Forms.NumericUpDown NudOr;
         private System.Windows.Forms.NumericUpDown NudAnd;
+        private System.Windows.Forms.Timer TmrLearning;
+        private System.Windows.Forms.GroupBox GbxLearning;
     }
 }
 

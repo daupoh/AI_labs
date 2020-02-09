@@ -11,15 +11,15 @@ namespace wf_AI_lab1
         {
             m_rNet = new CNeuroNet();
         }
-        public void SimpleNet(int[] aHiddenLevelCounts)
+        public void SimpleNet(int iSensorsCounts, int iResultCounts, int[] aHiddenLevelCounts)
         {
             int[] aLevelNeuronsCount = new int[aHiddenLevelCounts.Length+2];
-            aLevelNeuronsCount[0] = 64;
+            aLevelNeuronsCount[0] = iSensorsCounts;
             for (int i = 0; i < aHiddenLevelCounts.Length; i++)
             {
                 aLevelNeuronsCount[i + 1] = aHiddenLevelCounts[i];
             }
-            aLevelNeuronsCount[aLevelNeuronsCount.Length-1] = 6;
+            aLevelNeuronsCount[aLevelNeuronsCount.Length-1] = iResultCounts;
             try
             {
                 m_rNet.Clear();
@@ -30,9 +30,9 @@ namespace wf_AI_lab1
             }
             m_rNet.SetNeuronCountOnLevel(aLevelNeuronsCount);                            
         }
-        public void Learn(int iAgesCount, double fLearnNormal)
+        public void Learn(double fLearnNormal)
         {
-            m_rNet.Learn(iAgesCount,fLearnNormal);
+            m_rNet.Learn(fLearnNormal);
         }
         public double[] GetResult(int[] aInputVector)
         {
