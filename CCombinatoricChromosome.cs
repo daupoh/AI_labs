@@ -8,15 +8,14 @@ namespace wf_AI_lab1
 {
     class CCombinatoricChromosome
     {
-        readonly CGenetic m_rWorld;
-        readonly IGradeUpdater m_rUpdater;
+        readonly CLaw m_rLaw;        
         readonly int[] m_aGens;
-        public CCombinatoricChromosome(CGenetic rWorld)
+        public CCombinatoricChromosome(CLaw rLaw)
         {
-            if (rWorld != null)
+            if (rLaw != null)
             {
-                m_rWorld = rWorld;                
-                m_aGens = new int[m_rWorld.GensCount];
+                m_rLaw = rLaw;                
+                m_aGens = new int[rLaw.GensCount];
                 for (int i = 0; i < m_aGens.Length; i++)
                 {
                     m_aGens[i] = i;
@@ -54,12 +53,12 @@ namespace wf_AI_lab1
         }
         public CCombinatoricChromosome Crossbreeding(CCombinatoricChromosome rChromosomePartner)
         {
-            CCombinatoricChromosome rChild = new CCombinatoricChromosome(m_rWorld);
+            CCombinatoricChromosome rChild = new CCombinatoricChromosome(m_rLaw);
             IList<int> aGensToChange = new List<int>();
             for (int i = 0; i < m_aGens.Length; i++)
             {
                 double fDecision = SCRandom.Random;
-                if (m_rWorld.CrossbreedingChance> fDecision)
+                if (m_rLaw.CrossbreedingChance> fDecision)
                 {
                     aGensToChange.Add(m_aGens[i]);
                 }
@@ -68,7 +67,7 @@ namespace wf_AI_lab1
                 aSelectedLocusesPartner = rChromosomePartner.FindLocusesWithValues(aGensToChange.ToArray()),
                 aNotSelectedLocuses = NotSelectedLocuses(aSelectedLocuses),
                 aNotSelectedLocusesPartner = rChromosomePartner.NotSelectedLocuses(aSelectedLocusesPartner),
-                aChildGens = new int[m_rWorld.GensCount];
+                aChildGens = new int[m_rLaw.GensCount];
             int iNonSelectedIndex = 0;
             for (int i = 0; i < aChildGens.Length; i++)
             {
@@ -91,7 +90,7 @@ namespace wf_AI_lab1
             for (int i = 0; i < m_aGens.Length;  i++)
             {
                 double fDecision = SCRandom.Random;
-                if (m_rWorld.MutateChance > fDecision)
+                if (m_rLaw.MutateChance > fDecision)
                 {
                     if (iFirstMutantLocus == -1)
                     {
@@ -139,20 +138,20 @@ namespace wf_AI_lab1
         }
         private void MixGens()
         {
-            int iSwapCount = (int)Math.Round(m_rWorld.GensCount * SCRandom.Random),
-                iFirstSwaped = (int)Math.Round((m_rWorld.GensCount-1) * SCRandom.Random),
-                iSecondSwaped = (int)Math.Round((m_rWorld.GensCount - 1) * SCRandom.Random);
+            int iSwapCount = (int)Math.Round(m_rLaw.GensCount * SCRandom.Random),
+                iFirstSwaped = (int)Math.Round((m_rLaw.GensCount-1) * SCRandom.Random),
+                iSecondSwaped = (int)Math.Round((m_rLaw.GensCount - 1) * SCRandom.Random);
             for (int i = 0; i < iSwapCount; i++)
             {
                 while (iFirstSwaped == iSecondSwaped)
                 {
-                    iSecondSwaped = (int)Math.Round((m_rWorld.GensCount - 1) * SCRandom.Random);
+                    iSecondSwaped = (int)Math.Round((m_rLaw.GensCount - 1) * SCRandom.Random);
                 }
                 int iTemp = m_aGens[iFirstSwaped];
                 m_aGens[iFirstSwaped] = m_aGens[iSecondSwaped];
                 m_aGens[iSecondSwaped] = iTemp;
-                iFirstSwaped = (int)Math.Round((m_rWorld.GensCount - 1) * SCRandom.Random);
-                iSecondSwaped = (int)Math.Round((m_rWorld.GensCount - 1) * SCRandom.Random);
+                iFirstSwaped = (int)Math.Round((m_rLaw.GensCount - 1) * SCRandom.Random);
+                iSecondSwaped = (int)Math.Round((m_rLaw.GensCount - 1) * SCRandom.Random);
             }
         }
         private bool IsNotPresentInSequence(int iNumber, int[] aSequence)

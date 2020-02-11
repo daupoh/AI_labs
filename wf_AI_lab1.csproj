@@ -55,6 +55,8 @@
   <ItemGroup>
     <Compile Include="CCombinatoricChromosome.cs" />
     <Compile Include="CGenetic.cs" />
+    <Compile Include="CGroup.cs" />
+    <Compile Include="CLaw.cs" />
     <Compile Include="CPathGraph.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
