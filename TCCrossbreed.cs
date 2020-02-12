@@ -17,10 +17,10 @@ namespace wf_AI_lab1
        [SetUp] 
         public void SetUp()
         {
-            int iVertexCount = 8;
+            int iVertexCount = 40;
             m_rGraph = new CPathGraph(iVertexCount, 20);
-            m_rLaw = new CLaw(10, iVertexCount);
-            m_rLaw.UpdateParameters(0.5, 0.1);
+            m_rLaw = new CLaw(20, iVertexCount);
+            m_rLaw.UpdateParameters(1, 0,100);
             m_rGenetic = new CGenetic(m_rLaw, m_rGraph);            
         }
         [TearDown]
@@ -62,6 +62,7 @@ namespace wf_AI_lab1
             CGroup rSelection = m_rPopulation.Selection();
             Console.WriteLine(m_rPopulation.m_sSelectionLog);
             Console.WriteLine(rSelection.ToString());
+            Console.WriteLine(rSelection.Crossbreeding().ToString());
 
             double fLastBestGrade = m_rPopulation.GetBestGrade();
             Console.WriteLine(fLastBestGrade.ToString());

@@ -58,7 +58,7 @@ namespace wf_AI_lab1
             for (int i = 0; i < m_aGens.Length; i++)
             {
                 double fDecision = SCRandom.Random;
-                if (m_rLaw.CrossbreedingChance> fDecision)
+                if ((0.5* m_rLaw.CrossbreedingChance) > fDecision)
                 {
                     aGensToChange.Add(m_aGens[i]);
                 }

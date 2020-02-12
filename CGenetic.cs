@@ -10,16 +10,14 @@ namespace wf_AI_lab1
     {
         CGroup m_rPopulation;
         readonly IGradeUpdater m_rUpdater;
-        readonly CLaw m_rLaw;
-        int m_iWaitCounter;
+        readonly CLaw m_rLaw;        
         double m_fLastBestGrade;
         public CGenetic(CLaw rLaw, IGradeUpdater rUpdater)
         {
             if (rLaw != null && rUpdater!=null)
             {
                 m_rUpdater = rUpdater;
-                m_rLaw = rLaw;
-                m_iWaitCounter = 100;
+                m_rLaw = rLaw;              
                 
             }
             else
@@ -49,7 +47,7 @@ namespace wf_AI_lab1
         {
             bool bEvolutionNotEnded = true;
             double fCurrentBestGrade = m_rPopulation.GetBestGrade();
-            if (m_iWaitCounter > 0)
+            if (m_rLaw.WaitCounter > 0)
             {
                 if (fCurrentBestGrade < m_fLastBestGrade)
                 {
@@ -57,7 +55,7 @@ namespace wf_AI_lab1
                 }
                 else
                 {
-                    m_iWaitCounter--;
+                    m_rLaw.DecWaitCounter();
                 }
 
             }

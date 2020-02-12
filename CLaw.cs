@@ -14,6 +14,7 @@ namespace wf_AI_lab1
             private set;
         }
         public  int GensCount { get; private set; }
+        public int WaitCounter { get; private set; }
         public  double CrossbreedingChance { get; private set; }
         public  double MutateChance { get; private set; }
 
@@ -32,21 +33,26 @@ namespace wf_AI_lab1
             MutateChance = 0.1;
         }
 
-        public void UpdateParameters(double fCrossbreedengChance, double fMutateChance) 
+        public void UpdateParameters(double fCrossbreedengChance, double fMutateChance,int iWaitCounter) 
         {
-            if (IsBetweenZeroOne(fCrossbreedengChance) && IsBetweenZeroOne(fMutateChance))
+            if (IsBetweenZeroOne(fCrossbreedengChance) && IsBetweenZeroOne(fMutateChance) && iWaitCounter>0)
             {
                 CrossbreedingChance = fCrossbreedengChance;
                 MutateChance = fMutateChance;
+                WaitCounter = iWaitCounter;
             }
             else
             {
                 throw new FormatException("Law update chances error");
             }
         }
+        public void DecWaitCounter()
+        {
+            WaitCounter--;
+        }
         private bool IsBetweenZeroOne(double fNumber)
         {
-            return (fNumber > 0.0 && fNumber < 1.0);
+            return (fNumber >= 0.0 && fNumber <= 1.0);
         }
     }
 }

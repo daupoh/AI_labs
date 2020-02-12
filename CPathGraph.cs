@@ -26,7 +26,7 @@ namespace wf_AI_lab1
                     {
                         if (i != j)
                         {
-                            double fDistance = (int)(SCRandom.Random * iVertexCount);
+                            double fDistance = (int)(SCRandom.Random * fMaxPathDistance) +1;
                             aDistancesGraph[i][j] = fDistance;
                             aDistancesGraph[j][i] = fDistance;
                         }
