@@ -15,12 +15,11 @@ namespace wf_AI_lab1
         public double PheromonePower { get; private set; }
         public int Attractive { get; private set; }
 
-        public CLaw(int iNetSize, int iAntsCount)
+        public CLaw(int iNetSize)
         {
-            if (iNetSize > 0 && iAntsCount > 0)
+            if (iNetSize > 0)
             {
-                NetSize = iNetSize;
-                AntsCount = iAntsCount;
+                NetSize = iNetSize;                
             }
             else
             {
@@ -30,15 +29,17 @@ namespace wf_AI_lab1
             DistancePower = 1;
             PheromonePower = 2;
             Attractive = 10;
+            AntsCount = NetSize;
         }
 
-        public void UpdateParameters(double fPheromoneEvaporation, double fDistancePower, double fPheromonePower, int iAttractive) 
+        public void UpdateParameters(double fPheromoneEvaporation, double fDistancePower,
+            double fPheromonePower, int iAttractive, int iAntsCount) 
         {
-            if (IsBetweenZeroOne(fPheromoneEvaporation) && fDistancePower > 0 
-                && fPheromonePower>0 && iAttractive>0)
+            if (IsBetweenZeroOne(fPheromoneEvaporation) && iAttractive>0 && iAntsCount > 0)
             {
                 PheromoneEvaporation = fPheromoneEvaporation;
                 DistancePower = fDistancePower;
+                AntsCount = iAntsCount;
                 PheromonePower = fPheromonePower;
                 Attractive = iAttractive;
             }

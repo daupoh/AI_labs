@@ -16,7 +16,7 @@ namespace wf_AI_lab1
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FmGenetic());
+            Application.Run(new FmAnts());
         }
     }
 }

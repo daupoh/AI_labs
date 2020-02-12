@@ -11,22 +11,36 @@ namespace wf_AI_lab1
         CLaw m_rLaw;
         CPathGraph m_rGraph;
         int[] m_aTabuList, m_aPath;
+        public int StartPos { get; private set; }
         
         public CRunningAnt(CLaw rLaw, int iStartPos,CPathGraph rGraph)
         {
-            if (rLaw!=null && rGraph!=null && m_rLaw.IsPosInNet(iStartPos))
+            if (rLaw!=null && rGraph!=null && rLaw.IsPosInNet(iStartPos))
             {
                 m_rLaw = rLaw;
                 m_rGraph = rGraph;
-                Repath(iStartPos);
+                StartPos = iStartPos;                
             }
             else
             {
                 throw new FormatException();
             }
         }
+        public override string ToString()
+        {
+            string sAnt = "",sPath="{";
+            for (int i = 0; i < m_aPath.Length-1; i++)
+            {
+                sPath += m_aPath[i].ToString() + ",";
+            }
+            sPath+=m_aPath[m_aPath.Length - 1].ToString() + "}";
+            sAnt += String.Format("Муравей двигался по пути {0} длины {1} [{2}]\r\n"
+                ,sPath,m_rGraph.GetPathDistance(m_aPath),m_rGraph.GetCyclePathDistance(m_aPath));
+            return sAnt;
+        }
         public void FirstRun()
         {
+            Repath();
             int iNextPosIndex = 1;
             while (IsTabuNotFull())
             {
@@ -36,20 +50,20 @@ namespace wf_AI_lab1
                 iNextPosIndex++;
             }
             UpdateNet();
-            Repath(m_aPath[0]);
         }
         public void SmartRun()
         {
+            Repath();
             int iNextPosIndex = 1;
             while (IsTabuNotFull())
             {
                 int iNextPos = SmartPos(m_aPath[iNextPosIndex-1]);
+               
                 m_aPath[iNextPosIndex] = iNextPos;
                 m_aTabuList[iNextPos] = 1;
                 iNextPosIndex++;
             }
-            UpdateNet();
-            Repath(m_aPath[0]);
+            UpdateNet();            
         }
         private int RandomPos()
         {
@@ -84,13 +98,14 @@ namespace wf_AI_lab1
                 if (aChoise[i]!=-1)
                 {
                     aChoise[i] = aChoise[i] / fChoisesSum;
+                   
                 }
                 if (aChoise[i]>fMaxChoise)
                 {
                     fMaxChoise = aChoise[i];
                     iSmartPos = i;
                 }
-            }
+            }        
             return iSmartPos;
         }
         private void UpdateNet()
@@ -99,7 +114,7 @@ namespace wf_AI_lab1
                fPheromone = m_rLaw.Attractive / fPathLength;
             m_rGraph.SetPheromonesOnPath(fPheromone, m_aPath);
         }
-        private void Repath(int iStartPos)
+        private void Repath()
         {
             m_aTabuList = new int[m_rLaw.NetSize];
             m_aPath = new int[m_rLaw.NetSize];
@@ -108,8 +123,8 @@ namespace wf_AI_lab1
                 m_aTabuList[i] = -1;
                 m_aPath[i] = -1;
             }
-            m_aTabuList[iStartPos] = 1;
-            m_aPath[0] = iStartPos;
+            m_aTabuList[StartPos] = 1;
+            m_aPath[0] = StartPos;
         }
         private bool IsTabuPos(int iPos)
         {

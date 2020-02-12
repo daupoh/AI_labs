@@ -15,13 +15,14 @@ namespace wf_AI_lab1
         {
             if (rLaw!=null && fMAximumDistance>0)
             {
-                VertexCount = rLaw.NetSize;
+                m_rLaw = rLaw;
+                VertexCount = m_rLaw.NetSize;
                 m_aDistancesGraph = new double[VertexCount][];
                 m_aPheromoneConcentration = new double[VertexCount][];
                 for (int i = 0; i < VertexCount; i++)
                 {
                     m_aDistancesGraph[i] = new double[VertexCount];
-                    m_aPheromoneConcentration = new double[VertexCount][];
+                    m_aPheromoneConcentration[i] = new double[VertexCount];
                 }
                 for (int i = 0; i < VertexCount; i++)
                 {
@@ -29,7 +30,7 @@ namespace wf_AI_lab1
                     {
                         if (i != j)
                         {
-                            double fDistance = (int)(SCRandom.Random * fMAximumDistance) +1;
+                            double fDistance = (int)(SCRandom.Random * fMAximumDistance) + 1;
                             m_aDistancesGraph[i][j] = fDistance;
                             m_aDistancesGraph[j][i] = fDistance;
                         }
@@ -37,9 +38,9 @@ namespace wf_AI_lab1
                         {
                             m_aDistancesGraph[i][j] = 0;
                         }
-                        m_aPheromoneConcentration[i][j] = 0;
-                        m_aPheromoneConcentration[j][i] = 0;
-                    }                    
+                        m_aPheromoneConcentration[i][j] = 0.1;
+                        m_aPheromoneConcentration[j][i] = 0.1;
+                    }
                 }
             }
             else
@@ -47,7 +48,16 @@ namespace wf_AI_lab1
                 throw new FormatException();
             }
         }
-
+        public void FlushPheromone()
+        {
+            for (int i = 0; i < VertexCount; i++)
+            {
+                for (int j = 0; j < VertexCount; j++)
+                {
+                    m_aPheromoneConcentration[i][j] = 0.1;
+                }
+            }
+        }
         public void SetPheromonesOnPath(double fPheromone, int[] aPath)
         {
             int iLastIndex = aPath.Length - 1;
@@ -98,6 +108,13 @@ namespace wf_AI_lab1
                 fSum+= m_aDistancesGraph[aPath[i]][aPath[i + 1]];
             }
             return fSum;
+        }
+        public double GetCyclePathDistance(int[] aPath)
+        {
+            double fLength = GetPathDistance(aPath);
+            int iLastIndex = aPath.Length - 1;
+            fLength+= m_aDistancesGraph[aPath[iLastIndex]][aPath[0]];
+            return fLength;
         }
 
         public override string ToString()

@@ -53,27 +53,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CAnt.cs" />
-    <Compile Include="CCombinatoricChromosome.cs" />
-    <Compile Include="CGenetic.cs" />
-    <Compile Include="CGroup.cs" />
     <Compile Include="CLaw.cs" />
-    <Compile Include="CNet.cs" />
     <Compile Include="CPathGraph.cs" />
     <Compile Include="CRunningAnt.cs" />
-    <Compile Include="FmGenetic.cs">
+    <Compile Include="FmAnts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FmGenetic.Designer.cs">
-      <DependentUpon>FmGenetic.cs</DependentUpon>
+    <Compile Include="FmAnts.Designer.cs">
+      <DependentUpon>FmAnts.cs</DependentUpon>
     </Compile>
-    <Compile Include="IGradeUpdater.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SCRandom.cs" />
-    <Compile Include="TCCrossbreed.cs" />
-    <EmbeddedResource Include="FmGenetic.resx">
-      <DependentUpon>FmGenetic.cs</DependentUpon>
+    <EmbeddedResource Include="FmAnts.resx">
+      <DependentUpon>FmAnts.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
