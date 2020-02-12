@@ -53,11 +53,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CAnt.cs" />
     <Compile Include="CCombinatoricChromosome.cs" />
     <Compile Include="CGenetic.cs" />
     <Compile Include="CGroup.cs" />
     <Compile Include="CLaw.cs" />
+    <Compile Include="CNet.cs" />
     <Compile Include="CPathGraph.cs" />
+    <Compile Include="CRunningAnt.cs" />
     <Compile Include="FmGenetic.cs">
       <SubType>Form</SubType>
     </Compile>

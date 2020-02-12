@@ -6,35 +6,40 @@ using System.Threading.Tasks;
 
 namespace wf_AI_lab1
 {
-    class CPathGraph:IGradeUpdater
+    class CPathGraph
     {
-        readonly double[][] aDistancesGraph;
+        readonly double[][] m_aDistancesGraph, m_aPheromoneConcentration;
+        CLaw m_rLaw;
         public int VertexCount { get; private set; }
-        public CPathGraph(int iVertexCount, double fMaxPathDistance)
+        public CPathGraph(CLaw rLaw, double fMAximumDistance)
         {
-            if (iVertexCount > 0 && fMaxPathDistance > 0)
+            if (rLaw!=null && fMAximumDistance>0)
             {
-                VertexCount = iVertexCount;
-                aDistancesGraph = new double[iVertexCount][];
-                for (int i = 0; i < iVertexCount; i++)
+                VertexCount = rLaw.NetSize;
+                m_aDistancesGraph = new double[VertexCount][];
+                m_aPheromoneConcentration = new double[VertexCount][];
+                for (int i = 0; i < VertexCount; i++)
                 {
-                    aDistancesGraph[i] = new double[iVertexCount];
+                    m_aDistancesGraph[i] = new double[VertexCount];
+                    m_aPheromoneConcentration = new double[VertexCount][];
                 }
-                for (int i = 0; i < iVertexCount; i++)
+                for (int i = 0; i < VertexCount; i++)
                 {
-                    for (int j = i; j < iVertexCount; j++)
+                    for (int j = i; j < VertexCount; j++)
                     {
                         if (i != j)
                         {
-                            double fDistance = (int)(SCRandom.Random * fMaxPathDistance) +1;
-                            aDistancesGraph[i][j] = fDistance;
-                            aDistancesGraph[j][i] = fDistance;
+                            double fDistance = (int)(SCRandom.Random * fMAximumDistance) +1;
+                            m_aDistancesGraph[i][j] = fDistance;
+                            m_aDistancesGraph[j][i] = fDistance;
                         }
                         else
                         {
-                            aDistancesGraph[i][j] = 0;
+                            m_aDistancesGraph[i][j] = 0;
                         }
-                    }
+                        m_aPheromoneConcentration[i][j] = 0;
+                        m_aPheromoneConcentration[j][i] = 0;
+                    }                    
                 }
             }
             else
@@ -43,17 +48,56 @@ namespace wf_AI_lab1
             }
         }
 
-        public double UpdateGrade(CCombinatoricChromosome rChromosome)
+        public void SetPheromonesOnPath(double fPheromone, int[] aPath)
         {
-            double fPathDistance = 0;
-            int[] aGens = rChromosome.Gens;
-            int iLastIndex = aGens.Length - 1;
+            int iLastIndex = aPath.Length - 1;
             for (int i = 0; i < iLastIndex; i++)
             {
-                fPathDistance += aDistancesGraph[aGens[i]][aGens[i + 1]];
+                m_aPheromoneConcentration[aPath[i]][aPath[i + 1]] = fPheromone
+                    + m_aPheromoneConcentration[aPath[i]][aPath[i + 1]] * (1-m_rLaw.PheromoneEvaporation);
+            }           
+        }
+        public void Evaporation()
+        {
+            for (int i = 0; i < m_rLaw.NetSize; i++)
+            {
+                for (int j = 0; j < m_rLaw.NetSize; j++)
+                {
+                    m_aPheromoneConcentration[i][j] *= m_rLaw.PheromoneEvaporation;
+                }
             }
-            fPathDistance += aDistancesGraph[aGens[iLastIndex]][aGens[0]];
-            return fPathDistance;
+        }
+        public double GetPheromoneOnRib(int iStartPos, int iFinishPos)
+        {
+            if (m_rLaw.IsPosInNet(iStartPos) && m_rLaw.IsPosInNet(iFinishPos))
+            {
+                return m_aPheromoneConcentration[iStartPos][iFinishPos];
+            }
+            else
+            {
+                throw new FormatException();
+            }
+        }
+        public double GetDistanceOnRib(int iStartPos, int iFinishPos)
+        {
+            if (m_rLaw.IsPosInNet(iStartPos) && m_rLaw.IsPosInNet(iFinishPos))
+            {
+                return m_aDistancesGraph[iStartPos][iFinishPos];
+            }
+            else
+            {
+                throw new FormatException();
+            }
+        }
+        public double GetPathDistance(int[] aPath)
+        {
+            int iLastIndex = aPath.Length - 1;
+            double fSum = 0;
+            for (int i = 0; i < iLastIndex; i++)
+            {
+                fSum+= m_aDistancesGraph[aPath[i]][aPath[i + 1]];
+            }
+            return fSum;
         }
 
         public override string ToString()
@@ -65,15 +109,15 @@ namespace wf_AI_lab1
                 {
                     if (j==0)
                     {
-                        sGraph += "{"+ Math.Round(aDistancesGraph[i][j],3).ToString()+" ";
+                        sGraph += "{"+ Math.Round(m_aDistancesGraph[i][j],3).ToString()+" ";
                     }
                     else if (j==VertexCount-1)
                     {
-                        sGraph += Math.Round(aDistancesGraph[i][j], 3).ToString() + "}";
+                        sGraph += Math.Round(m_aDistancesGraph[i][j], 3).ToString() + "}";
                     }
                     else
                     {
-                        sGraph += Math.Round(aDistancesGraph[i][j],3).ToString()+" ";
+                        sGraph += Math.Round(m_aDistancesGraph[i][j],3).ToString()+" ";
                     }
                 }
                 sGraph += "\r\n";

@@ -8,51 +8,52 @@ namespace wf_AI_lab1
 {
     class CLaw
     {
-        public  int PopulationSize
-        {
-            get;
-            private set;
-        }
-        public  int GensCount { get; private set; }
-        public int WaitCounter { get; private set; }
-        public  double CrossbreedingChance { get; private set; }
-        public  double MutateChance { get; private set; }
+       public int NetSize { get; private set; }
+        public int AntsCount { get; private set; }
+        public double PheromoneEvaporation { get; private set; }
+        public double DistancePower { get; private set; }
+        public double PheromonePower { get; private set; }
+        public int Attractive { get; private set; }
 
-        public CLaw(int iPopulationSize, int iGensCount)
+        public CLaw(int iNetSize, int iAntsCount)
         {
-            if (iPopulationSize>0 && iGensCount>0)
+            if (iNetSize > 0 && iAntsCount > 0)
             {
-                PopulationSize = iPopulationSize;
-                GensCount = iGensCount;
+                NetSize = iNetSize;
+                AntsCount = iAntsCount;
             }
             else
             {
                 throw new FormatException("Law creation error");
             }
-            CrossbreedingChance = 0.5;
-            MutateChance = 0.1;
+            PheromoneEvaporation = 0.4;
+            DistancePower = 1;
+            PheromonePower = 2;
+            Attractive = 10;
         }
 
-        public void UpdateParameters(double fCrossbreedengChance, double fMutateChance,int iWaitCounter) 
+        public void UpdateParameters(double fPheromoneEvaporation, double fDistancePower, double fPheromonePower, int iAttractive) 
         {
-            if (IsBetweenZeroOne(fCrossbreedengChance) && IsBetweenZeroOne(fMutateChance) && iWaitCounter>0)
+            if (IsBetweenZeroOne(fPheromoneEvaporation) && fDistancePower > 0 
+                && fPheromonePower>0 && iAttractive>0)
             {
-                CrossbreedingChance = fCrossbreedengChance;
-                MutateChance = fMutateChance;
-                WaitCounter = iWaitCounter;
+                PheromoneEvaporation = fPheromoneEvaporation;
+                DistancePower = fDistancePower;
+                PheromonePower = fPheromonePower;
+                Attractive = iAttractive;
             }
             else
             {
                 throw new FormatException("Law update chances error");
             }
-        }
-        public void DecWaitCounter()
-        {
-            WaitCounter--;
-        }
+        }       
         private bool IsBetweenZeroOne(double fNumber)
         {
             return (fNumber >= 0.0 && fNumber <= 1.0);
+        }
+        public bool IsPosInNet(int iPos)
+        {
+            return (iPos >= 0 && iPos < NetSize);
         }
     }
 }
