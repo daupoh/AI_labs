@@ -12,14 +12,16 @@ namespace wf_AI_lab1
     {
         CGenetic m_rGenetic;
         CLaw m_rLaw;
-        [SetUp] 
+        CGroup m_rPopulation;
+        CPathGraph m_rGraph;
+       [SetUp] 
         public void SetUp()
         {
             int iVertexCount = 8;
-            CPathGraph rGraph = new CPathGraph(iVertexCount, 20);
+            m_rGraph = new CPathGraph(iVertexCount, 20);
             m_rLaw = new CLaw(10, iVertexCount);
             m_rLaw.UpdateParameters(0.5, 0.1);
-            m_rGenetic = new CGenetic(m_rLaw,rGraph);            
+            m_rGenetic = new CGenetic(m_rLaw, m_rGraph);            
         }
         [TearDown]
         public void TearDown()
@@ -50,6 +52,39 @@ namespace wf_AI_lab1
                 Console.WriteLine(rFirst.ToString());
                 Console.WriteLine();
             }
+        }
+        [Test]
+        public void TestSelection()
+        {
+            m_rPopulation = new CGroup(m_rGraph, m_rLaw);            
+            m_rPopulation.GenerateChromosomes(m_rLaw.PopulationSize);
+            Console.WriteLine(m_rPopulation.ToString());
+            CGroup rSelection = m_rPopulation.Selection();
+            Console.WriteLine(m_rPopulation.m_sSelectionLog);
+            Console.WriteLine(rSelection.ToString());
+
+            double fLastBestGrade = m_rPopulation.GetBestGrade();
+            Console.WriteLine(fLastBestGrade.ToString());
+            fLastBestGrade = rSelection.GetBestGrade();
+            Console.WriteLine(fLastBestGrade.ToString());
+        }
+
+        [Test]
+        public void TestEvolution()
+        {
+            m_rGenetic.InitializeGroup();
+            Console.WriteLine(m_rGenetic.ShowPopulation());
+
+            while (m_rGenetic.IsNotEndOfEvolution())
+            {
+              m_rGenetic.Evolution();
+            }
+            CCombinatoricChromosome rBestChromosome = m_rGenetic.GetBestChromosome();
+
+            Console.WriteLine(m_rGraph.ToString());
+            Console.WriteLine(rBestChromosome.ToString());
+            Console.WriteLine(m_rGraph.UpdateGrade(rBestChromosome));
+
         }
     }
 }

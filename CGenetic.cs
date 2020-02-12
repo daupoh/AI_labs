@@ -20,33 +20,32 @@ namespace wf_AI_lab1
                 m_rUpdater = rUpdater;
                 m_rLaw = rLaw;
                 m_iWaitCounter = 100;
+                
             }
             else
             {
                 throw new FormatException("Размер группы должен быть больше 0");
             }
         }
-       
-        public CCombinatoricChromosome Evolution()
+       public string ShowPopulation()
         {
-            InitializeGroup();
-            while (IsNotEndOfEvolution())
-            {                
-                CGroup rChilds = m_rPopulation.Selection().Crossbreeding();
+            return m_rPopulation.ToString();
+        }
+        public void Evolution()
+        {            
+             CGroup rChilds = m_rPopulation.Selection().Crossbreeding();
                 rChilds.Mutate();
-                m_rPopulation.GenerateNewGroup(rChilds);
-            }
-            return GetBestChromosome();
+                m_rPopulation.GenerateNewGroup(rChilds);            
         }
        
-        private void InitializeGroup()
+        public void InitializeGroup()
         {
             m_rPopulation = new CGroup(m_rUpdater, m_rLaw);
             m_rPopulation.GenerateChromosomes(m_rLaw.PopulationSize);
             m_fLastBestGrade = m_rPopulation.GetBestGrade();
         }       
       
-        private bool IsNotEndOfEvolution()
+        public bool IsNotEndOfEvolution()
         {
             bool bEvolutionNotEnded = true;
             double fCurrentBestGrade = m_rPopulation.GetBestGrade();
@@ -69,7 +68,7 @@ namespace wf_AI_lab1
             return bEvolutionNotEnded;
         }      
       
-        private CCombinatoricChromosome GetBestChromosome()
+        public CCombinatoricChromosome GetBestChromosome()
         {
             return m_rPopulation.GetBestChromosome();
         }

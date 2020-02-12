@@ -26,7 +26,7 @@ namespace wf_AI_lab1
                     {
                         if (i != j)
                         {
-                            double fDistance = SCRandom.Random * iVertexCount;
+                            double fDistance = (int)(SCRandom.Random * iVertexCount);
                             aDistancesGraph[i][j] = fDistance;
                             aDistancesGraph[j][i] = fDistance;
                         }
@@ -47,10 +47,12 @@ namespace wf_AI_lab1
         {
             double fPathDistance = 0;
             int[] aGens = rChromosome.Gens;
-            for (int i = 0; i < aGens.Length-1; i++)
+            int iLastIndex = aGens.Length - 1;
+            for (int i = 0; i < iLastIndex; i++)
             {
                 fPathDistance += aDistancesGraph[aGens[i]][aGens[i + 1]];
             }
+            fPathDistance += aDistancesGraph[aGens[iLastIndex]][aGens[0]];
             return fPathDistance;
         }
 
@@ -63,7 +65,7 @@ namespace wf_AI_lab1
                 {
                     if (j==0)
                     {
-                        sGraph += "{"+ Math.Round(aDistancesGraph[i][j],3).ToString();
+                        sGraph += "{"+ Math.Round(aDistancesGraph[i][j],3).ToString()+" ";
                     }
                     else if (j==VertexCount-1)
                     {
@@ -71,10 +73,10 @@ namespace wf_AI_lab1
                     }
                     else
                     {
-                        sGraph += Math.Round(aDistancesGraph[i][j],3).ToString();
+                        sGraph += Math.Round(aDistancesGraph[i][j],3).ToString()+" ";
                     }
                 }
-                sGraph += "/r/n";
+                sGraph += "\r\n";
             }
             sGraph += "}";
             return sGraph;

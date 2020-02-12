@@ -11,6 +11,7 @@ namespace wf_AI_lab1
         readonly IGradeUpdater m_rUpdater;
         readonly CLaw m_rLaw;
         readonly IList<CCombinatoricChromosome> m_aChromosomes;
+        public string m_sSelectionLog;
         public int GroupSize { get; private set; }
         
         public CGroup(IGradeUpdater rUpdater, CLaw rLaw)
@@ -26,6 +27,16 @@ namespace wf_AI_lab1
             {
                 throw new FormatException();
             }
+        }
+        public override string ToString()
+        {
+            string sGroup = "";
+            for (int i = 0; i < GroupSize; i++)
+            {
+                sGroup += m_aChromosomes[i].ToString()+" with grade: "+
+                    Math.Round(GetGradeAtChromosome(i),4).ToString()+ "\r\n";
+            }
+            return sGroup;
         }
         public void GenerateChromosomes(int iGroupSize)
         {
@@ -46,22 +57,27 @@ namespace wf_AI_lab1
         public CGroup Selection()
         {
             CGroup rSelectedGroup = new CGroup(m_rUpdater, m_rLaw);
+            m_sSelectionLog = "";
             double[] aSelectionPercents = new double[GroupSize];
             double fGradesSum = 0;
             for (int i = 0; i < GroupSize; i++)
             {
                 fGradesSum += GetGradeAtChromosome(i);
             }
+            double fAvgGrade = fGradesSum / GroupSize;
             double fReverseGradesSum = 0;
             for (int i = 0; i < GroupSize; i++)
             {
-                aSelectionPercents[i] = fGradesSum - GetGradeAtChromosome(i);
+                //aSelectionPercents[i] = fGradesSum - GetGradeAtChromosome(i);
+                //fReverseGradesSum += aSelectionPercents[i];
+                aSelectionPercents[i] = fAvgGrade / GetGradeAtChromosome(i);
                 fReverseGradesSum += aSelectionPercents[i];
             }
             for (int i = 0; i < GroupSize; i++)
             {
                 aSelectionPercents[i] = aSelectionPercents[i] / fReverseGradesSum;
             }
+            UpdateSelectionLog(aSelectionPercents);
             for (int i = 0; i < GroupSize; i++)
             {
                 double fRandom = SCRandom.Random;
@@ -175,6 +191,13 @@ namespace wf_AI_lab1
         private double GetGradeAtChromosome(int iNumber)
         {
             return m_rUpdater.UpdateGrade(m_aChromosomes[iNumber]);
+        }
+        private void UpdateSelectionLog(double[] aSelectionPercents)
+        {
+            for (int i = 0; i < aSelectionPercents.Length; i++)
+            {
+                m_sSelectionLog += Math.Round(aSelectionPercents[i], 4).ToString() + "\r\n";
+            }
         }
      
     }
