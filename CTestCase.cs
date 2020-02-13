@@ -3,38 +3,29 @@
 namespace wf_AI_lab1
 {
     class CTestCase
-    {
-        readonly int m_iSizeOfInputVector,
-            m_iSizeOfResultVector;
-        readonly int[] m_aInputVector;
-        readonly double[] m_aResultVector;
-        public CTestCase(int[] aInputVector, double[] aResultVector)
+    {           
+        readonly double[] m_aResultVector, m_aInputVector;
+
+        public int InputVectorSize { get { return m_aInputVector.Length; } }
+        public int ResultVectorSize { get { return m_aResultVector.Length; } }
+        public CTestCase(double[] aInputVector, double[] aResultVector)
         {
             Assert.IsTrue(aInputVector != null && aResultVector != null);
             Assert.IsTrue(aInputVector.Length >0 && aResultVector.Length >0);
-            m_iSizeOfInputVector = aInputVector.Length;
-            m_iSizeOfResultVector = aResultVector.Length;
-            m_aInputVector = new int[m_iSizeOfInputVector];
-            m_aResultVector = new double[m_iSizeOfResultVector];
-            for (int i = 0; i < m_iSizeOfInputVector; i++)
-            {
-                m_aInputVector[i] = aInputVector[i];
-            }
-            for (int i = 0; i < m_iSizeOfResultVector; i++)
-            {
-                m_aResultVector[i] = aResultVector[i];
-            }
+            
+            m_aInputVector = aInputVector;
+            m_aResultVector = aResultVector;
         }     
-        public int[] GetInputVector()
+        public double[] GetInputVector()
         {            
             return m_aInputVector;
         }
         public double[] GetErrorVector(double[] aActualResultVector)
         {
             Assert.IsTrue(aActualResultVector != null);
-            Assert.IsTrue(aActualResultVector.Length == m_iSizeOfResultVector);
-            double[] aErrorVector = new double[m_iSizeOfResultVector];
-            for (int i = 0; i < m_iSizeOfResultVector; i++)
+            Assert.IsTrue(aActualResultVector.Length == ResultVectorSize);
+            double[] aErrorVector = new double[ResultVectorSize];
+            for (int i = 0; i < ResultVectorSize; i++)
             {
                 aErrorVector[i] = m_aResultVector[i] - SCActivationFunction.GetDerivativeFunctionValue(aActualResultVector[i]);
             }

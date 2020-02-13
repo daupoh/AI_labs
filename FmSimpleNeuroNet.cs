@@ -6,12 +6,11 @@ namespace wf_AI_lab1
 {
     public partial class FmSimpleNeuroNet : Form
     {
-        const int GRID_SIZE = 4, RESULTS_COUNT = 6;
-        int[] m_aInputVector;
-        double[] m_aResultVector;
+        const int GRID_SIZE = 8, RESULTS_COUNT = 6;        
+        double[] m_aResultVector, m_aInputVector;
         double m_fAges;
         int m_iProgresStep;
-        CNetHandler m_rNetHandler;
+        CNet m_rNeuroNet;
         public FmSimpleNeuroNet()
         {
             InitializeComponent();
@@ -45,7 +44,7 @@ namespace wf_AI_lab1
         private void BtnToVector_Click(object sender, EventArgs e)
         {
             TbxInputVector.Text = GetInputVector();
-            double[] aResults = m_rNetHandler.GetResult(m_aInputVector);
+            double[] aResults = m_rNeuroNet.Analyse(m_aInputVector);
             string sResult = "{";
             for (int i = 0; i < aResults.Length-1; i++)
             {
@@ -80,7 +79,9 @@ namespace wf_AI_lab1
         }
         private void StartNet()
         {
-            string[] aTextNumbers = TbxLevelNeuronCounts.Text.Split(',');
+            string sNeurons = String.Format("{0},", GRID_SIZE * GRID_SIZE) + TbxLevelNeuronCounts.Text
+                + String.Format(",{0}", RESULTS_COUNT);
+            string[] aTextNumbers = sNeurons.Split(',');
             int[] aNumbers = new int[aTextNumbers.Length];
             try
             {
@@ -88,12 +89,12 @@ namespace wf_AI_lab1
                 {
                     aNumbers[i] = Convert.ToInt32(aTextNumbers[i]);
                 }
-                m_rNetHandler = new CNetHandler();
-                m_rNetHandler.SimpleNet(GRID_SIZE* GRID_SIZE, RESULTS_COUNT, aNumbers);
+                m_rNeuroNet = new CNet(aNumbers);
+                
                 GbxTest.Enabled = true;
 
                 TbxInputVector.Text += "_________________________________\r\n";
-                TbxInputVector.Text += m_rNetHandler.State;
+                TbxInputVector.Text += m_rNeuroNet.State;
                 TbxInputVector.Text += "\r\n";
                 TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
                 TbxInputVector.ScrollToCaret();
@@ -110,7 +111,7 @@ namespace wf_AI_lab1
             DgvDraw.ColumnCount = iSize;
             int iCellWidth = DgvDraw.Width / iSize,
                 iCellHeight = DgvDraw.Height / iSize;
-            m_aInputVector = new int[iSize * iSize];
+            m_aInputVector = new double[iSize * iSize];
             for (int i = 0; i < iSize; i++)
             {
                 DgvDraw.Columns[i].Width = iCellWidth;
@@ -189,6 +190,7 @@ namespace wf_AI_lab1
             PrbLearning.Value = 0;
             m_fAges = (double)NudAges.Value;
             m_iProgresStep = (int)Math.Round(m_fAges / 100);
+            m_iProgresStep++;
             GbxDraw.Enabled = false;
             GbxSetting.Enabled = false;
             GbxTest.Enabled = false;
@@ -260,7 +262,7 @@ namespace wf_AI_lab1
                 NudEq.Value++;
             }
             GetInputVector();
-            m_rNetHandler.AddTest(m_aInputVector, m_aResultVector);
+            m_rNeuroNet.AddTest(new CTestCase(m_aInputVector, m_aResultVector));
         }
         private void CopyToInputVector(int[] aNewVector)
         {
@@ -332,12 +334,12 @@ namespace wf_AI_lab1
         private void TmrLearning_Tick(object sender, EventArgs e)
         {
             if (PrbLearning.Value<100)
-            {
+            {                
                 for (int i = 0; i < m_iProgresStep; i++)
                 {
-                    m_rNetHandler.Learn(0.1);
+                    m_rNeuroNet.LearnAge(0.1);
                 }                
-                PrbLearning.Value += 100 / m_iProgresStep;
+                PrbLearning.Value ++;
             }
             else
             {
@@ -351,7 +353,7 @@ namespace wf_AI_lab1
                 TbxInputVector.Text += "_________________________________\r\n";
                 TbxInputVector.Text += "_________LEARNING_______\r\n";
                 TbxInputVector.Text += "_________________________________\r\n";
-                TbxInputVector.Text += m_rNetHandler.State;
+                TbxInputVector.Text +=  m_rNeuroNet.State;
                 TbxInputVector.Text += "\r\n";
 
                 TbxInputVector.SelectionStart = TbxInputVector.Text.Length;

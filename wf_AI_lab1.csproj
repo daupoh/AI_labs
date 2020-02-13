@@ -54,11 +54,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CConnection.cs" />
-    <Compile Include="CLevel.cs" />
-    <Compile Include="CNetHandler.cs" />
+    <Compile Include="CInputLayer.cs" />
+    <Compile Include="CLayer.cs" />
+    <Compile Include="CNet.cs" />
+    <Compile Include="ILayer.cs" />
     <Compile Include="CNeuron.cs" />
-    <Compile Include="CNeuroNet.cs" />
     <Compile Include="CTestCase.cs" />
     <Compile Include="FmSimpleNeuroNet.cs">
       <SubType>Form</SubType>

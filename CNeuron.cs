@@ -4,28 +4,16 @@ using System;
 namespace wf_AI_lab1
 {
     class CNeuron
-    {        
-        
-        double m_fPotential;
+    {   
         string m_sName = "";        
      
-        public double Potencial
-        {
-            get
-            {
-                return m_fPotential;
-            }
-            private set
-            {               
-                m_fPotential = value;
-            }
-        }
+        public double Potencial { get; private set;  }
         public double Error { get; set; }
         public double Derivative
         {
             get
             {
-                return SCActivationFunction.GetDerivativeFunctionValue(m_fPotential);
+                return SCActivationFunction.GetDerivativeFunctionValue(Potencial);
             }
         }
         public double Active
@@ -33,7 +21,7 @@ namespace wf_AI_lab1
             get
             {
                
-                return SCActivationFunction.GetFunctionValue(m_fPotential);
+                return SCActivationFunction.GetFunctionValue(Potencial);
             }
         }
         public string Name
@@ -59,6 +47,7 @@ namespace wf_AI_lab1
         {
             Potencial = fExcite;
         }
+
         public void Cooloff()
         {
             Potencial = 0;
