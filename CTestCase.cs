@@ -13,8 +13,16 @@ namespace wf_AI_lab1
             Assert.IsTrue(aInputVector != null && aResultVector != null);
             Assert.IsTrue(aInputVector.Length >0 && aResultVector.Length >0);
             
-            m_aInputVector = aInputVector;
-            m_aResultVector = aResultVector;
+            m_aInputVector = new double[aInputVector.Length];
+            m_aResultVector = new double [aResultVector.Length];
+            for (int i = 0; i < aInputVector.Length; i++)
+            {
+                m_aInputVector[i] = aInputVector[i];
+            }
+            for (int i = 0; i < aResultVector.Length; i++)
+            {
+                m_aResultVector[i] = aResultVector[i];
+            }
         }     
         public double[] GetInputVector()
         {            

@@ -43,7 +43,8 @@ namespace wf_AI_lab1
         }
         private void BtnToVector_Click(object sender, EventArgs e)
         {
-            TbxInputVector.Text = GetInputVector();
+            UpdateInputVector();
+            TbxLog.Text = GetInputVector(m_aInputVector);
             double[] aResults = m_rNeuroNet.Analyse(m_aInputVector);
             string sResult = "{";
             for (int i = 0; i < aResults.Length-1; i++)
@@ -51,7 +52,7 @@ namespace wf_AI_lab1
                 sResult+=Math.Round(aResults[i],4).ToString()+",";
             }
             sResult+= Math.Round(aResults[aResults.Length-1], 4).ToString() + "}";
-            TbxInputVector.Text += "\r\n" + sResult + "\r\n";
+            TbxLog.Text += "\r\n" + sResult + "\r\n";
         }
 
         private void FmSimpleNeuroNet_Shown(object sender, EventArgs e)
@@ -93,11 +94,11 @@ namespace wf_AI_lab1
                 
                 GbxTest.Enabled = true;
 
-                TbxInputVector.Text += "_________________________________\r\n";
-                TbxInputVector.Text += m_rNeuroNet.State;
-                TbxInputVector.Text += "\r\n";
-                TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
-                TbxInputVector.ScrollToCaret();
+                TbxLog.Text += "_________________________________\r\n";
+                TbxLog.Text += m_rNeuroNet.State;
+                TbxLog.Text += "\r\n";
+                TbxLog.SelectionStart = TbxLog.Text.Length;
+                TbxLog.ScrollToCaret();
             }
             catch
             {
@@ -157,15 +158,14 @@ namespace wf_AI_lab1
                 }
             }
         }
-        private string GetInputVector()
+        private string GetInputVector(double[] aVector)
         {
-            string sVector = "{";
-            UpdateInputVector();
-            for (int i = 0; i < m_aInputVector.Length-1; i++)
+            string sVector = "{";            
+            for (int i = 0; i < aVector.Length-1; i++)
             {
-                sVector += m_aInputVector[i].ToString()+',';
+                sVector += aVector[i].ToString()+',';
             }
-            sVector += m_aInputVector[m_aInputVector.Length - 1].ToString() + '}';
+            sVector += aVector[aVector.Length - 1].ToString() + '}';
             return sVector;
         }
       
@@ -261,8 +261,13 @@ namespace wf_AI_lab1
             {
                 NudEq.Value++;
             }
-            GetInputVector();
+            UpdateInputVector();
+            TbxLog.Text += String.Format("\r\nВходной вектор {0}\r\n Ожидаемый выходной вектор {1}", GetInputVector(m_aInputVector),
+                GetInputVector(m_aResultVector));
             m_rNeuroNet.AddTest(new CTestCase(m_aInputVector, m_aResultVector));
+
+            TbxLog.SelectionStart = TbxLog.Text.Length;
+            TbxLog.ScrollToCaret();
         }
         private void CopyToInputVector(int[] aNewVector)
         {
@@ -350,14 +355,14 @@ namespace wf_AI_lab1
                 GbxTest.Enabled = true;
                 NudAges.Enabled = true;
                 BtnLearnNet.Enabled = true;
-                TbxInputVector.Text += "_________________________________\r\n";
-                TbxInputVector.Text += "_________LEARNING_______\r\n";
-                TbxInputVector.Text += "_________________________________\r\n";
-                TbxInputVector.Text +=  m_rNeuroNet.State;
-                TbxInputVector.Text += "\r\n";
+                TbxLog.Text += "_________________________________\r\n";
+                TbxLog.Text += "_________LEARNING_______\r\n";
+                TbxLog.Text += "_________________________________\r\n";
+                TbxLog.Text +=  m_rNeuroNet.State;
+                TbxLog.Text += "\r\n";
 
-                TbxInputVector.SelectionStart = TbxInputVector.Text.Length;
-                TbxInputVector.ScrollToCaret();
+                TbxLog.SelectionStart = TbxLog.Text.Length;
+                TbxLog.ScrollToCaret();
             }
             
         }

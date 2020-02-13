@@ -41,7 +41,7 @@
             this.BtnSymOr = new System.Windows.Forms.Button();
             this.BtnLearnNet = new System.Windows.Forms.Button();
             this.BtnStartNet = new System.Windows.Forms.Button();
-            this.TbxInputVector = new System.Windows.Forms.TextBox();
+            this.TbxLog = new System.Windows.Forms.TextBox();
             this.GbxTest = new System.Windows.Forms.GroupBox();
             this.NudEq = new System.Windows.Forms.NumericUpDown();
             this.NudProp = new System.Windows.Forms.NumericUpDown();
@@ -50,15 +50,15 @@
             this.NudOr = new System.Windows.Forms.NumericUpDown();
             this.NudAnd = new System.Windows.Forms.NumericUpDown();
             this.RbtNot = new System.Windows.Forms.RadioButton();
-            this.NudAges = new System.Windows.Forms.NumericUpDown();
-            this.LblAges = new System.Windows.Forms.Label();
-            this.PrbLearning = new System.Windows.Forms.ProgressBar();
             this.BtnAddTest = new System.Windows.Forms.Button();
             this.RbtEq = new System.Windows.Forms.RadioButton();
             this.RbtProp = new System.Windows.Forms.RadioButton();
             this.RbtXor = new System.Windows.Forms.RadioButton();
             this.RbtOr = new System.Windows.Forms.RadioButton();
             this.RbtnAnd = new System.Windows.Forms.RadioButton();
+            this.NudAges = new System.Windows.Forms.NumericUpDown();
+            this.LblAges = new System.Windows.Forms.Label();
+            this.PrbLearning = new System.Windows.Forms.ProgressBar();
             this.GbxSetting = new System.Windows.Forms.GroupBox();
             this.LblLevelNeuronCounts = new System.Windows.Forms.Label();
             this.TbxLevelNeuronCounts = new System.Windows.Forms.TextBox();
@@ -216,15 +216,15 @@
             this.BtnStartNet.UseVisualStyleBackColor = true;
             this.BtnStartNet.Click += new System.EventHandler(this.BtnStartNet_Click);
             // 
-            // TbxInputVector
+            // TbxLog
             // 
-            this.TbxInputVector.Location = new System.Drawing.Point(706, 12);
-            this.TbxInputVector.Multiline = true;
-            this.TbxInputVector.Name = "TbxInputVector";
-            this.TbxInputVector.ReadOnly = true;
-            this.TbxInputVector.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TbxInputVector.Size = new System.Drawing.Size(337, 478);
-            this.TbxInputVector.TabIndex = 1;
+            this.TbxLog.Location = new System.Drawing.Point(706, 12);
+            this.TbxLog.Multiline = true;
+            this.TbxLog.Name = "TbxLog";
+            this.TbxLog.ReadOnly = true;
+            this.TbxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.TbxLog.Size = new System.Drawing.Size(337, 478);
+            this.TbxLog.TabIndex = 1;
             // 
             // GbxTest
             // 
@@ -339,43 +339,6 @@
             this.RbtNot.UseVisualStyleBackColor = true;
             this.RbtNot.CheckedChanged += new System.EventHandler(this.RbtNot_CheckedChanged);
             // 
-            // NudAges
-            // 
-            this.NudAges.Location = new System.Drawing.Point(166, 30);
-            this.NudAges.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.NudAges.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NudAges.Name = "NudAges";
-            this.NudAges.Size = new System.Drawing.Size(141, 20);
-            this.NudAges.TabIndex = 17;
-            this.NudAges.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // LblAges
-            // 
-            this.LblAges.Location = new System.Drawing.Point(6, 30);
-            this.LblAges.Name = "LblAges";
-            this.LblAges.Size = new System.Drawing.Size(94, 19);
-            this.LblAges.TabIndex = 8;
-            this.LblAges.Text = "Количество эпох";
-            // 
-            // PrbLearning
-            // 
-            this.PrbLearning.Location = new System.Drawing.Point(6, 108);
-            this.PrbLearning.Name = "PrbLearning";
-            this.PrbLearning.Size = new System.Drawing.Size(301, 23);
-            this.PrbLearning.TabIndex = 16;
-            // 
             // BtnAddTest
             // 
             this.BtnAddTest.Location = new System.Drawing.Point(6, 120);
@@ -447,6 +410,43 @@
             this.RbtnAnd.UseVisualStyleBackColor = true;
             this.RbtnAnd.CheckedChanged += new System.EventHandler(this.RbtnAnd_CheckedChanged);
             // 
+            // NudAges
+            // 
+            this.NudAges.Location = new System.Drawing.Point(166, 30);
+            this.NudAges.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.NudAges.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NudAges.Name = "NudAges";
+            this.NudAges.Size = new System.Drawing.Size(141, 20);
+            this.NudAges.TabIndex = 17;
+            this.NudAges.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // LblAges
+            // 
+            this.LblAges.Location = new System.Drawing.Point(6, 30);
+            this.LblAges.Name = "LblAges";
+            this.LblAges.Size = new System.Drawing.Size(94, 19);
+            this.LblAges.TabIndex = 8;
+            this.LblAges.Text = "Количество эпох";
+            // 
+            // PrbLearning
+            // 
+            this.PrbLearning.Location = new System.Drawing.Point(6, 108);
+            this.PrbLearning.Name = "PrbLearning";
+            this.PrbLearning.Size = new System.Drawing.Size(301, 23);
+            this.PrbLearning.TabIndex = 16;
+            // 
             // GbxSetting
             // 
             this.GbxSetting.Controls.Add(this.LblLevelNeuronCounts);
@@ -500,7 +500,7 @@
             this.Controls.Add(this.GbxLearning);
             this.Controls.Add(this.GbxSetting);
             this.Controls.Add(this.GbxTest);
-            this.Controls.Add(this.TbxInputVector);
+            this.Controls.Add(this.TbxLog);
             this.Controls.Add(this.GbxDraw);
             this.Name = "FmSimpleNeuroNet";
             this.Text = "Простая нейро-сеть";
@@ -530,7 +530,7 @@
         private System.Windows.Forms.DataGridView DgvDraw;
         private System.Windows.Forms.Button BtnClearDraw;
         private System.Windows.Forms.Button BtnAnalyse;
-        private System.Windows.Forms.TextBox TbxInputVector;
+        private System.Windows.Forms.TextBox TbxLog;
         private System.Windows.Forms.Button BtnStartNet;
         private System.Windows.Forms.Button BtnLearnNet;
         private System.Windows.Forms.Button BtnSymEq;
