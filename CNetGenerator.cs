@@ -100,7 +100,7 @@ namespace wf_AI_lab1
         public string Request(string sRequest)
         {
             string sAnswer = "";
-            string[] aTags = sRequest.Split(new char[] { ' ','.',',','?' });
+            string[] aTags = sRequest.Split(new char[] { ' ','?' });
             
             string[] aSuitableNodes =  m_rGraph.SuitableNodes(aTags),
                 aSuitableRelations = m_rGraph.SuitableRelations(aTags);
@@ -109,22 +109,30 @@ namespace wf_AI_lab1
             if (aSuitableNodes.Length>2 || aSuitableRelations.Length>1 || 
                 iOtherTagsCount > 3 || CountQuestionTags(aTags)>2)
             {
-                sAnswer = "Попробуйте уточнить запрос.";
+                sAnswer = "Попробуйте уточнить запрос.\r\n";
             }
             else if (aSuitableNodes.Length == 0 && aSuitableRelations.Length == 0)
             {
-                sAnswer = "По запросу не удалось ничего найти.";
+                sAnswer = "По запросу не удалось ничего найти.\r\n";
             }
             else if (aSuitableNodes.Length == 2 && aSuitableRelations.Length == 1)
             {
-                sAnswer = "Это не запрос, а утверждение.";
+                sAnswer = m_rGraph.FindSemanticFragment(aSuitableNodes, aSuitableRelations);
+                if (sAnswer == "")
+                {
+                    sAnswer = "Это утверждение ложное.\r\n";
+                }
+                else
+                {
+                    sAnswer = "Это утверждение истинное.\r\n";
+                }
             }
             else
             {
                 sAnswer = m_rGraph.FindSemanticFragment(aSuitableNodes, aSuitableRelations);
                 if (sAnswer=="")
                 {
-                    sAnswer = String.Format("Не удалось найти связей, попробуйте разбить запрос на части.");
+                    sAnswer = String.Format("Не удалось найти связей, попробуйте разбить запрос на части.\r\n");
                 }
             }
 

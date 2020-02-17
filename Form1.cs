@@ -13,6 +13,7 @@ namespace wf_AI_lab1
     public partial class FmSemanticNet : Form
     {
         CNetGenerator m_rNetGen;
+        string sLastRequest = "Что такое проект?";
         public FmSemanticNet()
         {
             InitializeComponent();
@@ -33,6 +34,7 @@ namespace wf_AI_lab1
             {
                 string sRequest = TbxRequest.Text,
                     sAnswer = "";
+                sLastRequest = sRequest;
                 sAnswer = m_rNetGen.Request(sRequest);
                 TbxChat.Text += String.Format("{0}\r\n", sRequest);
                 TbxChat.Text += String.Format("{0}\r\n", sAnswer);
@@ -47,6 +49,10 @@ namespace wf_AI_lab1
             if (e.KeyCode == Keys.Enter)
             {
                 SendRequest();
+            }
+            if (e.KeyCode ==Keys.Up)
+            {
+                TbxRequest.Text = sLastRequest;
             }
         }
     }

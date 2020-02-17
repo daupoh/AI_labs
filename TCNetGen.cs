@@ -47,7 +47,7 @@ namespace wf_AI_lab1
         [Test]
         public void TestSingleRequest()
         {
-            string sReq = "У Отклика есть команда?";
+            string sReq = "Срок Отклика 12.11.2020?";
             Console.WriteLine(sReq);
             Console.WriteLine(m_rNetGen.Request(sReq));
         }

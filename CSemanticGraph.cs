@@ -74,9 +74,14 @@ namespace wf_AI_lab1
                 {
                     sAnswer = FindAllAboutRelation(aRelation[0]);
                 }
-                else
+                else if (aNodes.Length==1)
                 {
                     sAnswer = FindUncompleteRelation(aNodes[0], aRelation[0]);
+                }
+                else
+                {
+                    sAnswer = FindCompleteRelation(aNodes[0], aNodes[1], aRelation[0]);
+                    sAnswer += FindCompleteRelation(aNodes[1], aNodes[0], aRelation[0]);
                 }
             }
             return sAnswer;
@@ -178,6 +183,35 @@ namespace wf_AI_lab1
                 for (int i = 0; i < aRelObjectOne.Length; i++)
                 {
                     if (aRelObjectOne[i].Name == sRelName)
+                    {
+                        sAnswer += String.Format("{0}\r\n", aRelObjectOne[i].Show);
+                    }
+                }
+            }
+            return sAnswer;
+        }
+        private string FindCompleteRelation(string sNodeNameOne,string sNodeNameAnother, string sRelName)
+        {
+            string sAnswer = "";
+            CRelation[] aRelSubjectOne = FindRelationsWithSubject(sNodeNameOne),
+                aRelObjectOne = FindRelationsWithObject(sNodeNameOne);
+            if (aRelSubjectOne.Length != 0)
+            {
+                for (int i = 0; i < aRelSubjectOne.Length; i++)
+                {
+                    if (aRelSubjectOne[i].Name == sRelName 
+                        && aRelSubjectOne[i].Second.Name==sNodeNameAnother)
+                    {
+                        sAnswer += String.Format("{0}\r\n", aRelSubjectOne[i].Show);
+                    }
+                }
+            }
+            if (aRelObjectOne.Length != 0)
+            {
+                for (int i = 0; i < aRelObjectOne.Length; i++)
+                {
+                    if (aRelObjectOne[i].Name == sRelName
+                         && aRelObjectOne[i].First.Name == sNodeNameAnother)
                     {
                         sAnswer += String.Format("{0}\r\n", aRelObjectOne[i].Show);
                     }
