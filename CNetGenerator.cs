@@ -45,7 +45,21 @@ namespace wf_AI_lab1
             string sAnswer = "";
             string[] aTags = sRequest.Split(new char[] { ' ', '-' });
             int iTagsCount = aTags.Length;
-            m_rGraph.SuitableNodes(aTags);
+            string[] aSuitableNodes =  m_rGraph.SuitableNodes(aTags),
+                aSuitableRelations = m_rGraph.SuitableRelations(aTags);
+            if (aSuitableNodes.Length>2 || aSuitableRelations.Length>1 || 
+                (iTagsCount - aSuitableNodes.Length - aSuitableRelations.Length) >3)
+            {
+                throw new FormatException();
+            }
+            else if (aSuitableNodes.Length == 2 && aSuitableRelations.Length == 1)
+            {
+                throw new FormatException();
+            }
+            else
+            {
+                m_rGraph.FindSemanticFragment(aSuitableNodes, aSuitableRelations);
+            }
 
             return sAnswer;
         }

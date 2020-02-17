@@ -50,6 +50,12 @@ namespace wf_AI_lab1
             }
             return aSuitable.ToArray();
         }
+        public string FindSemanticFragment(string[] aNodes, string[] aRelation)
+        {
+            string sAnswer = "";
+
+            return sAnswer;
+        }
         public string[] SuitableRelations(string[] aText)
         {
             IList<string> aSuitable = new List<string>();
