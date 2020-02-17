@@ -9,13 +9,12 @@ namespace wf_AI_lab1
     class CNetGenerator
     {
         CSemanticGraph m_rGraph;
-        string[] m_aRequestNodeKeyWords = new string[] { "какой", "кто", "что", "кого", "какие" };
+        string[] m_aRequestNodeKeyWords = new string[] { "какой", "кто", "что", "кого",
+            "какие","чего","кому", "чему" };
      
         public CNetGenerator()
         {
-            m_rGraph = new CSemanticGraph();
-            m_rGraph.AddNode("Человек");
-            m_rGraph.AddNode("Задача");
+            m_rGraph = new CSemanticGraph();                       
             m_rGraph.AddNode("Проект");
             m_rGraph.AddNode("Аптека");
             m_rGraph.AddNode("Отклик");
@@ -25,20 +24,34 @@ namespace wf_AI_lab1
             m_rGraph.AddNode("ФИТ");
             m_rGraph.AddNode("HCB");
 
-            m_rGraph.AddNode("Команда");
+            m_rGraph.AddNode("Команда");            
             m_rGraph.AddNode("Отклик-тим");
             m_rGraph.AddNode("Аптека-тим");
 
+            m_rGraph.AddNode("Методология");
+            m_rGraph.AddNode("Scrum");
+            m_rGraph.AddNode("Waterfall");
+            m_rGraph.AddNode("Kanban");
+
+            m_rGraph.AddNode("Человек");
             m_rGraph.AddNode("Тестировщик");
             m_rGraph.AddNode("Аналитик");
             m_rGraph.AddNode("Разработчик");
             m_rGraph.AddNode("Заказчик");
             m_rGraph.AddNode("Тим-лид");
+
+            m_rGraph.AddNode("Задача");
             m_rGraph.AddNode("Фичи");
             m_rGraph.AddNode("Спецификации");
             m_rGraph.AddNode("Тест-кейсы");
             m_rGraph.AddNode("Концепции");
             m_rGraph.AddNode("Спринт");
+            
+            m_rGraph.AddNode("Отклик-2.0");
+            m_rGraph.AddNode("VRS-Отклик-2.0");
+            m_rGraph.AddNode("TC_Отклик-2.0");
+            m_rGraph.AddNode("-newFrontLogic.js");
+            m_rGraph.AddNode("Sprint-17.02-21.02");
 
             m_rGraph.AddNode("Дата");
             m_rGraph.AddNode("12.11.2020");
@@ -50,6 +63,12 @@ namespace wf_AI_lab1
             m_rGraph.AddRelation("например", "", "Человек", "Разработчик");
             m_rGraph.AddRelation("например", "", "Человек", "Тим-лид");
 
+            m_rGraph.AddRelation("например", "", "Спецификации", "VRS-Отклик-2.0");
+            m_rGraph.AddRelation("например", "", "Фичи", "-newFrontLogic.js");
+            m_rGraph.AddRelation("например", "", "Тест-кейсы", "TC_Отклик-2.0");
+            m_rGraph.AddRelation("например", "", "Концепции", "VRS-Отклик-2.0");
+            m_rGraph.AddRelation("например", "", "Спринт", "Sprint-17.02-21.02");
+
             m_rGraph.AddRelation("например", "", "Задача", "Спринт");
             m_rGraph.AddRelation("например", "", "Задача", "Тест-кейсы");
             m_rGraph.AddRelation("например", "", "Задача", "Спецификации");
@@ -58,8 +77,11 @@ namespace wf_AI_lab1
 
             m_rGraph.AddRelation("например", "", "Проект", "Отклик");
             m_rGraph.AddRelation("например", "", "Проект", "Аптека");
+
             m_rGraph.AddRelation("например", "", "Команда", "Отклик-тим");
             m_rGraph.AddRelation("например", "", "Команда", "Аптека-тим");
+
+            m_rGraph.AddRelation("решает", "", "Команда", "Задачи");
 
             m_rGraph.AddRelation("состоит", "из", "Проект", "Концепции");
             m_rGraph.AddRelation("состоит", "из", "Проект", "Команда");
