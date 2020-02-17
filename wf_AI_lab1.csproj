@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CNetGenerator.cs" />
     <Compile Include="CNode.cs" />
     <Compile Include="CRelation.cs" />
     <Compile Include="CSemanticGraph.cs" />

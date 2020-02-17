@@ -21,5 +21,21 @@ namespace wf_AI_lab1
                 throw new FormatException();
             }
         }
+        public double AboutThisProbability(string sRequest)
+        {
+            double fProbability = 0.0;
+            if (sRequest==Name)
+            {
+                fProbability = 1.0;
+            }
+            else
+            {
+                if (sRequest.ToLower().Contains(Name.ToLower()))
+                {
+                    fProbability = (Name.Length * 1.0 / sRequest.Length * 1.0);
+                }
+            }
+            return fProbability;
+        }
     }
 }

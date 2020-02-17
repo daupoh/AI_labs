@@ -33,9 +33,40 @@ namespace wf_AI_lab1
             else
             {
                 throw new FormatException();
-            }
-            
+            }            
         }
+        public string[] SuitableNodes(string[] aText)
+        {
+            IList<string> aSuitable = new List<string>();
+            for (int i = 0; i < aText.Length; i++)
+            {
+                foreach (CNode rNode in m_aNodes)
+                {
+                    if (rNode.AboutThisProbability(aText[i]) > 0.65)
+                    {
+                        aSuitable.Add(rNode.Name);
+                    }
+                }
+            }
+            return aSuitable.ToArray();
+        }
+        public string[] SuitableRelations(string[] aText)
+        {
+            IList<string> aSuitable = new List<string>();
+            for (int i = 0; i < aText.Length; i++)
+            {
+                foreach (CRelation rRel in m_aRelations)
+                {
+                    if (rRel.AboutThisProbability(aText[i]) > 0.65)
+                    {
+                        aSuitable.Add(rRel.Name);
+                    }
+                }
+            }
+            return aSuitable.ToArray();
+        }
+
+
         private CNode NodePresent(string sNodeName)
         {
             CNode rPresented = null;
