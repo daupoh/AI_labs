@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FmSemanticNet));
             this.TbxChat = new System.Windows.Forms.TextBox();
             this.TbxRequest = new System.Windows.Forms.TextBox();
             this.BtnSend = new System.Windows.Forms.Button();
@@ -41,6 +42,8 @@
             this.TbxChat.ReadOnly = true;
             this.TbxChat.Size = new System.Drawing.Size(580, 381);
             this.TbxChat.TabIndex = 0;
+            this.TbxChat.Text = resources.GetString("TbxChat.Text");
+            this.TbxChat.Enter += new System.EventHandler(this.TbxChat_Enter);
             // 
             // TbxRequest
             // 
@@ -70,7 +73,6 @@
             this.Controls.Add(this.TbxChat);
             this.Name = "FmSemanticNet";
             this.Text = "Семантическая сеть";
-            
             this.ResumeLayout(false);
             this.PerformLayout();
 

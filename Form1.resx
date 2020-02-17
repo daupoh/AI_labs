@@ -117,4 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="TbxChat.Text" xml:space="preserve">
+    <value>Введите запрос в строку запроса и нажмите кнопку "Отправить" или Enter для ожидания ответа от системы.
+Нажмите курсор "Вверх", чтобы отобразить последний запрос в строке запроса (изначально сохранен базовый запрос).
+Система содержит знания по теме "Разработка программного обеспечения". 
+_________________________________________________________________________________________
+</value>
+  </data>
 </root>

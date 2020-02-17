@@ -18,6 +18,7 @@ namespace wf_AI_lab1
         {
             InitializeComponent();
             m_rNetGen = new CNetGenerator();
+            
         }
 
         private void BtnSend_Click(object sender, EventArgs e)
@@ -54,6 +55,12 @@ namespace wf_AI_lab1
             {
                 TbxRequest.Text = sLastRequest;
             }
+        }
+
+        private void TbxChat_Enter(object sender, EventArgs e)
+        {
+            TbxChat.SelectionStart = 0;
+            
         }
     }
 }
