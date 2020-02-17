@@ -15,11 +15,11 @@ namespace wf_AI_lab1
             m_aRelations = new List<CRelation>();
             m_aNodes = new List<CNode>();
         }
-        public void AddRelation(string sRelation, string sFirstNode, string sSecondNode)
+        public void AddRelation(string sRelation,string sPretext, string sFirstNode, string sSecondNode)
         {
             CNode rFirst = NodePresent(sFirstNode),
                 rSecond = NodePresent(sSecondNode);
-            CRelation rAddedRelation = new CRelation(sRelation, rFirst, rSecond);
+            CRelation rAddedRelation = new CRelation(sRelation, sPretext, rFirst, rSecond);
             m_aRelations.Add(rAddedRelation);
 
         }
@@ -40,11 +40,15 @@ namespace wf_AI_lab1
             IList<string> aSuitable = new List<string>();
             for (int i = 0; i < aText.Length; i++)
             {
-                foreach (CNode rNode in m_aNodes)
+                if (aText[i].Length > 0)
                 {
-                    if (rNode.AboutThisProbability(aText[i]) > 0.65)
+                    foreach (CNode rNode in m_aNodes)
                     {
-                        aSuitable.Add(rNode.Name);
+                        if (rNode.AboutThisProbability(aText[i]) > 0.65)
+                        {
+                            aSuitable.Add(rNode.Name);
+                            break;
+                        }
                     }
                 }
             }
@@ -53,19 +57,184 @@ namespace wf_AI_lab1
         public string FindSemanticFragment(string[] aNodes, string[] aRelation)
         {
             string sAnswer = "";
-
+            if (aRelation.Length==0)
+            {
+                if (aNodes.Length==1)
+                {
+                    sAnswer = FindAllAboutNode(aNodes[0]);
+                }
+                else
+                {
+                    sAnswer = FindRelationBetween(aNodes[0], aNodes[1]);
+                }
+            }
+            else
+            {
+                if (aNodes.Length==0)
+                {
+                    sAnswer = FindAllAboutRelation(aRelation[0]);
+                }
+                else
+                {
+                    sAnswer = FindUncompleteRelation(aNodes[0], aRelation[0]);
+                }
+            }
             return sAnswer;
+        }
+        private string FindAllAboutNode(string sNodeName)
+        {
+            string sAnswer = "";
+            foreach (CNode rNode in m_aNodes)
+            {
+                if (rNode.Name==sNodeName)
+                {
+                   
+                    CRelation[] aRelations = FindRelationsWithObject(sNodeName);
+                    if (aRelations.Length != 0)
+                    {
+                        for (int i = 0; i < aRelations.Length; i++)
+                        {
+                            sAnswer += String.Format("{0}\r\n", aRelations[i].Show);
+                        }
+                    }
+                    aRelations = FindRelationsWithSubject(sNodeName);
+                    if (aRelations.Length!=0)
+                    {
+                        for (int i = 0; i < aRelations.Length; i++)
+                        {
+                            sAnswer+= String.Format("{0}\r\n", aRelations[i].Show);
+                        }
+                    }
+                   
+                    break;
+                }
+            }
+            return sAnswer;
+        }
+        private string FindAllAboutRelation(string sRelName)
+        {
+            string sAnswer = "";
+            foreach (CRelation rRel in m_aRelations)
+            {
+                if (rRel.Name == sRelName)
+                {                    
+                    CRelation[] aRelations = FindRelation(sRelName);
+                    if (aRelations.Length != 0)
+                    {
+                        for (int i = 0; i < aRelations.Length; i++)
+                        {
+                            sAnswer += String.Format("{0}\r\n", aRelations[i].Show);
+                        }
+                    }
+                    break;
+                }
+            }
+            return sAnswer;
+        }
+        private string FindRelationBetween(string sNodeOne, string sNodeAnother)
+        {
+            string sAnswer = "";
+            CRelation[] aRelSubjectOne = FindRelationsWithSubject(sNodeOne),
+                aRelObjectOne = FindRelationsWithObject(sNodeOne);
+            if (aRelSubjectOne.Length != 0)
+            {
+                for (int i = 0; i < aRelSubjectOne.Length; i++)
+                {
+                    if (aRelSubjectOne[i].Second.Name == sNodeAnother)
+                    {
+                        sAnswer += String.Format("{0}\r\n", aRelSubjectOne[i].Show);
+                    }
+                }
+            }
+            if (aRelObjectOne.Length != 0)
+            {
+                for (int i = 0; i < aRelObjectOne.Length; i++)
+                {
+                    if (aRelObjectOne[i].First.Name == sNodeAnother)
+                    {
+                        sAnswer += String.Format("{0}\r\n", aRelObjectOne[i].Show);
+                    }
+                }
+            }
+            return sAnswer;
+        }
+        private string FindUncompleteRelation(string sNodeName, string sRelName)
+        {
+            string sAnswer = "";
+            CRelation[] aRelSubjectOne = FindRelationsWithSubject(sNodeName),
+                aRelObjectOne = FindRelationsWithObject(sNodeName);
+            if (aRelSubjectOne.Length != 0)
+            {
+                for (int i = 0; i < aRelSubjectOne.Length; i++)
+                {
+                    if (aRelSubjectOne[i].Name == sRelName)
+                    {
+                        sAnswer += String.Format("{0}\r\n", aRelSubjectOne[i].Show);
+                    }
+                }
+            }
+            if (aRelObjectOne.Length != 0)
+            {
+                for (int i = 0; i < aRelObjectOne.Length; i++)
+                {
+                    if (aRelObjectOne[i].Name == sRelName)
+                    {
+                        sAnswer += String.Format("{0}\r\n", aRelObjectOne[i].Show);
+                    }
+                }
+            }
+            return sAnswer;
+        }
+        private CRelation[] FindRelationsWithSubject(string sNodeName)
+        {
+            IList<CRelation> aRelation = new List<CRelation>();
+            foreach (CRelation rRel in m_aRelations)
+            {
+                if (rRel.First.Name== sNodeName)
+                {
+                    aRelation.Add(rRel);
+                }
+            }
+            return aRelation.ToArray();
+        }
+        private CRelation[] FindRelation(string sRelName)
+        {
+            IList<CRelation> aRelation = new List<CRelation>();
+            foreach (CRelation rRel in m_aRelations)
+            {
+                if (rRel.Name == sRelName)
+                {
+                    aRelation.Add(rRel);
+                }
+            }
+            return aRelation.ToArray();
+        }
+        private CRelation[] FindRelationsWithObject(string sNodeName)
+        {
+            IList<CRelation> aRelation = new List<CRelation>();
+            foreach (CRelation rRel in m_aRelations)
+            {
+                if (rRel.Second.Name == sNodeName)
+                {
+                    aRelation.Add(rRel);
+                }
+            }
+            return aRelation.ToArray();
         }
         public string[] SuitableRelations(string[] aText)
         {
             IList<string> aSuitable = new List<string>();
             for (int i = 0; i < aText.Length; i++)
             {
-                foreach (CRelation rRel in m_aRelations)
+                if (aText[i].Length > 0)
                 {
-                    if (rRel.AboutThisProbability(aText[i]) > 0.65)
+                    foreach (CRelation rRel in m_aRelations)
                     {
-                        aSuitable.Add(rRel.Name);
+                        if (rRel.AboutThisProbability(aText[i]) > 0.65)
+                        {
+                            aSuitable.Add(rRel.Name);
+                            break;
+                        }
                     }
                 }
             }
@@ -88,12 +257,12 @@ namespace wf_AI_lab1
         }
         private bool IsNodeNotAdded(string sNodeName)
         {
-            bool bAdded = false;
+            bool bAdded = true;
             foreach(CNode rNode in m_aNodes)
             {
                 if (rNode.Name==sNodeName)
                 {
-                    bAdded = true;
+                    bAdded = false;
                     break;
                 }
             }
