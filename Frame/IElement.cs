@@ -9,6 +9,8 @@ namespace wf_AI_lab1
     interface IElement
     {
         string Name { get; }
-        
+        CFrame Parent { get; set; }
+        string Show { get; }
+
     }
 }

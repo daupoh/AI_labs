@@ -53,8 +53,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IElement.cs" />
-    <Compile Include="CFrame.cs" />
+    <Compile Include="Frame\CFrameNet.cs" />
+    <Compile Include="Frame\IElement.cs" />
+    <Compile Include="Frame\CFrame.cs" />
     <Compile Include="Slot\ACSlot.cs" />
     <Compile Include="Slot\CSlotAtom.cs" />
     <Compile Include="Slot\CSlotFrame.cs" />

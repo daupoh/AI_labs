@@ -10,14 +10,15 @@ namespace wf_AI_lab1
     interface ISlot:IElement
     {
         DataType TypeOfData { get; }
-        InheriteType TypeOfInherite { get;}
-        CFrame Parent { get; }
+        InheriteType TypeOfInherite { get;}        
 
         Func<string> IfAdded { get; set; }
         Func<string> IfDeleted { get; set; }
         Func<string> IfEdit { get; set; }
         Func<string> IfNeeded{ get; set; }
         Func<string> IfDefault { get; set; }
-        string Show { get; }
+        
+        bool Same(ISlot rSlot);
+        bool Independ(ISlot rSlot);
     }
 }
