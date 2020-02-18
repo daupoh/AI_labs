@@ -77,7 +77,15 @@ namespace wf_AI_lab1
             }
             return bNotUsed;
         }
-
+        public string[] AllSlotNames()
+        {
+            IList<string> aSlotNames = new List<string>();
+            for (int i = 0; i < m_aSlots.Count; i++)
+            {
+                aSlotNames.Add(m_aSlots[i].Name);
+            }
+            return aSlotNames.ToArray();
+        }
        
     }
 }
