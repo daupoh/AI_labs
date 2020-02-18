@@ -22,12 +22,12 @@ namespace wf_AI_lab1
                     {
                         fProbability = (Name.Length * 1.0 / sRequest.Length * 1.0);
                     }
-                    else if (sRequest.Length > 0 &&
+                    else if (sRequest.Length > 3 &&
                         Name.ToLower().Contains(sRequest.Remove(sRequest.Length - 1).ToLower()))
                     {
                         fProbability = (sRequest.Length * 1.0 / Name.Length * 1.0) * 0.85;
                     }
-                    else if (sRequest.Length > 1 &&
+                    else if (sRequest.Length > 3 &&
                         Name.ToLower().Contains(sRequest.Remove(sRequest.Length - 2).ToLower()))
                     {
                         fProbability = (sRequest.Length * 1.0 / Name.Length * 1.0) * 0.65;

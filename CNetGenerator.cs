@@ -19,6 +19,15 @@ namespace wf_AI_lab1
             m_rGraph.AddNode("Аптека");
             m_rGraph.AddNode("Отклик");
 
+            m_rGraph.AddNode("Петя");
+            m_rGraph.AddNode("Максим");
+            m_rGraph.AddNode("Маша");
+            m_rGraph.AddNode("Саша");
+            m_rGraph.AddNode("Лена");
+            m_rGraph.AddNode("Дима");
+            m_rGraph.AddNode("Вася");
+            m_rGraph.AddNode("Федя");
+
             m_rGraph.AddNode("Фирма");
             m_rGraph.AddNode("ТН");
             m_rGraph.AddNode("ФИТ");
@@ -37,10 +46,11 @@ namespace wf_AI_lab1
             m_rGraph.AddNode("Тестировщик");
             m_rGraph.AddNode("Аналитик");
             m_rGraph.AddNode("Разработчик");
+            m_rGraph.AddNode("Директор");
             m_rGraph.AddNode("Заказчик");
             m_rGraph.AddNode("Тим-лид");
 
-            m_rGraph.AddNode("Задача");
+            m_rGraph.AddNode("Задачи");
             m_rGraph.AddNode("Фичи");
             m_rGraph.AddNode("Спецификации");
             m_rGraph.AddNode("Тест-кейсы");
@@ -57,11 +67,36 @@ namespace wf_AI_lab1
             m_rGraph.AddNode("12.11.2020");
             m_rGraph.AddNode("01.03.2021");
 
-            m_rGraph.AddRelation("например", "", "Человек", "Тестировщик");
-            m_rGraph.AddRelation("например", "", "Человек", "Аналитик");
-            m_rGraph.AddRelation("например", "", "Человек", "Заказчик");
-            m_rGraph.AddRelation("например", "", "Человек", "Разработчик");
-            m_rGraph.AddRelation("например", "", "Человек", "Тим-лид");
+            m_rGraph.AddRelation("работает", "на", "Петя", "ТН");
+            m_rGraph.AddRelation("работает", "на", "Максим", "ТН");
+            m_rGraph.AddRelation("работает", "на", "Маша", "ТН");
+            m_rGraph.AddRelation("работает", "на", "Саша", "ТН");
+            m_rGraph.AddRelation("работает", "на", "Лена", "HCB");
+            m_rGraph.AddRelation("работает", "на", "Дима", "ТН");
+            m_rGraph.AddRelation("работает", "на", "Вася", "ТН");
+            m_rGraph.AddRelation("работает", "на", "Федя", "ФИТ");
+
+            m_rGraph.AddRelation("роль", "", "Петя", "Тестировщик");
+            m_rGraph.AddRelation("роль", "", "Максим", "Директор");
+            m_rGraph.AddRelation("роль", "", "Маша", "Аналитик");
+            m_rGraph.AddRelation("роль", "", "Саша", "Разработчик");
+            m_rGraph.AddRelation("роль", "", "Лена", "Заказчик");
+            m_rGraph.AddRelation("роль", "", "Дима", "Тим-лид");
+            m_rGraph.AddRelation("роль", "", "Вася", "Тестировщик");
+            m_rGraph.AddRelation("роль", "", "Федя", "Директор");
+
+            m_rGraph.AddRelation("например", "", "Методология", "Scrum");
+            m_rGraph.AddRelation("например", "", "Методология", "Waterfall");
+            m_rGraph.AddRelation("например", "", "Методология", "Kanban");
+
+            m_rGraph.AddRelation("например", "", "Человек", "Петя");
+            m_rGraph.AddRelation("например", "", "Человек", "Максим");
+            m_rGraph.AddRelation("например", "", "Человек", "Маша");
+            m_rGraph.AddRelation("например", "", "Человек", "Саша");
+            m_rGraph.AddRelation("например", "", "Человек", "Лена");
+            m_rGraph.AddRelation("например", "", "Человек", "Дима");
+            m_rGraph.AddRelation("например", "", "Человек", "Вася");
+            m_rGraph.AddRelation("например", "", "Человек", "Федя");
 
             m_rGraph.AddRelation("например", "", "Спецификации", "VRS-Отклик-2.0");
             m_rGraph.AddRelation("например", "", "Фичи", "-newFrontLogic.js");
@@ -69,11 +104,11 @@ namespace wf_AI_lab1
             m_rGraph.AddRelation("например", "", "Концепции", "VRS-Отклик-2.0");
             m_rGraph.AddRelation("например", "", "Спринт", "Sprint-17.02-21.02");
 
-            m_rGraph.AddRelation("например", "", "Задача", "Спринт");
-            m_rGraph.AddRelation("например", "", "Задача", "Тест-кейсы");
-            m_rGraph.AddRelation("например", "", "Задача", "Спецификации");
-            m_rGraph.AddRelation("например", "", "Задача", "Фичи");
-            m_rGraph.AddRelation("например", "", "Задача", "Концепции");
+            m_rGraph.AddRelation("например", "", "Задачи", "Спринт");
+            m_rGraph.AddRelation("например", "", "Задачи", "Тест-кейсы");
+            m_rGraph.AddRelation("например", "", "Задачи", "Спецификации");
+            m_rGraph.AddRelation("например", "", "Задачи", "Фичи");
+            m_rGraph.AddRelation("например", "", "Задачи", "Концепции");
 
             m_rGraph.AddRelation("например", "", "Проект", "Отклик");
             m_rGraph.AddRelation("например", "", "Проект", "Аптека");
@@ -81,10 +116,14 @@ namespace wf_AI_lab1
             m_rGraph.AddRelation("например", "", "Команда", "Отклик-тим");
             m_rGraph.AddRelation("например", "", "Команда", "Аптека-тим");
 
+            m_rGraph.AddRelation("следует", "", "Отклик-тим", "Scrum");
+            m_rGraph.AddRelation("следует", "", "Аптека-тим", "Kanban");
+
             m_rGraph.AddRelation("решает", "", "Команда", "Задачи");
 
             m_rGraph.AddRelation("состоит", "из", "Проект", "Концепции");
             m_rGraph.AddRelation("состоит", "из", "Проект", "Команда");
+            m_rGraph.AddRelation("состоит", "из", "Проект", "Методология");
             m_rGraph.AddRelation("состоит", "из", "Команда", "Заказчик");
             m_rGraph.AddRelation("состоит", "из", "Команда", "Тестировщик");
             m_rGraph.AddRelation("состоит", "из", "Команда", "Разработчик");
