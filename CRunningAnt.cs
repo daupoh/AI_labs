@@ -26,6 +26,7 @@ namespace wf_AI_lab1
                 throw new FormatException();
             }
         }
+        public double CyclePath { get { return m_rGraph.GetCyclePathDistance(m_aPath); } }
         public override string ToString()
         {
             string sAnt = "",sPath="{";
@@ -79,6 +80,8 @@ namespace wf_AI_lab1
             double[] aChoise = new double[m_rLaw.NetSize];
             double fChoisesSum = 0, fMaxChoise=0;
             int iSmartPos = -1;
+            List<double> aRoulette = new List<double>();
+            List<int> aRoulettePos = new List<int>();
             for (int i = 0; i < m_rLaw.NetSize; i++)
             {
                 if (IsTabuPos(i))
@@ -90,24 +93,38 @@ namespace wf_AI_lab1
                     double fPheromone = Math.Pow(m_rGraph.GetPheromoneOnRib(iCurrentPos, i), m_rLaw.PheromonePower),
                         fDistance = Math.Pow(1 / m_rGraph.GetDistanceOnRib(iCurrentPos, i), m_rLaw.DistancePower);
                     aChoise[i] = fPheromone * fDistance;
-                    fChoisesSum += aChoise[i];
+                    fChoisesSum += aChoise[i];                   
                 }
             }
+
             for (int i = 0; i < m_rLaw.NetSize; i++)
             {
                 if (aChoise[i]!=-1)
                 {
                     aChoise[i] = aChoise[i] / fChoisesSum;
-                   
+                    aRoulette.Add(aChoise[i]);
+                    aRoulettePos.Add(i);
                 }
-                if (aChoise[i]>fMaxChoise)
+               /* if (aChoise[i]>fMaxChoise)
                 {
                     fMaxChoise = aChoise[i];
                     iSmartPos = i;
+                }*/
+            }
+            double fRand = SCRandom.Random, fRoulette=0;
+            iSmartPos = aRoulettePos[aRoulettePos.Count - 1];
+            for (int i = 0; i < aRoulette.Count; i++)
+            {
+                if (fRoulette>fRand)
+                {
+                    iSmartPos = aRoulettePos[i];
+                    break;
                 }
-            }        
+                fRoulette += aRoulette[i];
+            }
             return iSmartPos;
         }
+         
         private void UpdateNet()
         {
             double fPathLength = m_rGraph.GetPathDistance(m_aPath),

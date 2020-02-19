@@ -55,32 +55,46 @@ namespace wf_AI_lab1
         
         private void Run()
         {
+            double fMin = double.MaxValue;
+            string sMinPath = "";
             for (int i = 0; i < m_rLaw.AntsCount; i++)
             {
-                m_aAnts[i].FirstRun();             
+                m_aAnts[i].FirstRun();
+                if (m_aAnts[i].CyclePath < fMin)
+                {
+                    fMin = m_aAnts[i].CyclePath;
+                    sMinPath = m_aAnts[i].ToString();
+                }
             }
             TbxLog.Text += "-------- Случайный выбор ----------- \r\n";
-            ShowAntsPath();
-
+            ShowAntsPath( sMinPath);
+            fMin = double.MaxValue;
+            sMinPath = "";
             for (int j = 0; j < NudRepeatRun.Value; j++)
             {
                 for (int i = 0; i < m_rLaw.AntsCount; i++)
                 {
                     m_aAnts[i].SmartRun();
+                    if (m_aAnts[i].CyclePath<fMin)
+                    {
+                        fMin = m_aAnts[i].CyclePath;
+                        sMinPath = m_aAnts[i].ToString();
+                    }
                 }
             }
             TbxLog.Text += "-------- Выбор по феромонам ----------- \r\n";
-            ShowAntsPath();
+            ShowAntsPath(sMinPath);
 
             TbxLog.SelectionStart = TbxLog.TextLength;
             TbxLog.ScrollToCaret();
         }       
-        private void ShowAntsPath()
+        private void ShowAntsPath(string sMinPath)
         {
             for (int i = 0; i < m_rLaw.AntsCount; i++)
             {
                 TbxLog.Text += m_aAnts[i].ToString();
             }
+            TbxLog.Text += String.Format("Минимальный путь в забеге: {0}",sMinPath);
         }
         private void BtnFindPath_Click(object sender, EventArgs e)
         {
