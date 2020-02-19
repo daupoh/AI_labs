@@ -13,9 +13,12 @@ namespace wf_AI_lab1.Slot
             : base(eInheriteType, ACSlot.DataType.LIST,  sName)
         {
             m_aList = new List<Object>();
-            for (int i = 0; i < aSequence.Length; i++)
+            if (aSequence != null)
             {
-                m_aList.Add(aSequence[i]);
+                for (int i = 0; i < aSequence.Length; i++)
+                {
+                    m_aList.Add(aSequence[i]);
+                }
             }
         }
 

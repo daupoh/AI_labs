@@ -7,17 +7,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using wf_AI_lab1.Frame;
 
 namespace wf_AI_lab1
 {
     public partial class FmSemanticNet : Form
     {
-        CNetGenerator m_rNetGen;
-        string sLastRequest = "Что такое проект?";
+        CFrameNet m_rNetGen;
+        string sLastRequest = "Все";
         public FmSemanticNet()
         {
             InitializeComponent();
-            m_rNetGen = new CNetGenerator();
+            m_rNetGen = new CFrameNet();
             
         }
 
@@ -37,7 +38,7 @@ namespace wf_AI_lab1
                     sAnswer = "";
                 sLastRequest = sRequest;
                 sAnswer = m_rNetGen.Request(sRequest);
-                TbxChat.Text += String.Format("{0}\r\n", sRequest);
+                TbxChat.Text += String.Format("*** НОВЫЙ ЗАПРОС ***\r\n{0}\r\n*** ОТВЕТ ***\r\n", sRequest);
                 TbxChat.Text += String.Format("{0}\r\n", sAnswer);
                 TbxRequest.Text = "";
                 TbxChat.SelectionStart = TbxChat.Text.Length;

@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wf_AI_lab1.Frame;
 
 namespace wf_AI_lab1.Slot
 {
     class CSlotFrame: ACSlot
     {
         CFrame m_rFrame;
-        public CSlotFrame(ACSlot.InheriteType eInheriteType, CFrame rFrame, string sName)
+        public CSlotFrame(ACSlot.InheriteType eInheriteType, CFrame rFrame, string sName,CFrameNet rNet)
             : base(eInheriteType, ACSlot.DataType.FRAME,  sName)
         {
-            if (rFrame ==null || rFrame != null && Parent.Net.FindFrameByName(rFrame.Name)!=null)
+            if (rFrame == null || rNet!=null && rNet.FindFrameByName(rFrame.Name)!=null)
             {
                 m_rFrame = rFrame;
             }           
@@ -26,7 +27,7 @@ namespace wf_AI_lab1.Slot
             get
             {
                 DefaultData();
-                return String.Format("{0}: {1}\r\n", Name, m_rFrame.Show);
+                return String.Format("{0}: [\r\n{1}]", Name, m_rFrame.Show);
             }
         }
 

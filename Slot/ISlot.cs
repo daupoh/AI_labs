@@ -20,5 +20,11 @@ namespace wf_AI_lab1
         
         bool Same(ISlot rSlot);
         bool Independ(ISlot rSlot);
+         string AddData(string sDataText);
+          string EditData(string sDataText);
+          string DeleteData();
+          void DefaultData();
+
+        
     }
 }

@@ -40,6 +40,7 @@
             this.TbxChat.Multiline = true;
             this.TbxChat.Name = "TbxChat";
             this.TbxChat.ReadOnly = true;
+            this.TbxChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.TbxChat.Size = new System.Drawing.Size(580, 381);
             this.TbxChat.TabIndex = 0;
             this.TbxChat.Text = resources.GetString("TbxChat.Text");
@@ -72,7 +73,7 @@
             this.Controls.Add(this.TbxRequest);
             this.Controls.Add(this.TbxChat);
             this.Name = "FmSemanticNet";
-            this.Text = "Семантическая сеть";
+            this.Text = "Фреймы";
             this.ResumeLayout(false);
             this.PerformLayout();
 
