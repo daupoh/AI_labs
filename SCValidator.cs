@@ -10,7 +10,14 @@ namespace wf_AI_lab1
     static class SCValidator
     {
         const string c_sNotValidReferencer = "Ошибка: Ссылка не указывает на объект!";
-
+        static Random m_rRand = new Random();
+        static public double Random
+        {
+            get
+            {
+                return m_rRand.NextDouble();
+            }
+        }
         public static void CheckReferenceIsNotNull(Object rObject)
         {
             string sParameters = "with object is " + rObject.ToString();

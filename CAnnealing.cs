@@ -4,14 +4,14 @@ namespace wf_AI_lab1
 {
     class CAnnealing:ACAnnealing
     {      
-        Random m_rRand = null;
+        
         CSolution rSolWorking,rSolBest,rSolCurrent;
         bool bIsUseNew = false;
         int iTimer = 0;
         public CAnnealing(int maxLen, int steps, double initTemp, double finTemp, double alpha)
         {
             ReInitialize(maxLen, steps, initTemp, finTemp, alpha);
-            m_rRand = new Random();
+            
         }
       
         public void ReInitialize(int maxLen, int steps, double initTemp, double finTemp, double alpha)
@@ -33,7 +33,7 @@ namespace wf_AI_lab1
         private void InitializeBoard()
         {
             Board = new CBoard(MaxLen);
-            m_rRand = new Random();
+           
             LogLines = "";
             for (int i = 0; i < MaxLen; i++)
             {
@@ -42,11 +42,11 @@ namespace wf_AI_lab1
         }
         private void TweakSolution()
         {
-            int randFirst = m_rRand.Next(MaxLen),
+            int randFirst = (int)(SCValidator.Random* MaxLen),
             randSecond;
             do
             {
-                randSecond = m_rRand.Next(MaxLen);
+                randSecond = (int)(SCValidator.Random * MaxLen);
             }
             while (randFirst == randSecond);
             Board.SwapQueens(randFirst, randSecond);
@@ -78,7 +78,7 @@ namespace wf_AI_lab1
                     else
                     {
 
-                        double random = m_rRand.NextDouble();
+                        double random = SCValidator.Random;
                         int delta = rSolWorking.Energy - rSolCurrent.Energy;
                         double calc = Math.Exp(-delta / fTemperature);                       
                         if (calc > random)
