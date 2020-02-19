@@ -34,9 +34,9 @@ namespace wf_AI_lab1
                 string sResult = "";
                 for (int i = 0; i < m_aSlots.Count; i++)
                 {
-                    sResult += m_aSlots[i].Show + "\r\n";
+                    sResult += m_aSlots[i].Show;
                 }
-                return String.Format("{0}:\r\n {1}\r\n",Name, sResult);
+                return String.Format("{0}:\r\n {1}\r\n", Name, sResult);
             }
         }
         public void AddSlot(ISlot rSlot)

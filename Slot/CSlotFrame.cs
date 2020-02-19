@@ -27,7 +27,7 @@ namespace wf_AI_lab1.Slot
             get
             {
                 DefaultData();
-                return String.Format("{0}: [\r\n{1}]", Name, m_rFrame.Show);
+                return String.Format("{0}: [\r\n{1}]\r\n", Name, m_rFrame.Show);
             }
         }
 
