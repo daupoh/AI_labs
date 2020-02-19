@@ -53,8 +53,25 @@ namespace wf_AI_lab1
             }
             sResult+= Math.Round(aResults[aResults.Length-1], 4).ToString() + "}";
             TbxLog.Text += "\r\n" + sResult + "\r\n";
+            MarkButton(BtnSymAnd, aResults[0]);
+            MarkButton(BtnSymOr, aResults[1]);
+            MarkButton(BtnSymXor, aResults[2]);
+            MarkButton(BtnSymNot, aResults[3]);
+            MarkButton(BtnSymProp, aResults[4]);
+            MarkButton(BtnSymEq, aResults[5]);
         }
-
+        private void MarkButton(Button rBtn, double fResult)
+        {
+            rBtn.BackColor = Color.Red;
+            if (fResult>0.5)
+            {
+                rBtn.BackColor = Color.Yellow;
+            }
+            if (fResult > 0.85)
+            {
+                rBtn.BackColor = Color.Green;
+            }
+        }
         private void FmSimpleNeuroNet_Shown(object sender, EventArgs e)
         {
             DgvDraw.ClearSelection();
