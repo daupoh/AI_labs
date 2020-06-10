@@ -24,7 +24,7 @@ namespace wf_AI_lab1
                     m_aDistancesGraph[i] = new double[VertexCount];
                     m_aPheromoneConcentration[i] = new double[VertexCount];
                 }
-                for (int i = 0; i < VertexCount; i++)
+               /* for (int i = 0; i < VertexCount; i++)
                 {
                     for (int j = i; j < VertexCount; j++)
                     {
@@ -41,12 +41,67 @@ namespace wf_AI_lab1
                         m_aPheromoneConcentration[i][j] = 0.1;
                         m_aPheromoneConcentration[j][i] = 0.1;
                     }
-                }
+                }*/
             }
             else
             {
                 throw new FormatException();
             }
+            m_aDistancesGraph[0][0] = 0;
+            m_aDistancesGraph[0][1] = 27;
+            m_aDistancesGraph[0][2] = 26;
+            m_aDistancesGraph[0][3] = 19;
+            m_aDistancesGraph[0][4] = 21;
+            m_aDistancesGraph[0][5] = 22;
+            m_aDistancesGraph[0][6] = 10;
+
+            m_aDistancesGraph[1][0] = 29;
+            m_aDistancesGraph[1][1] = 0;
+            m_aDistancesGraph[1][2] = 8;
+            m_aDistancesGraph[1][3] = 10;
+            m_aDistancesGraph[1][4] = 10;
+            m_aDistancesGraph[1][5] = 10;
+            m_aDistancesGraph[1][6] = 17;
+
+            m_aDistancesGraph[2][0] = 26;
+            m_aDistancesGraph[2][1] = 10;
+            m_aDistancesGraph[2][2] = 0;
+            m_aDistancesGraph[2][3] = 7;
+            m_aDistancesGraph[2][4] = 7;
+            m_aDistancesGraph[2][5] = 8;
+            m_aDistancesGraph[2][6] = 11;
+
+            m_aDistancesGraph[3][0] = 21;
+            m_aDistancesGraph[3][1] = 10;
+            m_aDistancesGraph[3][2] = 9;
+            m_aDistancesGraph[3][3] = 0;
+            m_aDistancesGraph[3][4] = 1;
+            m_aDistancesGraph[3][5] = 1;
+            m_aDistancesGraph[3][6] = 10;
+
+            m_aDistancesGraph[4][0] = 21;
+            m_aDistancesGraph[4][1] = 12;
+            m_aDistancesGraph[4][2] = 9;
+            m_aDistancesGraph[4][3] = 1;
+            m_aDistancesGraph[4][4] = 0;
+            m_aDistancesGraph[4][5] = 1;
+            m_aDistancesGraph[4][6] = 9;
+
+            m_aDistancesGraph[5][0] = 22;
+            m_aDistancesGraph[5][1] = 12;
+            m_aDistancesGraph[5][2] = 8;
+            m_aDistancesGraph[5][3] =1;
+            m_aDistancesGraph[5][4] = 1;
+            m_aDistancesGraph[5][5] = 0;
+            m_aDistancesGraph[5][6] = 12;
+
+            m_aDistancesGraph[6][0] = 10;
+            m_aDistancesGraph[6][1] = 19;
+            m_aDistancesGraph[6][2] = 13;
+            m_aDistancesGraph[6][3] = 12;
+            m_aDistancesGraph[6][4] = 9;
+            m_aDistancesGraph[6][5] = 12;
+            m_aDistancesGraph[6][6] = 0;
         }
         public void FlushPheromone()
         {

@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.GbxSetting = new System.Windows.Forms.GroupBox();
+            this.LblRepeatRun = new System.Windows.Forms.Label();
+            this.NudRepeatRun = new System.Windows.Forms.NumericUpDown();
             this.LblMaxDistance = new System.Windows.Forms.Label();
             this.NudMaxDistance = new System.Windows.Forms.NumericUpDown();
             this.NudDistancePower = new System.Windows.Forms.NumericUpDown();
@@ -46,9 +48,8 @@
             this.NudAntsCount = new System.Windows.Forms.NumericUpDown();
             this.GbxLog = new System.Windows.Forms.GroupBox();
             this.TbxLog = new System.Windows.Forms.TextBox();
-            this.NudRepeatRun = new System.Windows.Forms.NumericUpDown();
-            this.LblRepeatRun = new System.Windows.Forms.Label();
             this.GbxSetting.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NudRepeatRun)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudMaxDistance)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudDistancePower)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudPheromonePower)).BeginInit();
@@ -57,7 +58,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NudVertexCount)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudAntsCount)).BeginInit();
             this.GbxLog.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NudRepeatRun)).BeginInit();
             this.SuspendLayout();
             // 
             // GbxSetting
@@ -85,6 +85,36 @@
             this.GbxSetting.TabIndex = 0;
             this.GbxSetting.TabStop = false;
             this.GbxSetting.Text = "Настройки алгоритма";
+            // 
+            // LblRepeatRun
+            // 
+            this.LblRepeatRun.Location = new System.Drawing.Point(6, 341);
+            this.LblRepeatRun.Name = "LblRepeatRun";
+            this.LblRepeatRun.Size = new System.Drawing.Size(118, 47);
+            this.LblRepeatRun.TabIndex = 20;
+            this.LblRepeatRun.Text = "Количество повторных забегов";
+            // 
+            // NudRepeatRun
+            // 
+            this.NudRepeatRun.Location = new System.Drawing.Point(160, 341);
+            this.NudRepeatRun.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.NudRepeatRun.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.NudRepeatRun.Name = "NudRepeatRun";
+            this.NudRepeatRun.Size = new System.Drawing.Size(120, 20);
+            this.NudRepeatRun.TabIndex = 19;
+            this.NudRepeatRun.Value = new decimal(new int[] {
+            20,
+            0,
+            0,
+            0});
             // 
             // LblMaxDistance
             // 
@@ -294,7 +324,7 @@
             this.NudVertexCount.Size = new System.Drawing.Size(120, 20);
             this.NudVertexCount.TabIndex = 1;
             this.NudVertexCount.Value = new decimal(new int[] {
-            10,
+            7,
             0,
             0,
             0});
@@ -341,36 +371,6 @@
             this.TbxLog.Size = new System.Drawing.Size(663, 430);
             this.TbxLog.TabIndex = 0;
             // 
-            // NudRepeatRun
-            // 
-            this.NudRepeatRun.Location = new System.Drawing.Point(160, 341);
-            this.NudRepeatRun.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.NudRepeatRun.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.NudRepeatRun.Name = "NudRepeatRun";
-            this.NudRepeatRun.Size = new System.Drawing.Size(120, 20);
-            this.NudRepeatRun.TabIndex = 19;
-            this.NudRepeatRun.Value = new decimal(new int[] {
-            20,
-            0,
-            0,
-            0});
-            // 
-            // LblRepeatRun
-            // 
-            this.LblRepeatRun.Location = new System.Drawing.Point(6, 341);
-            this.LblRepeatRun.Name = "LblRepeatRun";
-            this.LblRepeatRun.Size = new System.Drawing.Size(118, 47);
-            this.LblRepeatRun.TabIndex = 20;
-            this.LblRepeatRun.Text = "Количество повторных забегов";
-            // 
             // FmAnts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -382,6 +382,7 @@
             this.Text = "Муравьиный алгоритм";
             this.GbxSetting.ResumeLayout(false);
             this.GbxSetting.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.NudRepeatRun)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudMaxDistance)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudDistancePower)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.NudPheromonePower)).EndInit();
@@ -391,7 +392,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.NudAntsCount)).EndInit();
             this.GbxLog.ResumeLayout(false);
             this.GbxLog.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.NudRepeatRun)).EndInit();
             this.ResumeLayout(false);
 
         }
